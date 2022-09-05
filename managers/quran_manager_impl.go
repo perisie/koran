@@ -53,7 +53,20 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 			}
 		}
 	}
+	surahMap := map[int]*beans.Surah{}
+	surahInfos, err := utils.ReadSurahsInfo()
+	if err != nil {
+		return nil, err
+	}
+	for _, surahInfo := range surahInfos {
+		surahMap[surahInfo.SurahId] = beans.NewSurah(*surahInfo)
+		for verseId := 1; verseId <= surahInfo.Verses; verseId++ {
+			key := fmt.Sprintf("%v:%v", surahInfo.SurahId, verseId)
+			surahMap[surahInfo.SurahId].Verses = append(surahMap[surahInfo.SurahId].Verses, verseMap[key])
+		}
+	}
 	return &QuranManagerImpl{
+		surahMap: surahMap,
 		verseMap: verseMap,
 	}, nil
 }
@@ -68,5 +81,9 @@ func (q *QuranManagerImpl) GetVerse(surahId, verseId int) (*beans.Verse, error) 
 }
 
 func (q *QuranManagerImpl) GetSurah(surahId int) (*beans.Surah, error) {
-	return nil, nil
+	surah, ok := q.surahMap[surahId]
+	if !ok {
+		return nil, errors.New("surah does not exist")
+	}
+	return surah, nil
 }

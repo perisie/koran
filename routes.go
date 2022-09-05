@@ -8,6 +8,7 @@ import (
 
 func routes(r *gin.Engine, quranManager managers.QuranManager) {
 	r.GET("/", controllers.GetRootController())
+	r.GET("/surah/:surah_id", controllers.GetSurahController(quranManager))
 	r.GET("/surah/:surah_id/verse/:verse_id", controllers.GetSurahVerseController(quranManager))
 	r.POST("/auth/google", controllers.PostAuthGoogleController())
 }

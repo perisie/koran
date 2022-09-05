@@ -1,15 +1,13 @@
 package beans
 
 type Surah struct {
-	surahId  int
-	surahLen int
-	verses   []*Verse
+	SurahInfo *SurahInfo `json:"surah_info"`
+	Verses    []*Verse   `json:"verses"`
 }
 
-func NewSurah(surahId, surahLen int) *Surah {
+func NewSurah(surahInfo SurahInfo) *Surah {
 	return &Surah{
-		surahId:  surahId,
-		surahLen: surahLen,
-		verses:   []*Verse{},
+		SurahInfo: &surahInfo,
+		Verses:    []*Verse{},
 	}
 }
