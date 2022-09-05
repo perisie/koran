@@ -2,23 +2,11 @@ package utils
 
 import (
 	"encoding/csv"
-	"errors"
-	"fmt"
 	"os"
 	"strings"
 )
 
-func ReadQuranCsv(filename string) ([][]string, error) {
-	wd, err := os.Getwd()
-	before, _, ok := strings.Cut(wd, "koran-backend")
-	if !ok {
-		return nil, errors.New("invalid working directory")
-	}
-	basePath := before + "koran-backend/qurancsv"
-	if err != nil {
-		return nil, err
-	}
-	filePath := fmt.Sprintf("%v/%v.csv", basePath, filename)
+func ReadQuranCsv(filePath string) ([][]string, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, err

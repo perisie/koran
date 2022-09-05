@@ -8,7 +8,7 @@ import (
 )
 
 func TestReadQuranCsv(t *testing.T) {
-	records, err := utils.ReadQuranCsv("quran")
+	records, err := utils.ReadQuranCsv("./../qurancsv/quran.csv")
 	assert.Nil(t, err)
 	assert.Equal(t, 6236, len(records))
 	assert.Equal(t, 3, len(records[0]))

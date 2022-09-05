@@ -22,7 +22,8 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 	}
 	verseMap := make(map[string]*beans.Verse)
 	for _, name := range names {
-		records, err := utils.ReadQuranCsv(name)
+		filePath := fmt.Sprintf("%v/%v.csv", csvDir, name)
+		records, err := utils.ReadQuranCsv(filePath)
 		if err != nil {
 			return nil, err
 		}
@@ -54,7 +55,7 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 		}
 	}
 	surahMap := map[int]*beans.Surah{}
-	surahInfos, err := utils.ReadSurahsInfo()
+	surahInfos, err := utils.ReadSurahsInfo(fmt.Sprintf("%v/surahs.csv", csvDir))
 	if err != nil {
 		return nil, err
 	}

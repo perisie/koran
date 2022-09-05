@@ -8,7 +8,7 @@ import (
 )
 
 func TestReadSurahsInfo(t *testing.T) {
-	surahInfos, err := utils.ReadSurahsInfo()
+	surahInfos, err := utils.ReadSurahsInfo("./../qurancsv/surahs.csv")
 	assert.Nil(t, err)
 	assert.Equal(t, 114, len(surahInfos))
 	assert.Equal(t, "Al-Fatihah", surahInfos[0].Title)

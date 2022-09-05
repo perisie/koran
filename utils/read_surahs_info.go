@@ -6,8 +6,8 @@ import (
 	"github.com/arikama/koran-backend/beans"
 )
 
-func ReadSurahsInfo() ([]*beans.SurahInfo, error) {
-	records, err := ReadQuranCsv("surahs")
+func ReadSurahsInfo(filePath string) ([]*beans.SurahInfo, error) {
+	records, err := ReadQuranCsv(filePath)
 	if err != nil {
 		return nil, err
 	}
