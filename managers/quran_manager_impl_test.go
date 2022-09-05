@@ -11,7 +11,7 @@ func TestGetVerse(t *testing.T) {
 	var quranManager managers.QuranManager
 	var err error
 
-	quranManager, err = managers.NewQuranManagerImpl("./../qurancsvs")
+	quranManager, err = managers.NewQuranManagerImpl("./../qurancsv")
 	assert.Nil(t, err)
 
 	s1v1, err := quranManager.GetVerse(1, 1)
