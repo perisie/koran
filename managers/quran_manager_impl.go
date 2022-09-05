@@ -64,19 +64,6 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 	}, nil
 }
 
-func (q *QuranManagerImpl) GetSurahsInfo() ([]*beans.SurahInfo, error) {
-	return []*beans.SurahInfo{
-		beans.NewSurahInfo(
-			1,
-			"Al-Fatihah",
-			7,
-			"Makkah",
-			1,
-			1,
-		),
-	}, nil
-}
-
 func (q *QuranManagerImpl) GetVerse(surahId, verseId int) (*beans.Verse, error) {
 	key := fmt.Sprintf("%v:%v", surahId, verseId)
 	verse, ok := q.verseMap[key]
