@@ -1,17 +1,17 @@
 package managers
 
 import (
-	"encoding/csv"
 	"errors"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 
 	"github.com/arikama/koran-backend/beans"
+	"github.com/arikama/koran-backend/utils"
 )
 
 type QuranManagerImpl struct {
+	surahMap map[int]*beans.Surah
 	verseMap map[string]*beans.Verse
 }
 
@@ -22,18 +22,12 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 	}
 	verseMap := make(map[string]*beans.Verse)
 	for _, name := range names {
-		filePath := fmt.Sprintf("%v/%v.csv", csvDir, name)
-		file, err := os.Open(filePath)
-		if err != nil {
-			return nil, err
-		}
-		reader := csv.NewReader(file)
-		records, err := reader.ReadAll()
+		records, err := utils.ReadQuranCsv(name)
 		if err != nil {
 			return nil, err
 		}
 		for _, record := range records {
-			surahId, err := strconv.Atoi(strings.Trim(record[0], "\ufeff"))
+			surahId, err := strconv.Atoi(record[0])
 			if err != nil {
 				return nil, err
 			}
@@ -71,4 +65,8 @@ func (q *QuranManagerImpl) GetVerse(surahId, verseId int) (*beans.Verse, error) 
 		return nil, errors.New("verse does not exist")
 	}
 	return verse, nil
+}
+
+func (q *QuranManagerImpl) GetSurah(surahId int) (*beans.Surah, error) {
+	return nil, nil
 }

@@ -26,9 +26,3 @@ func TestGetVerse(t *testing.T) {
 	assert.Equal(t, 1, len(s114v6.Translations))
 	assert.Equal(t, "Of the jinn and of mankind.", s114v6.Translations["pickthall"])
 }
-
-func TestInvalidCsvDir(t *testing.T) {
-	_, err := managers.NewQuranManagerImpl("./../invalid")
-	assert.NotNil(t, err)
-	assert.Equal(t, "open ./../invalid/quran.csv: no such file or directory", err.Error())
-}
