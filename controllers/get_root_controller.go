@@ -3,13 +3,20 @@ package controllers
 import (
 	"net/http"
 
+	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
-func GetRootController() func(c *gin.Context) {
+func GetRootController(quranManager managers.QuranManager) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"data": "koran-backend at your service!",
+		surahInfos, err := quranManager.GetSurahInfos()
+		if err != nil {
+			utils.JsonError(c, http.StatusInternalServerError, err)
+			return
+		}
+		utils.JsonData(c, http.StatusOK, gin.H{
+			"surah_infos": surahInfos,
 		})
 	}
 }

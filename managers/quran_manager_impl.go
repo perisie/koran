@@ -11,8 +11,9 @@ import (
 )
 
 type QuranManagerImpl struct {
-	surahMap map[int]*beans.Surah
-	verseMap map[string]*beans.Verse
+	surahMap   map[int]*beans.Surah
+	verseMap   map[string]*beans.Verse
+	surahInfos []*beans.SurahInfo
 }
 
 func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
@@ -67,8 +68,9 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 		}
 	}
 	return &QuranManagerImpl{
-		surahMap: surahMap,
-		verseMap: verseMap,
+		surahMap:   surahMap,
+		verseMap:   verseMap,
+		surahInfos: surahInfos,
 	}, nil
 }
 
@@ -87,4 +89,8 @@ func (q *QuranManagerImpl) GetSurah(surahId int) (*beans.Surah, error) {
 		return nil, errors.New("surah does not exist")
 	}
 	return surah, nil
+}
+
+func (q *QuranManagerImpl) GetSurahInfos() ([]*beans.SurahInfo, error) {
+	return q.surahInfos, nil
 }
