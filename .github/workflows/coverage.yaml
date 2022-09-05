@@ -1,0 +1,21 @@
+name: coverage
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+    - run: ./gobuild.sh
+    - run: ./gotest.sh
+    - uses: codecov/codecov-action@v1.0.2
+      with:
+        token: 75f54cd3-c2cb-4752-b718-2c0463228461
+        file: ./cover.out
+        flags: unittests
