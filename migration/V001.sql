@@ -1,7 +1,0 @@
-CREATE TABLE quran (
-  id       INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  sura_id  INT           NOT NULL,
-  verse_id INT           NOT NULL,
-  ayah     VARCHAR(2048) NOT NULL,
-  CONSTRAINT UNIQUE KEY (sura_id, verse_id)
-);

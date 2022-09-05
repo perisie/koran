@@ -6,26 +6,45 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/arikama/go-arctic-tern/arctictern"
 	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
+	"github.com/arikama/koran-backend/managers"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/hooligram/kifu"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load()
+	var err error
+	err = godotenv.Load()
 	if err != nil {
-		kifu.Fatal(err.Error())
+		kifu.Warn(".env: %v", err.Error())
 	}
-	db, err := getDb()
+	var quranManager managers.QuranManager
+	quranManager, err = InitializeQuranManagerImpl("./qurancsvs")
 	if err != nil {
-		kifu.Fatal(err.Error())
+		kifu.Fatal("error initializing quran manager: %v", err.Error())
 	}
-	err = db.Ping()
-	if err != nil {
-		kifu.Fatal(err.Error())
+	s := setupWebServer(quranManager)
+	if isTestEnv() {
+		go s.Run()
+	} else {
+		s.Run()
 	}
+}
+
+func setupWebServer(quranManager managers.QuranManager) *gin.Engine {
+	r := gin.Default()
+	configureCors(r)
+	routes(r, quranManager)
+	return r
+}
+
+func configureCors(r *gin.Engine) {
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
+	r.Use(cors.New(config))
 }
 
 func getDb() (*sql.DB, error) {
@@ -54,12 +73,6 @@ func getDb() (*sql.DB, error) {
 	}
 
 	err = db.Ping()
-	if err != nil {
-		return nil, err
-	}
-
-	migrationDir := "./migration"
-	err = arctictern.Migrate(db, migrationDir)
 	if err != nil {
 		return nil, err
 	}
