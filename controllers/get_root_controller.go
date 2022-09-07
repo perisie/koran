@@ -10,11 +10,7 @@ import (
 
 func GetRootController(quranManager managers.QuranManager) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		surahInfos, err := quranManager.GetSurahInfos()
-		if err != nil {
-			utils.JsonError(c, http.StatusInternalServerError, err)
-			return
-		}
+		surahInfos, _ := quranManager.GetSurahInfos()
 		utils.JsonData(c, http.StatusOK, gin.H{
 			"surah_infos": surahInfos,
 		})

@@ -15,3 +15,9 @@ func TestReadQuranCsv(t *testing.T) {
 	assert.Equal(t, "1", records[0][0])
 	assert.Equal(t, "1", records[0][1])
 }
+
+func TestReadQuranCsvFileNotFound(t *testing.T) {
+	_, err := utils.ReadQuranCsv("./../qurancsv/x.csv")
+	assert.NotNil(t, err)
+	assert.Equal(t, "open ./../qurancsv/x.csv: no such file or directory", err.Error())
+}
