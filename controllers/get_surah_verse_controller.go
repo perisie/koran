@@ -26,7 +26,7 @@ func GetSurahVerseController(quranManager managers.QuranManager) func(c *gin.Con
 		}
 		verse, err := quranManager.GetVerse(surahId, verseId)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
+			c.JSON(http.StatusNotFound, gin.H{
 				"error": err.Error(),
 			})
 			return
