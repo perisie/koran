@@ -17,19 +17,23 @@ import (
 
 func main() {
 	var err error
+
 	err = godotenv.Load()
 	if err != nil {
 		kifu.Warn(".env: %v", err.Error())
 	}
+
 	_, err = getDb()
 	if err != nil {
 		kifu.Fatal("error connecting to db: %v", err.Error())
 	}
+
 	var quranManager managers.QuranManager
 	quranManager, err = InitializeQuranManagerImpl("./qurancsv")
 	if err != nil {
 		kifu.Fatal("error initializing quran manager: %v", err.Error())
 	}
+
 	s := setupWebServer(quranManager)
 	if isTestEnv() {
 		go s.Run()
