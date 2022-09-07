@@ -37,7 +37,7 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 			if err != nil {
 				return nil, err
 			}
-			key := fmt.Sprintf("%v:%v", surahId, verseId)
+			key := utils.GetSurahVerseKey(surahId, verseId)
 			if _, ok := verseMap[key]; !ok {
 				verse := beans.Verse{}
 				verse.SurahId = surahId
@@ -63,7 +63,7 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 	for _, surahInfo := range surahInfos {
 		surahMap[surahInfo.SurahId] = beans.NewSurah(*surahInfo)
 		for verseId := 1; verseId <= surahInfo.Verses; verseId++ {
-			key := fmt.Sprintf("%v:%v", surahInfo.SurahId, verseId)
+			key := utils.GetSurahVerseKey(surahInfo.SurahId, verseId)
 			surahMap[surahInfo.SurahId].Verses = append(surahMap[surahInfo.SurahId].Verses, verseMap[key])
 		}
 	}
@@ -75,10 +75,10 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 }
 
 func (q *QuranManagerImpl) GetVerse(surahId, verseId int) (*beans.Verse, error) {
-	key := fmt.Sprintf("%v:%v", surahId, verseId)
+	key := utils.GetSurahVerseKey(surahId, verseId)
 	verse, ok := q.verseMap[key]
 	if !ok {
-		return nil, errors.New("verse does not exist")
+		return nil, errors.New(ErrVerseDoesNotExist())
 	}
 	return verse, nil
 }
@@ -86,7 +86,7 @@ func (q *QuranManagerImpl) GetVerse(surahId, verseId int) (*beans.Verse, error) 
 func (q *QuranManagerImpl) GetSurah(surahId int) (*beans.Surah, error) {
 	surah, ok := q.surahMap[surahId]
 	if !ok {
-		return nil, errors.New("surah does not exist")
+		return nil, errors.New(ErrSurahDoesNotExist())
 	}
 	return surah, nil
 }

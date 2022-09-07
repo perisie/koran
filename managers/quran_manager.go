@@ -10,3 +10,6 @@ type QuranManager interface {
 
 func Quran() string     { return "quran" }
 func Pickthall() string { return "pickthall" }
+
+func ErrVerseDoesNotExist() string { return "verse does not exist" }
+func ErrSurahDoesNotExist() string { return "surah does not exist" }

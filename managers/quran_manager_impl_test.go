@@ -27,6 +27,17 @@ func TestGetVerse(t *testing.T) {
 	assert.Equal(t, "Of the jinn and of mankind.", s114v6.Translations["pickthall"])
 }
 
+func TestGetVerseNotExist(t *testing.T) {
+	var quranManager managers.QuranManager
+	var err error
+
+	quranManager, err = managers.NewQuranManagerImpl("./../qurancsv")
+	assert.Nil(t, err)
+
+	_, err = quranManager.GetVerse(114, 7)
+	assert.NotNil(t, err)
+}
+
 func TestGetSurah(t *testing.T) {
 	var quranManager managers.QuranManager
 	var err error
