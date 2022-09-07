@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,23 +13,17 @@ func GetSurahVerseController(quranManager managers.QuranManager) func(c *gin.Con
 	return func(c *gin.Context) {
 		surahId, err := strconv.Atoi(c.Param("surah_id"))
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
+			utils.JsonError(c, http.StatusBadRequest, err)
 			return
 		}
 		verseId, err := strconv.Atoi(c.Param("verse_id"))
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
+			utils.JsonError(c, http.StatusBadRequest, err)
 			return
 		}
 		verse, err := quranManager.GetVerse(surahId, verseId)
 		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{
-				"error": err.Error(),
-			})
+			utils.JsonError(c, http.StatusNotFound, err)
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{
