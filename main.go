@@ -34,7 +34,19 @@ func main() {
 		kifu.Fatal("error initializing quran manager: %v", err.Error())
 	}
 
-	s := setupWebServer(quranManager)
+	var googleAuthManager managers.GoogleAuthManager
+	googleAuthManager, err = InitializeGoogleAuthManagerImpl(
+		managers.ClientId(os.Getenv("GOOGLE_CLIENT_ID")),
+		managers.ClientSecret(os.Getenv("GOOGLE_CLIENT_SECRET")),
+		managers.RedirectUrl(os.Getenv("GOOGLE_REDIRECT_URL")),
+	)
+	if err != nil {
+		kifu.Fatal("error initializing google auth manager: %v", err.Error())
+	}
+
+	s := setupWebServer()
+	routes(s, quranManager, googleAuthManager)
+
 	if isTestEnv() {
 		go s.Run()
 	} else {
@@ -42,10 +54,9 @@ func main() {
 	}
 }
 
-func setupWebServer(quranManager managers.QuranManager) *gin.Engine {
+func setupWebServer() *gin.Engine {
 	r := gin.Default()
 	configureCors(r)
-	routes(r, quranManager)
 	return r
 }
 

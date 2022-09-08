@@ -13,3 +13,12 @@ func InitializeQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, erro
 	wire.Build(managers.NewQuranManagerImpl)
 	return &managers.QuranManagerImpl{}, nil
 }
+
+func InitializeGoogleAuthManagerImpl(
+	clientId managers.ClientId,
+	clientSecret managers.ClientSecret,
+	redirectUrl managers.RedirectUrl,
+) (*managers.GoogleAuthManagerImpl, error) {
+	wire.Build(managers.NewGoogleAuthManagerImpl)
+	return &managers.GoogleAuthManagerImpl{}, nil
+}
