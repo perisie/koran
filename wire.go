@@ -14,11 +14,7 @@ func InitializeQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, erro
 	return &managers.QuranManagerImpl{}, nil
 }
 
-func InitializeGoogleAuthManagerImpl(
-	clientId managers.ClientId,
-	clientSecret managers.ClientSecret,
-	redirectUrl managers.RedirectUrl,
-) (*managers.GoogleAuthManagerImpl, error) {
+func InitializeGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
 	wire.Build(managers.NewGoogleAuthManagerImpl)
 	return &managers.GoogleAuthManagerImpl{}, nil
 }

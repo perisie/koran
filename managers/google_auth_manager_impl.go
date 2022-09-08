@@ -15,11 +15,7 @@ type GoogleAuthManagerImpl struct {
 	config  oauth2.Config
 }
 
-func NewGoogleAuthManagerImpl(
-	clientId ClientId,
-	clientSecret ClientSecret,
-	redirectUrl RedirectUrl,
-) (*GoogleAuthManagerImpl, error) {
+func NewGoogleAuthManagerImpl() (*GoogleAuthManagerImpl, error) {
 	context := context.Background()
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
@@ -39,7 +35,11 @@ func (g *GoogleAuthManagerImpl) AuthUserCode(userAuthCode string) (*GoogleUser, 
 	if err != nil {
 		return nil, err
 	}
-	client, err := googleauth.NewService(g.context, option.WithTokenSource(g.config.TokenSource(g.context, token)))
+	return g.GetGoogleUser(token)
+}
+
+func (g *GoogleAuthManagerImpl) GetGoogleUser(userToken *oauth2.Token) (*GoogleUser, error) {
+	client, err := googleauth.NewService(g.context, option.WithTokenSource(g.config.TokenSource(g.context, userToken)))
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (g *GoogleAuthManagerImpl) AuthUserCode(userAuthCode string) (*GoogleUser, 
 	user := GoogleUser{
 		Email:   userInfo.Email,
 		Name:    userInfo.GivenName,
-		Token:   token.AccessToken,
+		Token:   userToken.AccessToken,
 		Picture: userInfo.Picture,
 	}
 	return &user, nil

@@ -35,11 +35,7 @@ func main() {
 	}
 
 	var googleAuthManager managers.GoogleAuthManager
-	googleAuthManager, err = InitializeGoogleAuthManagerImpl(
-		managers.ClientId(os.Getenv("GOOGLE_CLIENT_ID")),
-		managers.ClientSecret(os.Getenv("GOOGLE_CLIENT_SECRET")),
-		managers.RedirectUrl(os.Getenv("GOOGLE_REDIRECT_URL")),
-	)
+	googleAuthManager, err = InitializeGoogleAuthManagerImpl()
 	if err != nil {
 		kifu.Fatal("error initializing google auth manager: %v", err.Error())
 	}
