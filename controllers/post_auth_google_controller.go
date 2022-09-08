@@ -3,10 +3,11 @@ package controllers
 import (
 	"context"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 
+	"github.com/arikama/koran-backend/beans"
+	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -26,21 +27,27 @@ func PostAuthGoogleController() func(c *gin.Context) {
 		}
 		bytes, _ := ioutil.ReadAll(c.Request.Body)
 		code := string(bytes)
-		tok, err := conf.Exchange(ctx, code)
+		token, err := conf.Exchange(ctx, code)
 		if err != nil {
-			log.Fatal(err)
+			utils.JsonError(c, http.StatusBadRequest, err)
+			return
 		}
-		oauth2Service, err := googleauth.NewService(ctx, option.WithTokenSource(conf.TokenSource(ctx, tok)))
+		oauth2Service, err := googleauth.NewService(ctx, option.WithTokenSource(conf.TokenSource(ctx, token)))
 		if err != nil {
-			log.Fatal(err)
+			utils.JsonError(c, http.StatusBadRequest, err)
+			return
 		}
 		userInfo, err := oauth2Service.Userinfo.Get().Do()
 		if err != nil {
-			log.Fatal(err)
+			utils.JsonError(c, http.StatusBadRequest, err)
+			return
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"token":     tok.AccessToken,
-			"user_info": userInfo,
-		})
+		user := beans.User{
+			Email:   userInfo.Email,
+			Name:    userInfo.GivenName,
+			Token:   token.AccessToken,
+			Picture: userInfo.Picture,
+		}
+		utils.JsonData(c, http.StatusOK, user)
 	}
 }

@@ -3,3 +3,4 @@ vendor
 koran-backend
 cover.out
 wire_gen.go
+.vscode
