@@ -22,7 +22,7 @@ func PostAuthGoogleController() func(c *gin.Context) {
 			ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 			Scopes:       []string{"email", "profile", "openid"},
 			Endpoint:     google.Endpoint,
-			RedirectURL:  "http://localhost:3000",
+			RedirectURL:  os.Getenv("GOOGLE_REDIRECT_URL"),
 		}
 		bytes, _ := ioutil.ReadAll(c.Request.Body)
 		code := string(bytes)
