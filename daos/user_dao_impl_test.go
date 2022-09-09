@@ -20,7 +20,8 @@ func TestUpsertUser(t *testing.T) {
 	err = arctictern.Migrate(db, "./../migrations")
 	assert.Nil(t, err)
 
-	userDaoImpl, err := daos.NewUserDaoImpl(db)
+	var userDao daos.UserDao
+	userDao, err = daos.NewUserDaoImpl(db)
 	assert.Nil(t, err)
 
 	faker := faker.New()
@@ -37,13 +38,13 @@ func TestUpsertUser(t *testing.T) {
 		Picture: picture,
 	}
 
-	_, err = userDaoImpl.UpsertUser(&newUser)
+	_, err = userDao.UpsertUser(&newUser)
 	assert.Nil(t, err)
 
-	queriedUser, err := userDaoImpl.QueryUser(token)
+	queriedUser, err := userDao.QueryUser(token)
 	assert.Nil(t, err)
 	assert.Equal(t, newUser.Email, queriedUser.Email)
 
-	_, err = userDaoImpl.UpsertUser(&newUser)
+	_, err = userDao.UpsertUser(&newUser)
 	assert.Nil(t, err)
 }

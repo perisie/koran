@@ -4,6 +4,8 @@ import (
 	"context"
 	"os"
 
+	"github.com/arikama/koran-backend/daos"
+	"github.com/arikama/koran-backend/models"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	googleauth "google.golang.org/api/oauth2/v2"
@@ -13,6 +15,7 @@ import (
 type GoogleAuthManagerImpl struct {
 	context context.Context
 	config  oauth2.Config
+	userDao daos.UserDao
 }
 
 func NewGoogleAuthManagerImpl() (*GoogleAuthManagerImpl, error) {
@@ -35,7 +38,22 @@ func (g *GoogleAuthManagerImpl) AuthUserCode(userAuthCode string) (*GoogleUser, 
 	if err != nil {
 		return nil, err
 	}
-	return g.GetGoogleUser(token)
+	googleUser, err := g.GetGoogleUser(token)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = g.userDao.UpsertUser(&models.User{
+		Email:   googleUser.Email,
+		Name:    googleUser.Name,
+		Token:   googleUser.Token,
+		Picture: googleUser.Picture,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return googleUser, nil
 }
 
 func (g *GoogleAuthManagerImpl) GetGoogleUser(userToken *oauth2.Token) (*GoogleUser, error) {
