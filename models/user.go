@@ -24,52 +24,57 @@ import (
 
 // User is an object representing the database table.
 type User struct {
-	ID        int       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Email     string    `boil:"email" json:"email" toml:"email" yaml:"email"`
-	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
-	Token     string    `boil:"token" json:"token" toml:"token" yaml:"token"`
-	Picture   string    `boil:"picture" json:"picture" toml:"picture" yaml:"picture"`
-	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
-	UpdatedAt null.Time `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
+	ID             int       `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Email          string    `boil:"email" json:"email" toml:"email" yaml:"email"`
+	Name           string    `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Token          string    `boil:"token" json:"token" toml:"token" yaml:"token"`
+	CurrentPointer string    `boil:"current_pointer" json:"current_pointer" toml:"current_pointer" yaml:"current_pointer"`
+	Picture        string    `boil:"picture" json:"picture" toml:"picture" yaml:"picture"`
+	CreatedAt      time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	UpdatedAt      null.Time `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var UserColumns = struct {
-	ID        string
-	Email     string
-	Name      string
-	Token     string
-	Picture   string
-	CreatedAt string
-	UpdatedAt string
+	ID             string
+	Email          string
+	Name           string
+	Token          string
+	CurrentPointer string
+	Picture        string
+	CreatedAt      string
+	UpdatedAt      string
 }{
-	ID:        "id",
-	Email:     "email",
-	Name:      "name",
-	Token:     "token",
-	Picture:   "picture",
-	CreatedAt: "created_at",
-	UpdatedAt: "updated_at",
+	ID:             "id",
+	Email:          "email",
+	Name:           "name",
+	Token:          "token",
+	CurrentPointer: "current_pointer",
+	Picture:        "picture",
+	CreatedAt:      "created_at",
+	UpdatedAt:      "updated_at",
 }
 
 var UserTableColumns = struct {
-	ID        string
-	Email     string
-	Name      string
-	Token     string
-	Picture   string
-	CreatedAt string
-	UpdatedAt string
+	ID             string
+	Email          string
+	Name           string
+	Token          string
+	CurrentPointer string
+	Picture        string
+	CreatedAt      string
+	UpdatedAt      string
 }{
-	ID:        "user.id",
-	Email:     "user.email",
-	Name:      "user.name",
-	Token:     "user.token",
-	Picture:   "user.picture",
-	CreatedAt: "user.created_at",
-	UpdatedAt: "user.updated_at",
+	ID:             "user.id",
+	Email:          "user.email",
+	Name:           "user.name",
+	Token:          "user.token",
+	CurrentPointer: "user.current_pointer",
+	Picture:        "user.picture",
+	CreatedAt:      "user.created_at",
+	UpdatedAt:      "user.updated_at",
 }
 
 // Generated where
@@ -99,21 +104,23 @@ func (w whereHelpernull_Time) IsNull() qm.QueryMod    { return qmhelper.WhereIsN
 func (w whereHelpernull_Time) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
 
 var UserWhere = struct {
-	ID        whereHelperint
-	Email     whereHelperstring
-	Name      whereHelperstring
-	Token     whereHelperstring
-	Picture   whereHelperstring
-	CreatedAt whereHelpertime_Time
-	UpdatedAt whereHelpernull_Time
+	ID             whereHelperint
+	Email          whereHelperstring
+	Name           whereHelperstring
+	Token          whereHelperstring
+	CurrentPointer whereHelperstring
+	Picture        whereHelperstring
+	CreatedAt      whereHelpertime_Time
+	UpdatedAt      whereHelpernull_Time
 }{
-	ID:        whereHelperint{field: "`user`.`id`"},
-	Email:     whereHelperstring{field: "`user`.`email`"},
-	Name:      whereHelperstring{field: "`user`.`name`"},
-	Token:     whereHelperstring{field: "`user`.`token`"},
-	Picture:   whereHelperstring{field: "`user`.`picture`"},
-	CreatedAt: whereHelpertime_Time{field: "`user`.`created_at`"},
-	UpdatedAt: whereHelpernull_Time{field: "`user`.`updated_at`"},
+	ID:             whereHelperint{field: "`user`.`id`"},
+	Email:          whereHelperstring{field: "`user`.`email`"},
+	Name:           whereHelperstring{field: "`user`.`name`"},
+	Token:          whereHelperstring{field: "`user`.`token`"},
+	CurrentPointer: whereHelperstring{field: "`user`.`current_pointer`"},
+	Picture:        whereHelperstring{field: "`user`.`picture`"},
+	CreatedAt:      whereHelpertime_Time{field: "`user`.`created_at`"},
+	UpdatedAt:      whereHelpernull_Time{field: "`user`.`updated_at`"},
 }
 
 // UserRels is where relationship names are stored.
@@ -133,8 +140,8 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "email", "name", "token", "picture", "created_at", "updated_at"}
-	userColumnsWithoutDefault = []string{"email", "name", "token", "picture", "updated_at"}
+	userAllColumns            = []string{"id", "email", "name", "token", "current_pointer", "picture", "created_at", "updated_at"}
+	userColumnsWithoutDefault = []string{"email", "name", "token", "current_pointer", "picture", "updated_at"}
 	userColumnsWithDefault    = []string{"id", "created_at"}
 	userPrimaryKeyColumns     = []string{"id"}
 	userGeneratedColumns      = []string{}
