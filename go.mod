@@ -9,8 +9,10 @@ require (
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/golang/mock v1.6.0
 	github.com/google/wire v0.5.0
 	github.com/hooligram/kifu v1.2.4
+	github.com/jaswdr/faker v1.15.0
 	github.com/joho/godotenv v1.4.0
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094
