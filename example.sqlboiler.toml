@@ -1,3 +1,5 @@
+no-tests = true
+
 [mysql]
   dbname  = "koran"
   host    = "143.198.244.154"

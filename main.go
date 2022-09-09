@@ -73,12 +73,12 @@ func getDb() (*sql.DB, error) {
 	mysqlDatabase := os.Getenv("MYSQL_DATABASE")
 
 	if isTestEnv() {
-		result, _ := mysqltestcontainer.Start("test")
-		mysqlUsername = result.Username
-		mysqlPassword = result.Password
-		mysqlIp = result.Ip
-		mysqlPort = result.Port
-		mysqlDatabase = result.Database
+		result, _ := mysqltestcontainer.Create("test")
+		mysqlUsername = result.GetDbInfo().Username
+		mysqlPassword = result.GetDbInfo().Password
+		mysqlIp = result.GetDbInfo().Ip
+		mysqlPort = result.GetDbInfo().Port
+		mysqlDatabase = result.GetDbInfo().DbName
 	}
 
 	dataSourceName := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", mysqlUsername, mysqlPassword, mysqlIp, mysqlPort, mysqlDatabase)

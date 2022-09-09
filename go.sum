@@ -119,8 +119,8 @@ github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kd
 github.com/apmckinlay/gsuneido v0.0.0-20180907175622-1f10244968e3/go.mod h1:hJnaqxrCRgMCTWtpNz9XUFkBCREiQdlcyK6YNmOfroM=
 github.com/arikama/go-arctic-tern v1.2.0 h1:CNPyrqwPMpthlCmfPY47FkDkh/0NpsOX9qJ3qtjl1ZE=
 github.com/arikama/go-arctic-tern v1.2.0/go.mod h1:ZOILAbu+4wubrS3Sz8xT/DVngd/SYqEjz5pJvU+mWHw=
-github.com/arikama/go-mysql-test-container v1.2.4 h1:+fTv5gv9qCtRzkkur9eKpqM7CO9BLiiJXPBmL/Gw75M=
-github.com/arikama/go-mysql-test-container v1.2.4/go.mod h1:FqM6TEG3KZhaBSzl6EhoUj1tnYWksKv/MAmxQkLXigA=
+github.com/arikama/go-mysql-test-container v1.4.0 h1:T4J4aZX7t7bxO5gsjlqTy7CObh3GHkzSDk/3d3mxQxw=
+github.com/arikama/go-mysql-test-container v1.4.0/go.mod h1:eHPbYQTXN5j7gqkY4UBTJ5Rwr0uAhZK1u+uiAYzUhEU=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmVTwzkszR9V5SSuryQ31EELlFMUz1kKyl939pY=
 github.com/armon/go-radix v0.0.0-20180808171621-7fddfc383310/go.mod h1:ufUuZ+zHj4x4TnLV4JWEpy2hxWSpsRywHrMgIH9cCH8=

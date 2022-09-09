@@ -6,7 +6,7 @@ replace github.com/arikama/go-arctic-tern v1.1.2 => /home/cglotr/workspace/go-ar
 
 require (
 	github.com/arikama/go-arctic-tern v1.2.0
-	github.com/arikama/go-mysql-test-container v1.2.4
+	github.com/arikama/go-mysql-test-container v1.4.0
 	github.com/friendsofgo/errors v0.9.2
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
