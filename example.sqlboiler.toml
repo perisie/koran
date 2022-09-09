@@ -1,0 +1,7 @@
+[mysql]
+  dbname  = "koran"
+  host    = "143.198.244.154"
+  port    = 3306
+  user    = "koran"
+  pass    = ""
+  sslmode = "false"

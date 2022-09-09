@@ -1,4 +1,5 @@
-go install github.com/google/wire/cmd/wire@latest
-wire
-go generate ./managers/...
+./gomod.sh
+./goboil.sh
+./gowire.sh
+./gogen.sh
 go build ./...
