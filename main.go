@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/arikama/go-arctic-tern/arctictern"
 	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
 	"github.com/arikama/koran-backend/managers"
 	"github.com/gin-contrib/cors"
@@ -23,10 +24,12 @@ func main() {
 		kifu.Warn(".env: %v", err.Error())
 	}
 
-	_, err = getDb()
+	db, err := getDb()
 	if err != nil {
 		kifu.Fatal("error connecting to db: %v", err.Error())
 	}
+
+	arctictern.Migrate(db, "./migrations")
 
 	var quranManager managers.QuranManager
 	quranManager, err = InitializeQuranManagerImpl("./qurancsv")
@@ -70,12 +73,12 @@ func getDb() (*sql.DB, error) {
 	mysqlDatabase := os.Getenv("MYSQL_DATABASE")
 
 	if isTestEnv() {
-		result, _ := mysqltestcontainer.Start("test")
-		mysqlUsername = result.Username
-		mysqlPassword = result.Password
-		mysqlIp = result.Ip
-		mysqlPort = result.Port
-		mysqlDatabase = result.Database
+		result, _ := mysqltestcontainer.Create("test")
+		mysqlUsername = result.GetDbInfo().Username
+		mysqlPassword = result.GetDbInfo().Password
+		mysqlIp = result.GetDbInfo().Ip
+		mysqlPort = result.GetDbInfo().Port
+		mysqlDatabase = result.GetDbInfo().DbName
 	}
 
 	dataSourceName := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", mysqlUsername, mysqlPassword, mysqlIp, mysqlPort, mysqlDatabase)
