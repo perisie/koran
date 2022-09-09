@@ -23,7 +23,7 @@ func NewUserDaoImpl(db *sql.DB) (*UserDaoImpl, error) {
 }
 
 func (u *UserDaoImpl) UpsertUser(user *models.User) (*models.User, error) {
-	err := user.Insert(*u.context, u.db, boil.Infer())
+	err := user.Upsert(*u.context, u.db, boil.Infer(), boil.Infer())
 	if err != nil {
 		return nil, err
 	}
