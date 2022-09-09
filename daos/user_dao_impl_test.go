@@ -39,4 +39,8 @@ func TestUpsertUser(t *testing.T) {
 
 	_, err = userDaoImpl.UpsertUser(&newUser)
 	assert.Nil(t, err)
+
+	queriedUser, err := userDaoImpl.QueryUser(token)
+	assert.Nil(t, err)
+	assert.Equal(t, newUser.Email, queriedUser.Email)
 }
