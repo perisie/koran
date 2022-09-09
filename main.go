@@ -24,7 +24,7 @@ func main() {
 		kifu.Warn(".env: %v", err.Error())
 	}
 
-	db, err := getDb()
+	db, err := NewDb()
 	if err != nil {
 		kifu.Fatal("error connecting to db: %v", err.Error())
 	}
@@ -32,13 +32,13 @@ func main() {
 	arctictern.Migrate(db, "./migrations")
 
 	var quranManager managers.QuranManager
-	quranManager, err = InitializeQuranManagerImpl("./qurancsv")
+	quranManager, err = wireQuranManagerImpl("./qurancsv")
 	if err != nil {
 		kifu.Fatal("error initializing quran manager: %v", err.Error())
 	}
 
 	var googleAuthManager managers.GoogleAuthManager
-	googleAuthManager, err = InitializeGoogleAuthManagerImpl()
+	googleAuthManager, err = wireGoogleAuthManagerImpl()
 	if err != nil {
 		kifu.Fatal("error initializing google auth manager: %v", err.Error())
 	}
@@ -65,7 +65,7 @@ func configureCors(r *gin.Engine) {
 	r.Use(cors.New(config))
 }
 
-func getDb() (*sql.DB, error) {
+func NewDb() (*sql.DB, error) {
 	mysqlUsername := os.Getenv("MYSQL_USERNAME")
 	mysqlPassword := os.Getenv("MYSQL_PASSWORD")
 	mysqlIp := os.Getenv("MYSQL_IP")

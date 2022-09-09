@@ -5,16 +5,27 @@
 package main
 
 import (
+	"github.com/arikama/koran-backend/daos"
 	"github.com/arikama/koran-backend/managers"
 	"github.com/google/wire"
 )
 
-func InitializeQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, error) {
-	wire.Build(managers.NewQuranManagerImpl)
-	return &managers.QuranManagerImpl{}, nil
+func wireUserDaoImpl() (*daos.UserDaoImpl, error) {
+	wire.Build(daos.NewUserDaoImpl, NewDb)
+	return nil, nil
 }
 
-func InitializeGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
-	wire.Build(managers.NewGoogleAuthManagerImpl)
-	return &managers.GoogleAuthManagerImpl{}, nil
+func wireGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
+	wire.Build(
+		managers.NewGoogleAuthManagerImpl,
+		wire.Bind(new(daos.UserDao), new(*daos.UserDaoImpl)),
+		daos.NewUserDaoImpl,
+		NewDb,
+	)
+	return nil, nil
+}
+
+func wireQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, error) {
+	wire.Build(managers.NewQuranManagerImpl)
+	return nil, nil
 }

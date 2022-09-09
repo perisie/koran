@@ -13,7 +13,7 @@ import (
 func TestAuthUserCode(t *testing.T) {
 	setupEnv()
 
-	googleAuthManager, err := managers.NewGoogleAuthManagerImpl()
+	googleAuthManager, err := managers.NewGoogleAuthManagerImpl(nil)
 	assert.Nil(t, err)
 
 	_, err = googleAuthManager.AuthUserCode("")
@@ -23,7 +23,7 @@ func TestAuthUserCode(t *testing.T) {
 func TestGetGoogleUser(t *testing.T) {
 	setupEnv()
 
-	googleAuthManager, err := managers.NewGoogleAuthManagerImpl()
+	googleAuthManager, err := managers.NewGoogleAuthManagerImpl(nil)
 	assert.Nil(t, err)
 
 	token := oauth2.Token{

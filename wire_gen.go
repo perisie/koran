@@ -7,6 +7,7 @@
 package main
 
 import (
+	"github.com/arikama/koran-backend/daos"
 	"github.com/arikama/koran-backend/managers"
 )
 
@@ -16,18 +17,38 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, error) {
+func wireUserDaoImpl() (*daos.UserDaoImpl, error) {
+	db, err := NewDb()
+	if err != nil {
+		return nil, err
+	}
+	userDaoImpl, err := daos.NewUserDaoImpl(db)
+	if err != nil {
+		return nil, err
+	}
+	return userDaoImpl, nil
+}
+
+func wireGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
+	db, err := NewDb()
+	if err != nil {
+		return nil, err
+	}
+	userDaoImpl, err := daos.NewUserDaoImpl(db)
+	if err != nil {
+		return nil, err
+	}
+	googleAuthManagerImpl, err := managers.NewGoogleAuthManagerImpl(userDaoImpl)
+	if err != nil {
+		return nil, err
+	}
+	return googleAuthManagerImpl, nil
+}
+
+func wireQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, error) {
 	quranManagerImpl, err := managers.NewQuranManagerImpl(csvDir)
 	if err != nil {
 		return nil, err
 	}
 	return quranManagerImpl, nil
-}
-
-func InitializeGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
-	googleAuthManagerImpl, err := managers.NewGoogleAuthManagerImpl()
-	if err != nil {
-		return nil, err
-	}
-	return googleAuthManagerImpl, nil
 }

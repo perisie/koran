@@ -18,7 +18,7 @@ type GoogleAuthManagerImpl struct {
 	userDao daos.UserDao
 }
 
-func NewGoogleAuthManagerImpl() (*GoogleAuthManagerImpl, error) {
+func NewGoogleAuthManagerImpl(userDao daos.UserDao) (*GoogleAuthManagerImpl, error) {
 	context := context.Background()
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
@@ -30,6 +30,7 @@ func NewGoogleAuthManagerImpl() (*GoogleAuthManagerImpl, error) {
 	return &GoogleAuthManagerImpl{
 		context: context,
 		config:  config,
+		userDao: userDao,
 	}, nil
 }
 
