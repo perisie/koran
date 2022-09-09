@@ -5,13 +5,13 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/arikama/koran-backend/managers"
 	"github.com/arikama/koran-backend/requestresponse"
+	"github.com/arikama/koran-backend/services"
 	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
-func PostAuthGoogleController(googleAuthManager managers.GoogleAuthManager) func(c *gin.Context) {
+func PostAuthGoogleController(googleAuthService services.GoogleAuthService) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		request := requestresponse.PostAuthGoogleRequest{}
 
@@ -26,7 +26,7 @@ func PostAuthGoogleController(googleAuthManager managers.GoogleAuthManager) func
 			return
 		}
 
-		googleUser, err := googleAuthManager.AuthUserCode(request.AuthCode)
+		googleUser, err := googleAuthService.AuthUserCode(request.AuthCode)
 		if err != nil {
 			utils.JsonError(c, http.StatusInternalServerError, err)
 			return

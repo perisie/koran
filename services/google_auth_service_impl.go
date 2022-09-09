@@ -1,4 +1,4 @@
-package managers
+package services
 
 import (
 	"context"
@@ -12,13 +12,13 @@ import (
 	"google.golang.org/api/option"
 )
 
-type GoogleAuthManagerImpl struct {
+type GoogleAuthServiceImpl struct {
 	context context.Context
 	config  oauth2.Config
 	userDao daos.UserDao
 }
 
-func NewGoogleAuthManagerImpl(userDao daos.UserDao) (*GoogleAuthManagerImpl, error) {
+func NewGoogleAuthServiceImpl(userDao daos.UserDao) (*GoogleAuthServiceImpl, error) {
 	context := context.Background()
 	config := oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
@@ -27,14 +27,14 @@ func NewGoogleAuthManagerImpl(userDao daos.UserDao) (*GoogleAuthManagerImpl, err
 		Endpoint:     google.Endpoint,
 		RedirectURL:  os.Getenv("GOOGLE_REDIRECT_URL"),
 	}
-	return &GoogleAuthManagerImpl{
+	return &GoogleAuthServiceImpl{
 		context: context,
 		config:  config,
 		userDao: userDao,
 	}, nil
 }
 
-func (g *GoogleAuthManagerImpl) AuthUserCode(userAuthCode string) (*GoogleUser, error) {
+func (g *GoogleAuthServiceImpl) AuthUserCode(userAuthCode string) (*GoogleUser, error) {
 	token, err := g.config.Exchange(g.context, userAuthCode)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (g *GoogleAuthManagerImpl) AuthUserCode(userAuthCode string) (*GoogleUser, 
 	return googleUser, nil
 }
 
-func (g *GoogleAuthManagerImpl) GetGoogleUser(userToken *oauth2.Token) (*GoogleUser, error) {
+func (g *GoogleAuthServiceImpl) GetGoogleUser(userToken *oauth2.Token) (*GoogleUser, error) {
 	client, err := googleauth.NewService(g.context, option.WithTokenSource(g.config.TokenSource(g.context, userToken)))
 	if err != nil {
 		return nil, err

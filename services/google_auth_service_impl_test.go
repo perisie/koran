@@ -1,11 +1,11 @@
-package managers_test
+package services_test
 
 import (
 	"os"
 	"testing"
 	"time"
 
-	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/services"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/oauth2"
 )
@@ -13,7 +13,7 @@ import (
 func TestAuthUserCode(t *testing.T) {
 	setupEnv()
 
-	googleAuthManager, err := managers.NewGoogleAuthManagerImpl(nil)
+	googleAuthManager, err := services.NewGoogleAuthServiceImpl(nil)
 	assert.Nil(t, err)
 
 	_, err = googleAuthManager.AuthUserCode("")
@@ -23,7 +23,7 @@ func TestAuthUserCode(t *testing.T) {
 func TestGetGoogleUser(t *testing.T) {
 	setupEnv()
 
-	googleAuthManager, err := managers.NewGoogleAuthManagerImpl(nil)
+	googleAuthManager, err := services.NewGoogleAuthServiceImpl(nil)
 	assert.Nil(t, err)
 
 	token := oauth2.Token{

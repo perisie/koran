@@ -1,7 +1,7 @@
-package managers
+package services
 
-//go:generate mockgen -package=managers -mock_names=GoogleAuthManager=GoogleAuthManagerMock -source=./google_auth_manager.go -destination=./google_auth_manager_mock.go
-type GoogleAuthManager interface {
+//go:generate mockgen -package=services -mock_names=GoogleAuthService=GoogleAuthServiceMock -source=./google_auth_service.go -destination=./google_auth_service_mock.go
+type GoogleAuthService interface {
 	AuthUserCode(userAuthCode string) (*GoogleUser, error)
 }
 

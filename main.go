@@ -9,6 +9,7 @@ import (
 	"github.com/arikama/go-arctic-tern/arctictern"
 	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
 	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/services"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -37,14 +38,14 @@ func main() {
 		kifu.Fatal("error initializing quran manager: %v", err.Error())
 	}
 
-	var googleAuthManager managers.GoogleAuthManager
-	googleAuthManager, err = wireGoogleAuthManagerImpl()
+	var googleAuthService services.GoogleAuthService
+	googleAuthService, err = wireGoogleAuthServiceImpl()
 	if err != nil {
 		kifu.Fatal("error initializing google auth manager: %v", err.Error())
 	}
 
 	s := setupWebServer()
-	routes(s, quranManager, googleAuthManager)
+	routes(s, quranManager, googleAuthService)
 
 	if isTestEnv() {
 		go s.Run()

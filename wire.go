@@ -7,6 +7,7 @@ package main
 import (
 	"github.com/arikama/koran-backend/daos"
 	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/services"
 	"github.com/google/wire"
 )
 
@@ -15,9 +16,9 @@ func wireUserDaoImpl() (*daos.UserDaoImpl, error) {
 	return nil, nil
 }
 
-func wireGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
+func wireGoogleAuthServiceImpl() (*services.GoogleAuthServiceImpl, error) {
 	wire.Build(
-		managers.NewGoogleAuthManagerImpl,
+		services.NewGoogleAuthServiceImpl,
 		wire.Bind(new(daos.UserDao), new(*daos.UserDaoImpl)),
 		daos.NewUserDaoImpl,
 		NewDb,

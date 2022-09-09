@@ -9,6 +9,7 @@ package main
 import (
 	"github.com/arikama/koran-backend/daos"
 	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/services"
 )
 
 import (
@@ -29,7 +30,7 @@ func wireUserDaoImpl() (*daos.UserDaoImpl, error) {
 	return userDaoImpl, nil
 }
 
-func wireGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
+func wireGoogleAuthServiceImpl() (*services.GoogleAuthServiceImpl, error) {
 	db, err := NewDb()
 	if err != nil {
 		return nil, err
@@ -38,11 +39,11 @@ func wireGoogleAuthManagerImpl() (*managers.GoogleAuthManagerImpl, error) {
 	if err != nil {
 		return nil, err
 	}
-	googleAuthManagerImpl, err := managers.NewGoogleAuthManagerImpl(userDaoImpl)
+	googleAuthServiceImpl, err := services.NewGoogleAuthServiceImpl(userDaoImpl)
 	if err != nil {
 		return nil, err
 	}
-	return googleAuthManagerImpl, nil
+	return googleAuthServiceImpl, nil
 }
 
 func wireQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, error) {

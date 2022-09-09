@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/arikama/koran-backend/controllers"
-	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/services"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/jaswdr/faker"
@@ -60,7 +60,7 @@ func TestPostAuthGoogleController(t *testing.T) {
 	faker := faker.New()
 	r, w, googleAuthManagerMock := setupPostAuthGoogleController(t)
 
-	googleUser := &managers.GoogleUser{
+	googleUser := &services.GoogleUser{
 		Email: "amir.ariffin@google.com",
 		Name:  "Amir",
 	}
@@ -84,9 +84,9 @@ func TestPostAuthGoogleController(t *testing.T) {
 	assert.Equal(t, `{"data":{"email":"amir.ariffin@google.com","name":"Amir","token":"","picture":""}}`, string(body))
 }
 
-func setupPostAuthGoogleController(t *testing.T) (*gin.Engine, *httptest.ResponseRecorder, *managers.GoogleAuthManagerMock) {
+func setupPostAuthGoogleController(t *testing.T) (*gin.Engine, *httptest.ResponseRecorder, *services.GoogleAuthServiceMock) {
 	ctrl := gomock.NewController(t)
-	googleAuthManagerMock := managers.NewGoogleAuthManagerMock(ctrl)
+	googleAuthManagerMock := services.NewGoogleAuthServiceMock(ctrl)
 
 	w := httptest.NewRecorder()
 	_, r := gin.CreateTestContext(w)
