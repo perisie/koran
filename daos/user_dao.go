@@ -10,6 +10,7 @@ type UserDao interface {
 	QueryUserByEmail(email string) (*beans.User, error)
 	QueryUserByToken(token string) (*beans.User, error)
 	UpdateUserToken(email, token string) error
+	UpdateUserCurrentPointer(email, currentPointer string) error
 }
 
 func ErrSqlNoRowsInResultSet() string { return "sql: no rows in result set" }

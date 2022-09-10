@@ -64,7 +64,7 @@ func (u *UserDaoImpl) QueryUserByToken(token string) (*beans.User, error) {
 }
 
 func (u *UserDaoImpl) UpdateUserToken(email, token string) error {
-	user, err := u.queryUserByEmail(email)
+	user, err := models.Users(qm.Where("email = ?", email)).One(*u.context, u.db)
 	if err != nil {
 		return err
 	}
@@ -73,10 +73,12 @@ func (u *UserDaoImpl) UpdateUserToken(email, token string) error {
 	return err
 }
 
-func (u *UserDaoImpl) queryUserByEmail(email string) (*models.User, error) {
+func (u *UserDaoImpl) UpdateUserCurrentPointer(email, currentPointer string) error {
 	user, err := models.Users(qm.Where("email = ?", email)).One(*u.context, u.db)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return user, nil
+	user.CurrentPointer = currentPointer
+	_, err = user.Update(*u.context, u.db, boil.Infer())
+	return err
 }

@@ -1,8 +1,12 @@
 package managers
 
 import (
+	"errors"
+
 	"github.com/arikama/koran-backend/beans"
+	"github.com/arikama/koran-backend/constants"
 	"github.com/arikama/koran-backend/daos"
+	"github.com/arikama/koran-backend/utils"
 	"github.com/hooligram/kifu"
 )
 
@@ -35,6 +39,11 @@ func (u *UserManagerImpl) CreateUser(email, token string) (*beans.User, error) {
 		kifu.Error("Error queriying user by token: %v", err.Error())
 		return nil, err
 	}
+	err = u.userDao.UpdateUserCurrentPointer(user.Email, constants.StartPointer())
+	if err != nil {
+		kifu.Error("Error updating user current pointer: %v", err.Error())
+		return nil, err
+	}
 	return &beans.User{
 		Email:          user.Email,
 		Name:           user.Name,
@@ -56,4 +65,23 @@ func (u *UserManagerImpl) GetUser(token string) (*beans.User, error) {
 		Picture:        user.Picture,
 		CurrentPointer: user.CurrentPointer,
 	}, nil
+}
+
+func (u *UserManagerImpl) AdvanceUserCurrentPointer(email, token string) (string, error) {
+	user, err := u.userDao.QueryUserByEmail(email)
+	if err != nil {
+		return "", err
+	}
+
+	if token != user.Token {
+		return "", errors.New(ErrUserTokenMismatch())
+	}
+	newPointer := utils.GetNextVersePointer(user.CurrentPointer)
+
+	err = u.userDao.UpdateUserCurrentPointer(email, newPointer)
+	if err != nil {
+		return "", err
+	}
+
+	return newPointer, nil
 }
