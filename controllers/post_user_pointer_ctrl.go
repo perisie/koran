@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetUserPointerCtrl(userManager managers.UserManager) func(*gin.Context) {
+func PostUserPointerCtrl(userManager managers.UserManager) func(*gin.Context) {
 	return func(c *gin.Context) {
 		accessToken := c.Request.Header.Get(constants.XAccessToken())
 		if accessToken == "" {
@@ -34,7 +34,7 @@ func GetUserPointerCtrl(userManager managers.UserManager) func(*gin.Context) {
 		}
 
 		if request.Email != user.Email {
-			utils.JsonError(c, http.StatusUnauthorized, err)
+			utils.JsonError(c, http.StatusUnauthorized, errors.New("access token mismatch"))
 			return
 		}
 

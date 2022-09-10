@@ -9,6 +9,7 @@ import (
 	"github.com/arikama/go-arctic-tern/arctictern"
 	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
 	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/routes"
 	"github.com/arikama/koran-backend/services"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -51,7 +52,7 @@ func main() {
 	}
 
 	s := setupWebServer()
-	routes(s, quranManager, googleAuthService, userManager)
+	routes.Routes(s, quranManager, googleAuthService, userManager)
 
 	if isTestEnv() {
 		go s.Run()
