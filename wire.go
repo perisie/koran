@@ -19,14 +19,21 @@ func wireUserDaoImpl() (*daos.UserDaoImpl, error) {
 func wireGoogleAuthServiceImpl() (*services.GoogleAuthServiceImpl, error) {
 	wire.Build(
 		services.NewGoogleAuthServiceImpl,
-		wire.Bind(new(daos.UserDao), new(*daos.UserDaoImpl)),
-		daos.NewUserDaoImpl,
-		NewDb,
 	)
 	return nil, nil
 }
 
 func wireQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, error) {
 	wire.Build(managers.NewQuranManagerImpl)
+	return nil, nil
+}
+
+func wireUserManagerImpl() (*managers.UserManagerImpl, error) {
+	wire.Build(
+		managers.NewUserManagerImpl,
+		wire.Bind(new(daos.UserDao), new(*daos.UserDaoImpl)),
+		daos.NewUserDaoImpl,
+		NewDb,
+	)
 	return nil, nil
 }

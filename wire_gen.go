@@ -31,15 +31,7 @@ func wireUserDaoImpl() (*daos.UserDaoImpl, error) {
 }
 
 func wireGoogleAuthServiceImpl() (*services.GoogleAuthServiceImpl, error) {
-	db, err := NewDb()
-	if err != nil {
-		return nil, err
-	}
-	userDaoImpl, err := daos.NewUserDaoImpl(db)
-	if err != nil {
-		return nil, err
-	}
-	googleAuthServiceImpl, err := services.NewGoogleAuthServiceImpl(userDaoImpl)
+	googleAuthServiceImpl, err := services.NewGoogleAuthServiceImpl()
 	if err != nil {
 		return nil, err
 	}
@@ -52,4 +44,20 @@ func wireQuranManagerImpl(csvDir string) (*managers.QuranManagerImpl, error) {
 		return nil, err
 	}
 	return quranManagerImpl, nil
+}
+
+func wireUserManagerImpl() (*managers.UserManagerImpl, error) {
+	db, err := NewDb()
+	if err != nil {
+		return nil, err
+	}
+	userDaoImpl, err := daos.NewUserDaoImpl(db)
+	if err != nil {
+		return nil, err
+	}
+	userManagerImpl, err := managers.NewUserManagerImpl(userDaoImpl)
+	if err != nil {
+		return nil, err
+	}
+	return userManagerImpl, nil
 }

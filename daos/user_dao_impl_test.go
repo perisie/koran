@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUpsertUser(t *testing.T) {
+func TestCreateUser(t *testing.T) {
 	container, err := mysqltestcontainer.Create("test")
 	assert.Nil(t, err)
 
@@ -38,13 +38,10 @@ func TestUpsertUser(t *testing.T) {
 		Picture: picture,
 	}
 
-	_, err = userDao.UpsertUser(&newUser)
+	err = userDao.CreateUser(newUser.Email, newUser.Token)
 	assert.Nil(t, err)
 
-	queriedUser, err := userDao.QueryUser(token)
+	queriedUser, err := userDao.QueryUserByToken(token)
 	assert.Nil(t, err)
 	assert.Equal(t, newUser.Email, queriedUser.Email)
-
-	_, err = userDao.UpsertUser(&newUser)
-	assert.Nil(t, err)
 }

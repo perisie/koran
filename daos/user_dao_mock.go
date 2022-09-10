@@ -7,7 +7,7 @@ package daos
 import (
 	reflect "reflect"
 
-	models "github.com/arikama/koran-backend/models"
+	beans "github.com/arikama/koran-backend/beans"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -34,32 +34,60 @@ func (m *UserDaoMock) EXPECT() *UserDaoMockMockRecorder {
 	return m.recorder
 }
 
-// QueryUser mocks base method.
-func (m *UserDaoMock) QueryUser(token string) (*models.User, error) {
+// CreateUser mocks base method.
+func (m *UserDaoMock) CreateUser(email, token string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryUser", token)
-	ret0, _ := ret[0].(*models.User)
+	ret := m.ctrl.Call(m, "CreateUser", email, token)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *UserDaoMockMockRecorder) CreateUser(email, token interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*UserDaoMock)(nil).CreateUser), email, token)
+}
+
+// QueryUserByEmail mocks base method.
+func (m *UserDaoMock) QueryUserByEmail(email string) (*beans.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryUserByEmail", email)
+	ret0, _ := ret[0].(*beans.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// QueryUser indicates an expected call of QueryUser.
-func (mr *UserDaoMockMockRecorder) QueryUser(token interface{}) *gomock.Call {
+// QueryUserByEmail indicates an expected call of QueryUserByEmail.
+func (mr *UserDaoMockMockRecorder) QueryUserByEmail(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUser", reflect.TypeOf((*UserDaoMock)(nil).QueryUser), token)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserByEmail", reflect.TypeOf((*UserDaoMock)(nil).QueryUserByEmail), email)
 }
 
-// UpsertUser mocks base method.
-func (m *UserDaoMock) UpsertUser(user *models.User) (*models.User, error) {
+// QueryUserByToken mocks base method.
+func (m *UserDaoMock) QueryUserByToken(token string) (*beans.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpsertUser", user)
-	ret0, _ := ret[0].(*models.User)
+	ret := m.ctrl.Call(m, "QueryUserByToken", token)
+	ret0, _ := ret[0].(*beans.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// UpsertUser indicates an expected call of UpsertUser.
-func (mr *UserDaoMockMockRecorder) UpsertUser(user interface{}) *gomock.Call {
+// QueryUserByToken indicates an expected call of QueryUserByToken.
+func (mr *UserDaoMockMockRecorder) QueryUserByToken(token interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertUser", reflect.TypeOf((*UserDaoMock)(nil).UpsertUser), user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserByToken", reflect.TypeOf((*UserDaoMock)(nil).QueryUserByToken), token)
+}
+
+// UpdateUserToken mocks base method.
+func (m *UserDaoMock) UpdateUserToken(email, token string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUserToken", email, token)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUserToken indicates an expected call of UpdateUserToken.
+func (mr *UserDaoMockMockRecorder) UpdateUserToken(email, token interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserToken", reflect.TypeOf((*UserDaoMock)(nil).UpdateUserToken), email, token)
 }

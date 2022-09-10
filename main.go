@@ -41,11 +41,17 @@ func main() {
 	var googleAuthService services.GoogleAuthService
 	googleAuthService, err = wireGoogleAuthServiceImpl()
 	if err != nil {
-		kifu.Fatal("error initializing google auth manager: %v", err.Error())
+		kifu.Fatal("error initializing google auth service: %v", err.Error())
+	}
+
+	var userManager managers.UserManager
+	userManager, err = wireUserManagerImpl()
+	if err != nil {
+		kifu.Fatal("error initializing user manager: %v", err.Error())
 	}
 
 	s := setupWebServer()
-	routes(s, quranManager, googleAuthService)
+	routes(s, quranManager, googleAuthService, userManager)
 
 	if isTestEnv() {
 		go s.Run()
