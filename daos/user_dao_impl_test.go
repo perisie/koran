@@ -3,21 +3,16 @@ package daos_test
 import (
 	"testing"
 
-	"github.com/arikama/go-arctic-tern/arctictern"
-	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
+	"github.com/arikama/koran-backend/beans"
+	"github.com/arikama/koran-backend/constants"
 	"github.com/arikama/koran-backend/daos"
-	"github.com/arikama/koran-backend/models"
+	"github.com/arikama/koran-backend/utils"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateUser(t *testing.T) {
-	container, err := mysqltestcontainer.Create("test")
-	assert.Nil(t, err)
-
-	db := container.GetDb()
-
-	err = arctictern.Migrate(db, "./../migrations")
+func TestCreateQuery(t *testing.T) {
+	db, err := utils.GetTestDb()
 	assert.Nil(t, err)
 
 	var userDao daos.UserDao
@@ -31,17 +26,22 @@ func TestCreateUser(t *testing.T) {
 	token := faker.Internet().Password()
 	picture := faker.Internet().URL()
 
-	newUser := models.User{
-		Email:   email,
-		Name:    name,
-		Token:   token,
-		Picture: picture,
+	user := beans.User{
+		Email:          email,
+		Name:           name,
+		Token:          token,
+		Picture:        picture,
+		CurrentPointer: constants.StartPointer(),
 	}
 
-	err = userDao.CreateUser(newUser.Email, newUser.Token)
+	err = userDao.CreateUser(user.Email, user.Token)
 	assert.Nil(t, err)
 
-	queriedUser, err := userDao.QueryUserByToken(token)
+	queried, err := userDao.QueryUserByEmail(email)
 	assert.Nil(t, err)
-	assert.Equal(t, newUser.Email, queriedUser.Email)
+	assert.Equal(t, user.Email, queried.Email)
+
+	queried, err = userDao.QueryUserByToken(token)
+	assert.Nil(t, err)
+	assert.Equal(t, user.Email, queried.Email)
 }
