@@ -78,6 +78,20 @@ func (mr *UserDaoMockMockRecorder) QueryUserByToken(token interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryUserByToken", reflect.TypeOf((*UserDaoMock)(nil).QueryUserByToken), token)
 }
 
+// UpdateUserCurrentPointer mocks base method.
+func (m *UserDaoMock) UpdateUserCurrentPointer(email, currentPointer string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUserCurrentPointer", email, currentPointer)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUserCurrentPointer indicates an expected call of UpdateUserCurrentPointer.
+func (mr *UserDaoMockMockRecorder) UpdateUserCurrentPointer(email, currentPointer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserCurrentPointer", reflect.TypeOf((*UserDaoMock)(nil).UpdateUserCurrentPointer), email, currentPointer)
+}
+
 // UpdateUserToken mocks base method.
 func (m *UserDaoMock) UpdateUserToken(email, token string) error {
 	m.ctrl.T.Helper()

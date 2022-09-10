@@ -34,6 +34,21 @@ func (m *UserManagerMock) EXPECT() *UserManagerMockMockRecorder {
 	return m.recorder
 }
 
+// AdvanceUserCurrentPointer mocks base method.
+func (m *UserManagerMock) AdvanceUserCurrentPointer(email, token string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AdvanceUserCurrentPointer", email, token)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AdvanceUserCurrentPointer indicates an expected call of AdvanceUserCurrentPointer.
+func (mr *UserManagerMockMockRecorder) AdvanceUserCurrentPointer(email, token interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdvanceUserCurrentPointer", reflect.TypeOf((*UserManagerMock)(nil).AdvanceUserCurrentPointer), email, token)
+}
+
 // CreateUser mocks base method.
 func (m *UserManagerMock) CreateUser(email, token string) (*beans.User, error) {
 	m.ctrl.T.Helper()
