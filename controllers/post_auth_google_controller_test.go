@@ -10,17 +10,15 @@ import (
 	"testing"
 
 	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/controllers"
-	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/routes"
 	"github.com/arikama/koran-backend/services"
-	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestPostAuthGoogleControllerBadRequest(t *testing.T) {
-	r, w, _, _ := setupPostAuthGoogleController(t)
+	r, w, _, _, _ := routes.SetupTestRoutes(t)
 
 	req := httptest.NewRequest(http.MethodPost, "/auth/google", bytes.NewBuffer([]byte("")))
 	r.ServeHTTP(w, req)
@@ -29,7 +27,7 @@ func TestPostAuthGoogleControllerBadRequest(t *testing.T) {
 }
 
 func TestPostAuthGoogleControllerNoAuthCode(t *testing.T) {
-	r, w, _, _ := setupPostAuthGoogleController(t)
+	r, w, _, _, _ := routes.SetupTestRoutes(t)
 
 	req := httptest.NewRequest(http.MethodPost, "/auth/google", bytes.NewBuffer([]byte("{}")))
 	r.ServeHTTP(w, req)
@@ -42,7 +40,7 @@ func TestPostAuthGoogleControllerNoAuthCode(t *testing.T) {
 }
 
 func TestPostAuthGoogleControllerBadAuthCode(t *testing.T) {
-	r, w, googleAuthServiceMock, _ := setupPostAuthGoogleController(t)
+	r, w, _, _, googleAuthServiceMock := routes.SetupTestRoutes(t)
 
 	googleAuthServiceMock.EXPECT().
 		AuthUserCode(gomock.Eq("bad")).
@@ -58,9 +56,9 @@ func TestPostAuthGoogleControllerBadAuthCode(t *testing.T) {
 	assert.Equal(t, `{"error":"bad auth code"}`, string(response))
 }
 
-func XTestPostAuthGoogleController(t *testing.T) {
+func TestPostAuthGoogleController(t *testing.T) {
 	faker := faker.New()
-	r, w, googleAuthServiceMock, userManagerMock := setupPostAuthGoogleController(t)
+	r, w, _, userManagerMock, googleAuthServiceMock := routes.SetupTestRoutes(t)
 
 	googleUser := &services.GoogleUser{
 		Email: faker.Internet().Email(),
@@ -94,20 +92,34 @@ func XTestPostAuthGoogleController(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func setupPostAuthGoogleController(t *testing.T) (
-	*gin.Engine,
-	*httptest.ResponseRecorder,
-	*services.GoogleAuthServiceMock,
-	*managers.UserManagerMock,
-) {
-	ctrl := gomock.NewController(t)
-	googleAuthServiceMock := services.NewGoogleAuthServiceMock(ctrl)
-	userManagerMock := managers.NewUserManagerMock(ctrl)
+func Test_PostAuthGoogleController_CreateUserError(t *testing.T) {
+	faker := faker.New()
+	r, w, _, userManagerMock, googleAuthServiceMock := routes.SetupTestRoutes(t)
 
-	w := httptest.NewRecorder()
-	_, r := gin.CreateTestContext(w)
+	googleUser := &services.GoogleUser{
+		Email: faker.Internet().Email(),
+		Token: faker.Internet().Password(),
+	}
+	authCode := faker.Internet().Password()
+	googleAuthServiceMock.EXPECT().
+		AuthUserCode(gomock.Eq(authCode)).
+		Return((googleUser), nil)
 
-	r.POST("/auth/google", controllers.PostAuthGoogleController(googleAuthServiceMock, nil))
+	userManagerMock.EXPECT().
+		CreateUser(gomock.Eq(googleUser.Email), gomock.Eq(googleUser.Token)).
+		Return(nil, errors.New("error"))
 
-	return r, w, googleAuthServiceMock, userManagerMock
+	type JsonBody struct {
+		AuthCode string `json:"auth_code"`
+	}
+	jsonBody := JsonBody{
+		AuthCode: authCode,
+	}
+	buf, err := json.Marshal(jsonBody)
+	assert.Nil(t, err)
+
+	req := httptest.NewRequest(http.MethodPost, "/auth/google", bytes.NewBuffer(buf))
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, 500, w.Result().StatusCode)
 }

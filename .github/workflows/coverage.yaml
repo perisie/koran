@@ -14,6 +14,16 @@ jobs:
         go-version: 1.18
     - run: ./gobuild.sh
     - run: ./gotest.sh
+      env:
+        MYSQL_USERNAME: koran
+        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+        MYSQL_IP: 143.198.244.154
+        MYSQL_PORT: 3306
+        MYSQL_DATABASE: koran
+        PORT: 8080
+        GOOGLE_CLIENT_ID: 454337127208-8cfsr6ebdake7qjp93n98rlrjjm9qgo6.apps.googleusercontent.com
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_REDIRECT_URL: http://localhost:3000
     - uses: codecov/codecov-action@v1.0.2
       with:
         token: 75f54cd3-c2cb-4752-b718-2c0463228461
