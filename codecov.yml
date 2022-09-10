@@ -1,5 +1,3 @@
 ignore:
   - "wire_gen.go"
-  - "main.go"
-  - "routes.go"
   - "models"
