@@ -44,4 +44,23 @@ func TestCreateQuery(t *testing.T) {
 	queried, err = userDao.QueryUserByToken(token)
 	assert.Nil(t, err)
 	assert.Equal(t, user.Email, queried.Email)
+
+	assert.Equal(t, token, queried.Token)
+	newToken := token + token
+
+	err = userDao.UpdateUserToken(email, newToken)
+	assert.Nil(t, err)
+
+	queried, err = userDao.QueryUserByEmail(email)
+	assert.Nil(t, err)
+	assert.Equal(t, newToken, queried.Token)
+
+	newPointer := utils.GetNextVersePointer(queried.CurrentPointer)
+
+	err = userDao.UpdateUserCurrentPointer(email, newPointer)
+	assert.Nil(t, err)
+
+	queried, err = userDao.QueryUserByEmail(email)
+	assert.Nil(t, err)
+	assert.Equal(t, newPointer, queried.CurrentPointer)
 }
