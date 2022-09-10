@@ -11,3 +11,5 @@ type UserDao interface {
 	QueryUserByToken(token string) (*beans.User, error)
 	UpdateUserToken(email, token string) error
 }
+
+func ErrSqlNoRowsInResultSet() string { return "sql: no rows in result set" }

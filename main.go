@@ -91,6 +91,7 @@ func NewDb() (*sql.DB, error) {
 	dataSourceName := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", mysqlUsername, mysqlPassword, mysqlIp, mysqlPort, mysqlDatabase)
 	dataSourceName += "?charset=utf8mb4"
 	dataSourceName += "&collation=utf8mb4_unicode_ci"
+	dataSourceName += "&parseTime=true"
 
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
