@@ -1,6 +1,7 @@
 package daos_test
 
 import (
+	"database/sql"
 	"testing"
 
 	"github.com/arikama/koran-backend/beans"
@@ -63,4 +64,28 @@ func TestCreateQuery(t *testing.T) {
 	queried, err = userDao.QueryUserByEmail(email)
 	assert.Nil(t, err)
 	assert.Equal(t, newPointer, queried.CurrentPointer)
+}
+
+func TestWrongDb(t *testing.T) {
+	db, err := sql.Open("mysql", "")
+	assert.Nil(t, err)
+
+	var userDao daos.UserDao
+	userDao, err = daos.NewUserDaoImpl(db)
+	assert.Nil(t, err)
+
+	err = userDao.CreateUser("", "")
+	assert.NotNil(t, err)
+
+	_, err = userDao.QueryUserByEmail("")
+	assert.NotNil(t, err)
+
+	_, err = userDao.QueryUserByToken("")
+	assert.NotNil(t, err)
+
+	err = userDao.UpdateUserToken("", "")
+	assert.NotNil(t, err)
+
+	err = userDao.UpdateUserCurrentPointer("", "")
+	assert.NotNil(t, err)
 }
