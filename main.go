@@ -70,6 +70,7 @@ func setupWebServer() *gin.Engine {
 func configureCors(r *gin.Engine) {
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"*"}
+	config.AllowHeaders = []string{"x-access-token"}
 	r.Use(cors.New(config))
 }
 
