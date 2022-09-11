@@ -27,6 +27,11 @@ func (u *UserManagerImpl) CreateUser(email, token string) (*beans.User, error) {
 		return nil, err
 	}
 	if existing != nil {
+		err := u.userDao.UpdateUserToken(email, token)
+		if err != nil {
+			kifu.Error("Error updating existing user token: %v", err.Error())
+			return nil, err
+		}
 		return existing, nil
 	}
 	err = u.userDao.CreateUser(email, token)
