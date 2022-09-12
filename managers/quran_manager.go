@@ -8,8 +8,9 @@ type QuranManager interface {
 	GetSurahInfos() ([]*beans.SurahInfo, error)
 }
 
-func Quran() string     { return "quran" }
-func Pickthall() string { return "pickthall" }
+func Quran() string      { return "quran" }
+func Pickthall() string  { return "pickthall" }
+func ClearQuran() string { return "clearquran" }
 
 func ErrVerseDoesNotExist() string { return "verse does not exist" }
 func ErrSurahDoesNotExist() string { return "surah does not exist" }

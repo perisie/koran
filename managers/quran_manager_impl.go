@@ -20,6 +20,7 @@ func NewQuranManagerImpl(csvDir string) (*QuranManagerImpl, error) {
 	names := []string{
 		Quran(),
 		Pickthall(),
+		ClearQuran(),
 	}
 	verseMap := make(map[string]*beans.Verse)
 	for _, name := range names {
