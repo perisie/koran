@@ -88,6 +88,10 @@ func Test_CreateUser_AlreadyExist(t *testing.T) {
 			Token: token,
 		}, nil)
 
+	userDaoMock.EXPECT().
+		UpdateUserToken(gomock.Eq(email), gomock.Eq(token)).
+		Return(nil)
+
 	result, err := userManager.CreateUser(email, token)
 	assert.Nil(t, err)
 	assert.Equal(t, email, result.Email)
