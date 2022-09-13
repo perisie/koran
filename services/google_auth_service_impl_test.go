@@ -38,7 +38,7 @@ func TestGetGoogleUser(t *testing.T) {
 
 	assert.Equal(t, "amir.ariffin.920404@gmail.com", googleUser.Email)
 	assert.Equal(t, "Amir", googleUser.Name)
-	assert.Equal(t, "https://lh3.googleusercontent.com/a-/AFdZucpNm6qed2bDnlWlNS-SVbsBsuJl0EzqgItwA7jFOn4=s96-c", googleUser.Picture)
+	assert.NotNil(t, googleUser.Picture)
 	assert.Equal(t, token.AccessToken, googleUser.Token)
 }
 
