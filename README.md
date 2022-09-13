@@ -8,6 +8,11 @@
 1. `./gobuild.sh`
 2. `./gorun.sh`
 
+### Required files
+
+1. `.env`
+2. `sqlboiler.toml`
+
 ### Docker
 
 1. `./godocker.sh`
