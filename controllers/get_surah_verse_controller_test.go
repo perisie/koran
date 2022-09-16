@@ -6,9 +6,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/arikama/koran-backend/beans"
 	"github.com/arikama/koran-backend/controllers"
 	"github.com/arikama/koran-backend/managers"
+	"github.com/arikama/koran-backend/requestresponse"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,7 +22,7 @@ func TestGetSurahVerseControllerBadSurahQuery(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 400, w.Result().StatusCode)
 
-	var jsonError beans.JsonError
+	var jsonError requestresponse.JsonError
 	json.NewDecoder(w.Result().Body).Decode(&jsonError)
 	assert.Equal(t, `strconv.Atoi: parsing "x": invalid syntax`, jsonError.Error)
 }
@@ -36,7 +36,7 @@ func TestGetSurahVerseControllerBadVerseQuery(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 400, w.Result().StatusCode)
 
-	var jsonError beans.JsonError
+	var jsonError requestresponse.JsonError
 	json.NewDecoder(w.Result().Body).Decode(&jsonError)
 	assert.Equal(t, `strconv.Atoi: parsing "x": invalid syntax`, jsonError.Error)
 }
@@ -50,7 +50,7 @@ func TestGetSurahVerseControllerNotFound(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 404, w.Result().StatusCode)
 
-	var jsonError beans.JsonError
+	var jsonError requestresponse.JsonError
 	json.NewDecoder(w.Result().Body).Decode(&jsonError)
 	assert.Equal(t, "verse does not exist", jsonError.Error)
 }
@@ -64,7 +64,7 @@ func TestGetSurahVerseController(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 200, w.Result().StatusCode)
 
-	var jsonData beans.JsonData
+	var jsonData requestresponse.JsonData
 	json.NewDecoder(w.Result().Body).Decode(&jsonData)
 	assert.Equal(t, "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ", jsonData.Data["verse"])
 }
