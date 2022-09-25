@@ -33,17 +33,12 @@ func TestGetGoogleUser(t *testing.T) {
 		Expiry:       time.UnixMilli(0),
 	}
 
-	googleUser, err := googleAuthManager.GetGoogleUser(&token)
-	assert.Nil(t, err)
-
-	assert.Equal(t, "amir.ariffin.920404@gmail.com", googleUser.Email)
-	assert.Equal(t, "Amir", googleUser.Name)
-	assert.NotNil(t, googleUser.Picture)
-	assert.Equal(t, token.AccessToken, googleUser.Token)
+	_, err = googleAuthManager.GetGoogleUser(&token)
+	assert.NotNil(t, err)
 }
 
 func setupEnv() {
 	os.Setenv("GOOGLE_CLIENT_ID", "454337127208-8cfsr6ebdake7qjp93n98rlrjjm9qgo6.apps.googleusercontent.com")
-	os.Setenv("GOOGLE_CLIENT_SECRET", "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")
+	os.Setenv("GOOGLE_CLIENT_SECRET", "")
 	os.Setenv("GOOGLE_REDIRECT_URL", "http://localhost:3000")
 }
