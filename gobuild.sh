@@ -1,5 +1,5 @@
-source ./bashscripts/gomod.sh
-source ./bashscripts/gowire.sh
-source ./bashscripts/goboil.sh
-source ./bashscripts/gogen.sh
+./bashscripts/gomod.sh
+./bashscripts/gowire.sh
+./bashscripts/goboil.sh
+./bashscripts/gogen.sh
 go build ./...
