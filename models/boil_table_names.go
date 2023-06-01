@@ -4,9 +4,11 @@
 package models
 
 var TableNames = struct {
+	Fav       string
 	Migration string
 	User      string
 }{
+	Fav:       "fav",
 	Migration: "migration",
 	User:      "user",
 }
