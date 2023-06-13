@@ -201,26 +201,15 @@ var FavWhere = struct {
 
 // FavRels is where relationship names are stored.
 var FavRels = struct {
-	EmailUser string
-}{
-	EmailUser: "EmailUser",
-}
+}{}
 
 // favR is where relationships are stored.
 type favR struct {
-	EmailUser *User `boil:"EmailUser" json:"EmailUser" toml:"EmailUser" yaml:"EmailUser"`
 }
 
 // NewStruct creates a new relationship struct
 func (*favR) NewStruct() *favR {
 	return &favR{}
-}
-
-func (r *favR) GetEmailUser() *User {
-	if r == nil {
-		return nil
-	}
-	return r.EmailUser
 }
 
 // favL is where Load methods for each relationship are stored.
@@ -510,184 +499,6 @@ func (q favQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, 
 	}
 
 	return count > 0, nil
-}
-
-// EmailUser pointed to by the foreign key.
-func (o *Fav) EmailUser(mods ...qm.QueryMod) userQuery {
-	queryMods := []qm.QueryMod{
-		qm.Where("`email` = ?", o.Email),
-	}
-
-	queryMods = append(queryMods, mods...)
-
-	return Users(queryMods...)
-}
-
-// LoadEmailUser allows an eager lookup of values, cached into the
-// loaded structs of the objects. This is for an N-1 relationship.
-func (favL) LoadEmailUser(ctx context.Context, e boil.ContextExecutor, singular bool, maybeFav interface{}, mods queries.Applicator) error {
-	var slice []*Fav
-	var object *Fav
-
-	if singular {
-		var ok bool
-		object, ok = maybeFav.(*Fav)
-		if !ok {
-			object = new(Fav)
-			ok = queries.SetFromEmbeddedStruct(&object, &maybeFav)
-			if !ok {
-				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeFav))
-			}
-		}
-	} else {
-		s, ok := maybeFav.(*[]*Fav)
-		if ok {
-			slice = *s
-		} else {
-			ok = queries.SetFromEmbeddedStruct(&slice, maybeFav)
-			if !ok {
-				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeFav))
-			}
-		}
-	}
-
-	args := make([]interface{}, 0, 1)
-	if singular {
-		if object.R == nil {
-			object.R = &favR{}
-		}
-		args = append(args, object.Email)
-
-	} else {
-	Outer:
-		for _, obj := range slice {
-			if obj.R == nil {
-				obj.R = &favR{}
-			}
-
-			for _, a := range args {
-				if a == obj.Email {
-					continue Outer
-				}
-			}
-
-			args = append(args, obj.Email)
-
-		}
-	}
-
-	if len(args) == 0 {
-		return nil
-	}
-
-	query := NewQuery(
-		qm.From(`user`),
-		qm.WhereIn(`user.email in ?`, args...),
-	)
-	if mods != nil {
-		mods.Apply(query)
-	}
-
-	results, err := query.QueryContext(ctx, e)
-	if err != nil {
-		return errors.Wrap(err, "failed to eager load User")
-	}
-
-	var resultSlice []*User
-	if err = queries.Bind(results, &resultSlice); err != nil {
-		return errors.Wrap(err, "failed to bind eager loaded slice User")
-	}
-
-	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results of eager load for user")
-	}
-	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for user")
-	}
-
-	if len(userAfterSelectHooks) != 0 {
-		for _, obj := range resultSlice {
-			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
-				return err
-			}
-		}
-	}
-
-	if len(resultSlice) == 0 {
-		return nil
-	}
-
-	if singular {
-		foreign := resultSlice[0]
-		object.R.EmailUser = foreign
-		if foreign.R == nil {
-			foreign.R = &userR{}
-		}
-		foreign.R.EmailFavs = append(foreign.R.EmailFavs, object)
-		return nil
-	}
-
-	for _, local := range slice {
-		for _, foreign := range resultSlice {
-			if local.Email == foreign.Email {
-				local.R.EmailUser = foreign
-				if foreign.R == nil {
-					foreign.R = &userR{}
-				}
-				foreign.R.EmailFavs = append(foreign.R.EmailFavs, local)
-				break
-			}
-		}
-	}
-
-	return nil
-}
-
-// SetEmailUser of the fav to the related item.
-// Sets o.R.EmailUser to related.
-// Adds o to related.R.EmailFavs.
-func (o *Fav) SetEmailUser(ctx context.Context, exec boil.ContextExecutor, insert bool, related *User) error {
-	var err error
-	if insert {
-		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
-			return errors.Wrap(err, "failed to insert into foreign table")
-		}
-	}
-
-	updateQuery := fmt.Sprintf(
-		"UPDATE `fav` SET %s WHERE %s",
-		strmangle.SetParamNames("`", "`", 0, []string{"email"}),
-		strmangle.WhereClause("`", "`", 0, favPrimaryKeyColumns),
-	)
-	values := []interface{}{related.Email, o.ID}
-
-	if boil.IsDebug(ctx) {
-		writer := boil.DebugWriterFrom(ctx)
-		fmt.Fprintln(writer, updateQuery)
-		fmt.Fprintln(writer, values)
-	}
-	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
-		return errors.Wrap(err, "failed to update local table")
-	}
-
-	o.Email = related.Email
-	if o.R == nil {
-		o.R = &favR{
-			EmailUser: related,
-		}
-	} else {
-		o.R.EmailUser = related
-	}
-
-	if related.R == nil {
-		related.R = &userR{
-			EmailFavs: FavSlice{o},
-		}
-	} else {
-		related.R.EmailFavs = append(related.R.EmailFavs, o)
-	}
-
-	return nil
 }
 
 // Favs retrieves all the records using an executor.
