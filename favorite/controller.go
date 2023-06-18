@@ -22,14 +22,9 @@ func GetFavCtrl(favManager FavManager, userManager managers.UserManager) gin.Han
 	}
 
 	return func(c *gin.Context) {
-		accessToken := c.Request.Header.Get(constants.XAccessToken())
+		token := c.Request.Header.Get(constants.XAccessToken())
 
-		user, err := userManager.GetUser(accessToken)
-
-		if err != nil {
-			utils.JsonError(c, http.StatusNotFound, err)
-			return
-		}
+		user, _ := userManager.GetUser(token)
 
 		favs, err := favManager.GetFavs(user.Email)
 
@@ -72,9 +67,9 @@ func PostFavCtrl(favManager FavManager, userManager managers.UserManager) func(*
 	}
 
 	return func(c *gin.Context) {
-		accessToken := c.Request.Header.Get(constants.XAccessToken())
+		token := c.Request.Header.Get(constants.XAccessToken())
 
-		user, err := userManager.GetUser(accessToken)
+		user, err := userManager.GetUser(token)
 
 		if err != nil {
 			utils.JsonError(c, http.StatusNotFound, err)
@@ -136,9 +131,9 @@ func PostFavRemoveCtrl(favManager FavManager, userManager managers.UserManager) 
 	}
 
 	return func(c *gin.Context) {
-		accessToken := c.Request.Header.Get(constants.XAccessToken())
+		token := c.Request.Header.Get(constants.XAccessToken())
 
-		user, err := userManager.GetUser(accessToken)
+		user, err := userManager.GetUser(token)
 
 		if err != nil {
 			utils.JsonError(c, http.StatusNotFound, err)

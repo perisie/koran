@@ -18,7 +18,7 @@ import (
 )
 
 func TestPostAuthGoogleControllerBadRequest(t *testing.T) {
-	r, w, _, _, _ := routes.SetupTestRoutes(t)
+	r, w, _, _, _, _ := routes.SetupTestRoutes(t)
 
 	req := httptest.NewRequest(http.MethodPost, "/auth/google", bytes.NewBuffer([]byte("")))
 	r.ServeHTTP(w, req)
@@ -27,7 +27,7 @@ func TestPostAuthGoogleControllerBadRequest(t *testing.T) {
 }
 
 func TestPostAuthGoogleControllerNoAuthCode(t *testing.T) {
-	r, w, _, _, _ := routes.SetupTestRoutes(t)
+	r, w, _, _, _, _ := routes.SetupTestRoutes(t)
 
 	req := httptest.NewRequest(http.MethodPost, "/auth/google", bytes.NewBuffer([]byte("{}")))
 	r.ServeHTTP(w, req)
@@ -40,7 +40,7 @@ func TestPostAuthGoogleControllerNoAuthCode(t *testing.T) {
 }
 
 func TestPostAuthGoogleControllerBadAuthCode(t *testing.T) {
-	r, w, _, _, googleAuthServiceMock := routes.SetupTestRoutes(t)
+	r, w, _, _, googleAuthServiceMock, _ := routes.SetupTestRoutes(t)
 
 	googleAuthServiceMock.EXPECT().
 		AuthUserCode(gomock.Eq("bad")).
@@ -58,7 +58,7 @@ func TestPostAuthGoogleControllerBadAuthCode(t *testing.T) {
 
 func TestPostAuthGoogleController(t *testing.T) {
 	faker := faker.New()
-	r, w, _, userManagerMock, googleAuthServiceMock := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, googleAuthServiceMock, _ := routes.SetupTestRoutes(t)
 
 	googleUser := &services.GoogleUser{
 		Email: faker.Internet().Email(),
@@ -94,7 +94,7 @@ func TestPostAuthGoogleController(t *testing.T) {
 
 func Test_PostAuthGoogleController_CreateUserError(t *testing.T) {
 	faker := faker.New()
-	r, w, _, userManagerMock, googleAuthServiceMock := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, googleAuthServiceMock, _ := routes.SetupTestRoutes(t)
 
 	googleUser := &services.GoogleUser{
 		Email: faker.Internet().Email(),

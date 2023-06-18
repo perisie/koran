@@ -13,7 +13,7 @@ import (
 )
 
 func Test_PostUserPointerCtrl_401(t *testing.T) {
-	r, w, _, _, _ := routes.SetupTestRoutes(t)
+	r, w, _, _, _, _ := routes.SetupTestRoutes(t)
 
 	req, err := http.NewRequest(http.MethodPost, "/user/pointer", bytes.NewBuffer([]byte(``)))
 	assert.Nil(t, err)
@@ -23,7 +23,7 @@ func Test_PostUserPointerCtrl_401(t *testing.T) {
 }
 
 func Test_PostUserPointerCtrl_400(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	req, err := http.NewRequest(http.MethodPost, "/user/pointer", bytes.NewBuffer([]byte(``)))
 	req.Header.Add("x-access-token", "token")
@@ -38,7 +38,7 @@ func Test_PostUserPointerCtrl_400(t *testing.T) {
 }
 
 func Test_PostUserPointerCtrl_404(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	userManagerMock.EXPECT().
 		GetUser(gomock.Eq("token")).
@@ -53,7 +53,7 @@ func Test_PostUserPointerCtrl_404(t *testing.T) {
 }
 
 func Test_PostUserPointerCtrl_400_EmailMismatch(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	userManagerMock.EXPECT().
 		GetUser(gomock.Eq("token")).
@@ -75,7 +75,7 @@ func Test_PostUserPointerCtrl_400_EmailMismatch(t *testing.T) {
 }
 
 func Test_PostUserPointerCtrl_200(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	userManagerMock.EXPECT().
 		GetUser(gomock.Eq("token")).

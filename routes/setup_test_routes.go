@@ -17,6 +17,7 @@ func SetupTestRoutes(t *testing.T) (
 	*managers.QuranManagerImpl,
 	*managers.UserManagerMock,
 	*services.GoogleAuthServiceMock,
+	*favorite.FavManagerMock,
 ) {
 	w := httptest.NewRecorder()
 	_, r := gin.CreateTestContext(w)
@@ -29,5 +30,5 @@ func SetupTestRoutes(t *testing.T) (
 
 	Routes(r, quranManagerImpl, googleAuthServiceMock, userManagerMock, favManagerMock)
 
-	return r, w, quranManagerImpl, userManagerMock, googleAuthServiceMock
+	return r, w, quranManagerImpl, userManagerMock, googleAuthServiceMock, favManagerMock
 }

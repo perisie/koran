@@ -12,7 +12,7 @@ import (
 )
 
 func Test_user_auth(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	req, err := http.NewRequest(http.MethodGet, "/fav", nil)
 	assert.Nil(t, err)

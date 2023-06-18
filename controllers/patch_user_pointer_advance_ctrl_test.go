@@ -13,7 +13,7 @@ import (
 )
 
 func Test_PatchUserPointerAdvanceCtrl_401(t *testing.T) {
-	r, w, _, _, _ := routes.SetupTestRoutes(t)
+	r, w, _, _, _, _ := routes.SetupTestRoutes(t)
 
 	req, err := http.NewRequest(http.MethodPatch, "/user/pointer/advance", bytes.NewBuffer([]byte(``)))
 	assert.Nil(t, err)
@@ -23,7 +23,7 @@ func Test_PatchUserPointerAdvanceCtrl_401(t *testing.T) {
 }
 
 func Test_PatchUserPointerAdvanceCtrl_400(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	req, err := http.NewRequest(http.MethodPatch, "/user/pointer/advance", bytes.NewBuffer([]byte(``)))
 	req.Header.Add("x-access-token", "token")
@@ -38,7 +38,7 @@ func Test_PatchUserPointerAdvanceCtrl_400(t *testing.T) {
 }
 
 func Test_PatchUserPointerAdvanceCtrl_501(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	userManagerMock.EXPECT().
 		GetUser(gomock.Eq("token")).
@@ -59,7 +59,7 @@ func Test_PatchUserPointerAdvanceCtrl_501(t *testing.T) {
 }
 
 func Test_PatchUserPointerAdvanceCtrl_200(t *testing.T) {
-	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _, _ := routes.SetupTestRoutes(t)
 
 	userManagerMock.EXPECT().
 		GetUser(gomock.Eq("token")).
