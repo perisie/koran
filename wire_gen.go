@@ -80,15 +80,15 @@ func wireFavManagerImpl() (*favorite.FavManagerImpl, error) {
 	if err != nil {
 		return nil, err
 	}
-	userDaoImpl, err := daos.NewUserDaoImpl(db)
-	if err != nil {
-		return nil, err
-	}
 	favDaoImpl, err := favorite.NewFavDaoImpl(db)
 	if err != nil {
 		return nil, err
 	}
-	favManagerImpl, err := favorite.NewFavManagerImpl(userDaoImpl, favDaoImpl)
+	userDaoImpl, err := daos.NewUserDaoImpl(db)
+	if err != nil {
+		return nil, err
+	}
+	favManagerImpl, err := favorite.NewFavManagerImpl(favDaoImpl, userDaoImpl)
 	if err != nil {
 		return nil, err
 	}

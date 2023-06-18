@@ -10,14 +10,14 @@ import (
 )
 
 type FavManagerImpl struct {
-	userDao daos.UserDao
 	favDao  FavDao
+	userDao daos.UserDao
 }
 
-func NewFavManagerImpl(userDao daos.UserDao, favDao FavDao) (*FavManagerImpl, error) {
+func NewFavManagerImpl(favDao FavDao, userDao daos.UserDao) (*FavManagerImpl, error) {
 	return &FavManagerImpl{
-		userDao: userDao,
 		favDao:  favDao,
+		userDao: userDao,
 	}, nil
 }
 
@@ -36,11 +36,7 @@ func (f *FavManagerImpl) CreateFav(email string, surah, verse int) error {
 		return err
 	}
 
-	if user.Email != email {
-		return errors.New(managers.ErrUserWithEmailDoesNotExist())
-	}
-
-	err = f.favDao.AddFavVerse(email, surah, verse)
+	err = f.favDao.AddFavVerse(user.Email, surah, verse)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "Duplicate entry") {

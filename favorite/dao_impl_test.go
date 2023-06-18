@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAddFavQueryFavs(t *testing.T) {
+func Test_dao_impl(t *testing.T) {
 	db, err := utils.GetTestDb()
 	assert.Nil(t, err)
 
@@ -37,4 +37,10 @@ func TestAddFavQueryFavs(t *testing.T) {
 		assert.Equal(t, int16(i+1), queried[i].Surah)
 		assert.Equal(t, int16(i+1), queried[i].Verse)
 	}
+
+	favDao.DeleteFav(queried[0].ID)
+
+	queried, err = favDao.QueryUserFavsByEmail(email)
+	assert.Nil(t, err)
+	assert.Equal(t, 2, len(queried))
 }

@@ -16,6 +16,7 @@ type FavDaoImpl struct {
 
 func NewFavDaoImpl(db *sql.DB) (*FavDaoImpl, error) {
 	context := context.Background()
+
 	return &FavDaoImpl{
 		context: &context,
 		db:      db,
@@ -28,21 +29,28 @@ func (f *FavDaoImpl) AddFavVerse(email string, surah, verse int) error {
 		Surah: int16(surah),
 		Verse: int16(verse),
 	}
+
 	err := fav.Insert(*f.context, f.db, boil.Infer())
+
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
 func (f *FavDaoImpl) QueryUserFavsByEmail(email string) ([]*models.Fav, error) {
-	favs, err := models.Favs(
+	query := models.Favs(
 		qm.Where("email = ?", email),
 		qm.OrderBy("surah ASC, verse ASC"),
-	).All(*f.context, f.db)
+	)
+
+	favs, err := query.All(*f.context, f.db)
+
 	if err != nil {
 		return nil, err
 	}
+
 	return favs, nil
 }
 
