@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/arikama/koran-backend/beans"
 	"github.com/arikama/koran-backend/routes"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -22,18 +23,28 @@ func Test_PatchUserPointerAdvanceCtrl_401(t *testing.T) {
 }
 
 func Test_PatchUserPointerAdvanceCtrl_400(t *testing.T) {
-	r, w, _, _, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
 
 	req, err := http.NewRequest(http.MethodPatch, "/user/pointer/advance", bytes.NewBuffer([]byte(``)))
 	req.Header.Add("x-access-token", "token")
 	assert.Nil(t, err)
 
+	userManagerMock.EXPECT().
+		GetUser(gomock.Eq("token")).
+		Return(nil, errors.New("not found"))
+
 	r.ServeHTTP(w, req)
-	assert.Equal(t, 400, w.Result().StatusCode)
+	assert.Equal(t, 401, w.Result().StatusCode)
 }
 
 func Test_PatchUserPointerAdvanceCtrl_501(t *testing.T) {
 	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+
+	userManagerMock.EXPECT().
+		GetUser(gomock.Eq("token")).
+		Return(&beans.User{
+			Email: "amir.ariffin@google.com",
+		}, nil)
 
 	userManagerMock.EXPECT().
 		AdvanceUserCurrentPointer(gomock.Eq("amir.ariffin@google.com"), gomock.Eq("token")).
@@ -49,6 +60,12 @@ func Test_PatchUserPointerAdvanceCtrl_501(t *testing.T) {
 
 func Test_PatchUserPointerAdvanceCtrl_200(t *testing.T) {
 	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
+
+	userManagerMock.EXPECT().
+		GetUser(gomock.Eq("token")).
+		Return(&beans.User{
+			Email: "amir.ariffin@google.com",
+		}, nil)
 
 	userManagerMock.EXPECT().
 		AdvanceUserCurrentPointer(gomock.Eq("amir.ariffin@google.com"), gomock.Eq("token")).

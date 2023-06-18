@@ -8,6 +8,7 @@ package main
 
 import (
 	"github.com/arikama/koran-backend/daos"
+	"github.com/arikama/koran-backend/favorite"
 	"github.com/arikama/koran-backend/managers"
 	"github.com/arikama/koran-backend/services"
 )
@@ -60,4 +61,36 @@ func wireUserManagerImpl() (*managers.UserManagerImpl, error) {
 		return nil, err
 	}
 	return userManagerImpl, nil
+}
+
+func wireFavDaoImpl() (*favorite.FavDaoImpl, error) {
+	db, err := NewDb()
+	if err != nil {
+		return nil, err
+	}
+	favDaoImpl, err := favorite.NewFavDaoImpl(db)
+	if err != nil {
+		return nil, err
+	}
+	return favDaoImpl, nil
+}
+
+func wireFavManagerImpl() (*favorite.FavManagerImpl, error) {
+	db, err := NewDb()
+	if err != nil {
+		return nil, err
+	}
+	userDaoImpl, err := daos.NewUserDaoImpl(db)
+	if err != nil {
+		return nil, err
+	}
+	favDaoImpl, err := favorite.NewFavDaoImpl(db)
+	if err != nil {
+		return nil, err
+	}
+	favManagerImpl, err := favorite.NewFavManagerImpl(userDaoImpl, favDaoImpl)
+	if err != nil {
+		return nil, err
+	}
+	return favManagerImpl, nil
 }

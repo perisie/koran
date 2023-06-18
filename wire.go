@@ -6,6 +6,7 @@ package main
 
 import (
 	"github.com/arikama/koran-backend/daos"
+	"github.com/arikama/koran-backend/favorite"
 	"github.com/arikama/koran-backend/managers"
 	"github.com/arikama/koran-backend/services"
 	"github.com/google/wire"
@@ -33,6 +34,23 @@ func wireUserManagerImpl() (*managers.UserManagerImpl, error) {
 		managers.NewUserManagerImpl,
 		wire.Bind(new(daos.UserDao), new(*daos.UserDaoImpl)),
 		daos.NewUserDaoImpl,
+		NewDb,
+	)
+	return nil, nil
+}
+
+func wireFavDaoImpl() (*favorite.FavDaoImpl, error) {
+	wire.Build(favorite.NewFavDaoImpl, NewDb)
+	return nil, nil
+}
+
+func wireFavManagerImpl() (*favorite.FavManagerImpl, error) {
+	wire.Build(
+		wire.Bind(new(daos.UserDao), new(*daos.UserDaoImpl)),
+		wire.Bind(new(favorite.FavDao), new(*favorite.FavDaoImpl)),
+		favorite.NewFavManagerImpl,
+		daos.NewUserDaoImpl,
+		favorite.NewFavDaoImpl,
 		NewDb,
 	)
 	return nil, nil

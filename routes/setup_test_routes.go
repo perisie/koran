@@ -4,6 +4,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/arikama/koran-backend/favorite"
 	"github.com/arikama/koran-backend/managers"
 	"github.com/arikama/koran-backend/services"
 	"github.com/gin-gonic/gin"
@@ -24,8 +25,9 @@ func SetupTestRoutes(t *testing.T) (
 	quranManagerImpl, _ := managers.NewQuranManagerImpl("./qurancsv")
 	userManagerMock := managers.NewUserManagerMock(ctrl)
 	googleAuthServiceMock := services.NewGoogleAuthServiceMock(ctrl)
+	favManagerMock := favorite.NewFavManagerMock(ctrl)
 
-	Routes(r, quranManagerImpl, googleAuthServiceMock, userManagerMock)
+	Routes(r, quranManagerImpl, googleAuthServiceMock, userManagerMock, favManagerMock)
 
 	return r, w, quranManagerImpl, userManagerMock, googleAuthServiceMock
 }

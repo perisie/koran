@@ -1,10 +1,9 @@
-package daos
+package favorite
 
 import (
 	"context"
 	"database/sql"
 
-	"github.com/arikama/koran-backend/beans"
 	"github.com/arikama/koran-backend/models"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -36,7 +35,7 @@ func (f *FavDaoImpl) AddFavVerse(email string, surah, verse int) error {
 	return nil
 }
 
-func (f *FavDaoImpl) QueryUserFavsByEmail(email string) ([]*beans.Fav, error) {
+func (f *FavDaoImpl) QueryUserFavsByEmail(email string) ([]*models.Fav, error) {
 	favs, err := models.Favs(
 		qm.Where("email = ?", email),
 		qm.OrderBy("surah ASC, verse ASC"),
@@ -44,13 +43,17 @@ func (f *FavDaoImpl) QueryUserFavsByEmail(email string) ([]*beans.Fav, error) {
 	if err != nil {
 		return nil, err
 	}
-	results := []*beans.Fav{}
-	for _, fav := range favs {
-		results = append(results, &beans.Fav{
-			Email: fav.Email,
-			Surah: int(fav.Surah),
-			Verse: int(fav.Verse),
-		})
+	return favs, nil
+}
+
+func (f *FavDaoImpl) DeleteFav(id int) error {
+	fav, err := models.FindFav(*f.context, f.db, id)
+
+	if err != nil {
+		return err
 	}
-	return results, nil
+
+	_, err = fav.Delete(*f.context, f.db)
+
+	return err
 }

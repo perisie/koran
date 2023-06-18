@@ -9,4 +9,5 @@ type UserManager interface {
 	AdvanceUserCurrentPointer(email, token string) (string, error)
 }
 
-func ErrUserTokenMismatch() string { return "error user token mismatch" }
+func ErrUserTokenMismatch() string         { return "error user token mismatch" }
+func ErrUserWithEmailDoesNotExist() string { return "user with email does not exist" }

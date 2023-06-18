@@ -1,10 +1,9 @@
-package daos_test
+package favorite_test
 
 import (
 	"testing"
 
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/daos"
+	"github.com/arikama/koran-backend/favorite"
 	"github.com/arikama/koran-backend/utils"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
@@ -14,8 +13,8 @@ func TestAddFavQueryFavs(t *testing.T) {
 	db, err := utils.GetTestDb()
 	assert.Nil(t, err)
 
-	var favDao daos.FavDao
-	favDao, err = daos.NewFavDaoImpl(db)
+	var favDao favorite.FavDao
+	favDao, err = favorite.NewFavDaoImpl(db)
 	assert.Nil(t, err)
 
 	faker := faker.New()
@@ -25,13 +24,7 @@ func TestAddFavQueryFavs(t *testing.T) {
 		surah := 3 - i
 		verse := 3 - i
 
-		fav := beans.Fav{
-			Email: email,
-			Surah: surah,
-			Verse: verse,
-		}
-
-		err = favDao.AddFavVerse(fav.Email, fav.Surah, fav.Verse)
+		err = favDao.AddFavVerse(email, surah, verse)
 		assert.Nil(t, err)
 	}
 
@@ -41,7 +34,7 @@ func TestAddFavQueryFavs(t *testing.T) {
 
 	for i := 0; i < 3; i++ {
 		assert.Equal(t, email, queried[i].Email)
-		assert.Equal(t, i+1, queried[i].Surah)
-		assert.Equal(t, i+1, queried[i].Verse)
+		assert.Equal(t, int16(i+1), queried[i].Surah)
+		assert.Equal(t, int16(i+1), queried[i].Verse)
 	}
 }

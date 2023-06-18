@@ -8,6 +8,7 @@ import (
 
 	"github.com/arikama/go-arctic-tern/arctictern"
 	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
+	"github.com/arikama/koran-backend/favorite"
 	"github.com/arikama/koran-backend/managers"
 	"github.com/arikama/koran-backend/routes"
 	"github.com/arikama/koran-backend/services"
@@ -51,8 +52,14 @@ func main() {
 		kifu.Fatal("error initializing user manager: %v", err.Error())
 	}
 
+	var favManager favorite.FavManager
+	favManager, err = wireFavManagerImpl()
+	if err != nil {
+		kifu.Fatal("error initializing fav manager: %v", err.Error())
+	}
+
 	s := setupWebServer()
-	routes.Routes(s, quranManager, googleAuthService, userManager)
+	routes.Routes(s, quranManager, googleAuthService, userManager, favManager)
 
 	if isTestEnv() {
 		go s.Run()

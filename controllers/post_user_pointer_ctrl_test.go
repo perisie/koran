@@ -23,14 +23,18 @@ func Test_PostUserPointerCtrl_401(t *testing.T) {
 }
 
 func Test_PostUserPointerCtrl_400(t *testing.T) {
-	r, w, _, _, _ := routes.SetupTestRoutes(t)
+	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
 
 	req, err := http.NewRequest(http.MethodPost, "/user/pointer", bytes.NewBuffer([]byte(``)))
 	req.Header.Add("x-access-token", "token")
 	assert.Nil(t, err)
 
+	userManagerMock.EXPECT().
+		GetUser(gomock.Eq("token")).
+		Return(nil, errors.New("error"))
+
 	r.ServeHTTP(w, req)
-	assert.Equal(t, 400, w.Result().StatusCode)
+	assert.Equal(t, 401, w.Result().StatusCode)
 }
 
 func Test_PostUserPointerCtrl_404(t *testing.T) {
@@ -45,12 +49,17 @@ func Test_PostUserPointerCtrl_404(t *testing.T) {
 	assert.Nil(t, err)
 
 	r.ServeHTTP(w, req)
-	assert.Equal(t, 404, w.Result().StatusCode)
+	assert.Equal(t, 401, w.Result().StatusCode)
 }
 
 func Test_PostUserPointerCtrl_400_EmailMismatch(t *testing.T) {
 	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
 
+	userManagerMock.EXPECT().
+		GetUser(gomock.Eq("token")).
+		Return(&beans.User{
+			Email: "amir.ariffin@google.com",
+		}, nil)
 	userManagerMock.EXPECT().
 		GetUser(gomock.Eq("token")).
 		Return(&beans.User{
@@ -68,6 +77,11 @@ func Test_PostUserPointerCtrl_400_EmailMismatch(t *testing.T) {
 func Test_PostUserPointerCtrl_200(t *testing.T) {
 	r, w, _, userManagerMock, _ := routes.SetupTestRoutes(t)
 
+	userManagerMock.EXPECT().
+		GetUser(gomock.Eq("token")).
+		Return(&beans.User{
+			Email: "amir.ariffin@google.com",
+		}, nil)
 	userManagerMock.EXPECT().
 		GetUser(gomock.Eq("token")).
 		Return(&beans.User{
