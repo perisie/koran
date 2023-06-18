@@ -26,7 +26,7 @@ func Routes(
 	}
 
 	authorized := r.Group("/")
-	authorized.Use(middleware.UserAccessMiddleware(userManager))
+	authorized.Use(middleware.UserAuth(userManager))
 	{
 		authorized.GET("/fav", favorite.GetFavCtrl(favManager, userManager))
 

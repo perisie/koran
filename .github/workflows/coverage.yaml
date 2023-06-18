@@ -12,8 +12,8 @@ jobs:
     - uses: actions/setup-go@v3
       with:
         go-version: 1.18
-    - run: ./gobuild.sh
-    - run: ./gotest.sh
+    - run: ./x_build.sh
+    - run: ./x_test.sh
       env:
         MYSQL_USERNAME: koran
         MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}

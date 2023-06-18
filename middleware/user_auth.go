@@ -10,17 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserAccessMiddleware(userManager managers.UserManager) gin.HandlerFunc {
+func UserAuth(userManager managers.UserManager) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		accessToken := c.Request.Header.Get(constants.XAccessToken())
+		token := c.Request.Header.Get(constants.XAccessToken())
 
-		if accessToken == "" {
+		if token == "" {
 			utils.JsonError(c, http.StatusUnauthorized, errors.New(`missing x-access-token header`))
 			c.Abort()
 			return
 		}
 
-		_, err := userManager.GetUser(accessToken)
+		_, err := userManager.GetUser(token)
 
 		if err != nil {
 			utils.JsonError(c, http.StatusUnauthorized, err)

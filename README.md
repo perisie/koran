@@ -5,8 +5,8 @@
 
 ## Development
 
-1. `./gobuild.sh`
-2. `./gorun.sh`
+1. `./x_build.sh`
+2. `./x_run.sh`
 
 ### Required files
 
@@ -15,4 +15,4 @@
 
 ### Docker
 
-1. `./godocker.sh`
+1. `./x_docker.sh`
