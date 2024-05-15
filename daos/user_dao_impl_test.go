@@ -56,7 +56,7 @@ func TestCreateQuery(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, newToken, queried.Token)
 
-	newPointer := utils.GetNextVersePointer(queried.CurrentPointer)
+	newPointer := utils.GetNextVersePointer(queried.CurrentPointer, 1)
 
 	err = userDao.UpdateUserCurrentPointer(email, newPointer)
 	assert.Nil(t, err)

@@ -35,5 +35,6 @@ func Routes(
 		authorized.POST("/user/pointer", controllers.PostUserPointerCtrl(userManager))
 
 		authorized.PATCH("/user/pointer/advance", controllers.PatchUserPointerAdvanceCtrl(userManager))
+		authorized.PATCH("/user/pointer/reverse", controllers.PatchUserPointerReverseCtrl(userManager))
 	}
 }

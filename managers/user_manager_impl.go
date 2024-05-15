@@ -77,16 +77,35 @@ func (u *UserManagerImpl) AdvanceUserCurrentPointer(email, token string) (string
 	if err != nil {
 		return "", err
 	}
-
 	if token != user.Token {
 		return "", errors.New(ErrUserTokenMismatch())
 	}
-	newPointer := utils.GetNextVersePointer(user.CurrentPointer)
-
+	newPointer := utils.GetNextVersePointer(user.CurrentPointer, 1)
+	if newPointer == "" {
+		return newPointer, errors.New("failed to advance user pointer")
+	}
 	err = u.userDao.UpdateUserCurrentPointer(email, newPointer)
 	if err != nil {
 		return "", err
 	}
+	return newPointer, nil
+}
 
+func (u *UserManagerImpl) ReverseUserCurrentPointer(email, token string) (string, error) {
+	user, err := u.userDao.QueryUserByEmail(email)
+	if err != nil {
+		return "", err
+	}
+	if token != user.Token {
+		return "", errors.New(ErrUserTokenMismatch())
+	}
+	newPointer := utils.GetNextVersePointer(user.CurrentPointer, -1)
+	if newPointer == "" {
+		return newPointer, errors.New("failed to reverse user pointer")
+	}
+	err = u.userDao.UpdateUserCurrentPointer(email, newPointer)
+	if err != nil {
+		return "", err
+	}
 	return newPointer, nil
 }

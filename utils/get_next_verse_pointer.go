@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -9,41 +10,51 @@ import (
 	"github.com/hooligram/kifu"
 )
 
-func GetNextVersePointer(pointer string) string {
-	arr := strings.Split(pointer, ":")
-	if len(arr) < 2 {
-		return constants.StartPointer()
-	}
-
-	surahId, err := strconv.Atoi(arr[0])
+func GetNextVersePointer(pointer string, direction int) string {
+	splits := strings.Split(pointer, ":")
+	surah, err := strconv.Atoi(splits[0])
 	if err != nil {
 		kifu.Error("Error parsing surah id pointer: %v", err.Error())
-		return constants.StartPointer()
+		return ""
 	}
-	if surahId >= len(constants.SurahPointerVerseEndings()) {
-		return constants.StartPointer()
-	}
-
-	verseId, err := strconv.Atoi(arr[1])
+	verse, err := strconv.Atoi(splits[1])
 	if err != nil {
 		kifu.Error("Error parsing verse id pointer: %v", err.Error())
-		return constants.StartPointer()
+		return ""
 	}
+	surahNext, verseNext, err := MoveSurahVerse(surah, verse, direction)
+	if err != nil {
+		kifu.Error("Error moving surah verse: surah=%v, verse=%v", surah, verse)
+		return ""
+	}
+	return fmt.Sprintf("%v:%v", surahNext, verseNext)
+}
 
-	verseEnd := constants.SurahPointerVerseEndings()[surahId]
-	if verseId > verseEnd {
-		return constants.StartPointer()
+func MoveSurahVerse(surah, verse, direction int) (int, int, error) {
+	if surah < constants.SurahPointerStart() || surah > constants.SurahPointerEnding() {
+		return 0, 0, errors.New("invalid surah")
 	}
-	if verseId < verseEnd {
-		verseId += 1
-	} else {
-		verseId = 1
-		if surahId >= constants.SurahPointerEnding() {
-			surahId = 1
-		} else {
-			surahId += 1
+	if verse < constants.VersePointerStart() || verse > constants.SurahPointerVerseEndings()[surah] {
+		return 0, 0, errors.New("invalid verse")
+	}
+	if direction > 0 {
+		verse += direction
+		for verse > constants.SurahPointerVerseEndings()[surah] {
+			verse -= constants.SurahPointerVerseEndings()[surah]
+			surah += 1
+			if surah > constants.SurahPointerEnding() {
+				surah = 1
+			}
+		}
+	} else if direction < 0 {
+		verse += direction
+		for verse < constants.VersePointerStart() {
+			surah -= 1
+			if surah < constants.SurahPointerStart() {
+				surah = constants.SurahPointerEnding()
+			}
+			verse += constants.SurahPointerVerseEndings()[surah]
 		}
 	}
-
-	return fmt.Sprintf("%v:%v", surahId, verseId)
+	return surah, verse, nil
 }

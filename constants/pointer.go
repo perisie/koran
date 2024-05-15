@@ -1,7 +1,9 @@
 package constants
 
 func StartPointer() string    { return "1:1" }
+func SurahPointerStart() int  { return 1 }
 func SurahPointerEnding() int { return 114 }
+func VersePointerStart() int  { return 1 }
 func SurahPointerVerseEndings() []int {
 	return []int{
 		0,

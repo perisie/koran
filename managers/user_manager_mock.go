@@ -78,3 +78,18 @@ func (mr *UserManagerMockMockRecorder) GetUser(token interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*UserManagerMock)(nil).GetUser), token)
 }
+
+// ReverseUserCurrentPointer mocks base method.
+func (m *UserManagerMock) ReverseUserCurrentPointer(email, token string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReverseUserCurrentPointer", email, token)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReverseUserCurrentPointer indicates an expected call of ReverseUserCurrentPointer.
+func (mr *UserManagerMockMockRecorder) ReverseUserCurrentPointer(email, token interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReverseUserCurrentPointer", reflect.TypeOf((*UserManagerMock)(nil).ReverseUserCurrentPointer), email, token)
+}
