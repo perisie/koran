@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/arikama/koran-backend/daos"
 	"os"
 
-	"github.com/arikama/go-arctic-tern/arctictern"
 	"github.com/arikama/go-mysql-test-container/mysqltestcontainer"
 	"github.com/arikama/koran-backend/favorite"
 	"github.com/arikama/koran-backend/managers"
@@ -27,33 +27,36 @@ func main() {
 		kifu.Warn(".env: %v", err.Error())
 	}
 
-	db, err := NewDb()
-	if err != nil {
-		kifu.Fatal("error connecting to db: %v", err.Error())
-	}
-
-	arctictern.Migrate(db, "./migrations")
-
 	var quranManager managers.QuranManager
-	quranManager, err = wireQuranManagerImpl("./qurancsv")
+	quranManager, err = managers.NewQuranManagerImpl("./qurancsv")
 	if err != nil {
 		kifu.Fatal("error initializing quran manager: %v", err.Error())
 	}
 
 	var googleAuthService services.GoogleAuthService
-	googleAuthService, err = wireGoogleAuthServiceImpl()
+	googleAuthService, err = services.NewGoogleAuthServiceImpl()
 	if err != nil {
 		kifu.Fatal("error initializing google auth service: %v", err.Error())
 	}
 
+	userDao, err := daos.NewUserDaoImpl()
+	if err != nil {
+		kifu.Fatal("error initializing user dao: %v", err.Error())
+	}
+
 	var userManager managers.UserManager
-	userManager, err = wireUserManagerImpl()
+	userManager, err = managers.NewUserManagerImpl(userDao)
 	if err != nil {
 		kifu.Fatal("error initializing user manager: %v", err.Error())
 	}
 
+	favDao, err := favorite.NewFavDaoImpl()
+	if err != nil {
+		kifu.Fatal("error initializing fav dao: %v", err.Error())
+	}
+
 	var favManager favorite.FavManager
-	favManager, err = wireFavManagerImpl()
+	favManager, err = favorite.NewFavManagerImpl(favDao, userDao)
 	if err != nil {
 		kifu.Fatal("error initializing fav manager: %v", err.Error())
 	}

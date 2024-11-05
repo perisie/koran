@@ -1,5 +1,7 @@
+.idea
 .vscode
 .env
+*.data
 
 sqlboiler.toml
 

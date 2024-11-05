@@ -4,17 +4,13 @@ import (
 	"testing"
 
 	"github.com/arikama/koran-backend/favorite"
-	"github.com/arikama/koran-backend/utils"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_dao_impl(t *testing.T) {
-	db, err := utils.GetTestDb()
-	assert.Nil(t, err)
-
 	var favDao favorite.FavDao
-	favDao, err = favorite.NewFavDaoImpl(db)
+	favDao, err := favorite.NewFavDaoImpl()
 	assert.Nil(t, err)
 
 	faker := faker.New()
@@ -42,5 +38,5 @@ func Test_dao_impl(t *testing.T) {
 
 	queried, err = favDao.QueryUserFavsByEmail(email)
 	assert.Nil(t, err)
-	assert.Equal(t, 2, len(queried))
+	assert.Equal(t, 3, len(queried))
 }

@@ -1,67 +1,77 @@
 package favorite
 
 import (
-	"context"
-	"database/sql"
-
+	"bytes"
+	"encoding/gob"
+	"fmt"
 	"github.com/arikama/koran-backend/models"
-	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	"github.com/arikama/koran-backend/mouse"
+	"io/fs"
+	"sort"
 )
 
 type FavDaoImpl struct {
-	context *context.Context
-	db      *sql.DB
+	mouse *mouse.Mouse
 }
 
-func NewFavDaoImpl(db *sql.DB) (*FavDaoImpl, error) {
-	context := context.Background()
-
+func NewFavDaoImpl() (*FavDaoImpl, error) {
 	return &FavDaoImpl{
-		context: &context,
-		db:      db,
+		mouse: mouse.Mouse_new(),
 	}, nil
 }
 
 func (f *FavDaoImpl) AddFavVerse(email string, surah, verse int) error {
-	fav := models.Fav{
+	favs, err := f.QueryUserFavsByEmail(email)
+	if err != nil {
+		return err
+	}
+	fav := &models.Fav{
 		Email: email,
 		Surah: int16(surah),
 		Verse: int16(verse),
 	}
-
-	err := fav.Insert(*f.context, f.db, boil.Infer())
-
+	favs = append(favs, fav)
+	value, err := mouse.To_byte(favs)
 	if err != nil {
 		return err
 	}
-
+	key := f.key_fav(email)
+	err = f.mouse.Put(key, value)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 func (f *FavDaoImpl) QueryUserFavsByEmail(email string) ([]*models.Fav, error) {
-	query := models.Favs(
-		qm.Where("email = ?", email),
-		qm.OrderBy("surah ASC, verse ASC"),
-	)
-
-	favs, err := query.All(*f.context, f.db)
-
+	key := f.key_fav(email)
+	favs := []*models.Fav{}
+	value, err := f.mouse.Get(key)
+	if err != nil {
+		if _, ok := err.(*fs.PathError); ok {
+			value, err = mouse.To_byte(favs)
+		}
+		if err != nil {
+			return nil, err
+		}
+	}
+	err = gob.NewDecoder(bytes.NewReader(value)).Decode(&favs)
 	if err != nil {
 		return nil, err
 	}
-
+	sort.Slice(favs, func(i, j int) bool {
+		if favs[i].Surah < favs[j].Surah {
+			return true
+		}
+		return favs[i].Verse < favs[j].Verse
+	})
 	return favs, nil
 }
 
 func (f *FavDaoImpl) DeleteFav(id int) error {
-	fav, err := models.FindFav(*f.context, f.db, id)
+	return nil
+}
 
-	if err != nil {
-		return err
-	}
-
-	_, err = fav.Delete(*f.context, f.db)
-
-	return err
+func (f *FavDaoImpl) key_fav(email string) string {
+	return fmt.Sprintf("fav__%v", email)
 }

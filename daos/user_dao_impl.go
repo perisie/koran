@@ -1,25 +1,21 @@
 package daos
 
 import (
-	"context"
-	"database/sql"
-
+	"bytes"
+	"encoding/gob"
+	"fmt"
 	"github.com/arikama/koran-backend/beans"
 	"github.com/arikama/koran-backend/models"
-	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	"github.com/arikama/koran-backend/mouse"
 )
 
 type UserDaoImpl struct {
-	context *context.Context
-	db      *sql.DB
+	mouse *mouse.Mouse
 }
 
-func NewUserDaoImpl(db *sql.DB) (*UserDaoImpl, error) {
-	context := context.Background()
+func NewUserDaoImpl() (*UserDaoImpl, error) {
 	return &UserDaoImpl{
-		context: &context,
-		db:      db,
+		mouse: mouse.Mouse_new(),
 	}, nil
 }
 
@@ -28,15 +24,28 @@ func (u *UserDaoImpl) CreateUser(email, token string) error {
 		Email: email,
 		Token: token,
 	}
-	err := user.Insert(*u.context, u.db, boil.Infer())
+	key := u.key_user_email(email)
+	key_token := u.key_user_token(token)
+	value, err := mouse.To_byte(user)
 	if err != nil {
 		return err
 	}
-	return nil
+	err = u.mouse.Put(key, value)
+	if err != nil {
+		return err
+	}
+	return u.mouse.Put(key_token, value)
 }
 
 func (u *UserDaoImpl) QueryUserByEmail(email string) (*beans.User, error) {
-	user, err := models.Users(qm.Where("email = ?", email)).One(*u.context, u.db)
+	key := u.key_user_email(email)
+	value, err := u.mouse.Get(key)
+	if err != nil {
+		return nil, err
+	}
+	decoder := gob.NewDecoder(bytes.NewReader(value))
+	var user beans.User
+	err = decoder.Decode(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +59,14 @@ func (u *UserDaoImpl) QueryUserByEmail(email string) (*beans.User, error) {
 }
 
 func (u *UserDaoImpl) QueryUserByToken(token string) (*beans.User, error) {
-	user, err := models.Users(qm.Where("token = ?", token)).One(*u.context, u.db)
+	key := u.key_user_token(token)
+	value, err := u.mouse.Get(key)
+	if err != nil {
+		return nil, err
+	}
+	decoder := gob.NewDecoder(bytes.NewReader(value))
+	var user beans.User
+	err = decoder.Decode(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -64,21 +80,47 @@ func (u *UserDaoImpl) QueryUserByToken(token string) (*beans.User, error) {
 }
 
 func (u *UserDaoImpl) UpdateUserToken(email, token string) error {
-	user, err := models.Users(qm.Where("email = ?", email)).One(*u.context, u.db)
+	user, err := u.QueryUserByEmail(email)
 	if err != nil {
 		return err
 	}
 	user.Token = token
-	_, err = user.Update(*u.context, u.db, boil.Infer())
-	return err
+	value, err := mouse.To_byte(user)
+	if err != nil {
+		return err
+	}
+	key := u.key_user_email(email)
+	key_token := u.key_user_token(token)
+	err = u.mouse.Put(key, value)
+	if err != nil {
+		return err
+	}
+	return u.mouse.Put(key_token, value)
 }
 
 func (u *UserDaoImpl) UpdateUserCurrentPointer(email, currentPointer string) error {
-	user, err := models.Users(qm.Where("email = ?", email)).One(*u.context, u.db)
+	user, err := u.QueryUserByEmail(email)
 	if err != nil {
 		return err
 	}
 	user.CurrentPointer = currentPointer
-	_, err = user.Update(*u.context, u.db, boil.Infer())
-	return err
+	value, err := mouse.To_byte(user)
+	if err != nil {
+		return err
+	}
+	key := u.key_user_email(email)
+	key_token := u.key_user_token(user.Token)
+	err = u.mouse.Put(key, value)
+	if err != nil {
+		return err
+	}
+	return u.mouse.Put(key_token, value)
+}
+
+func (u *UserDaoImpl) key_user_email(email string) string {
+	return fmt.Sprintf("user__%v", email)
+}
+
+func (u *UserDaoImpl) key_user_token(token string) string {
+	return fmt.Sprintf("token__%v", token)
 }
