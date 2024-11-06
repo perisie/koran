@@ -12,10 +12,22 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hooligram/kifu"
 	"github.com/joho/godotenv"
+	"net/http"
 	"os"
 )
 
 func main() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte("koran"))
+	})
+	err := http.ListenAndServe(":8001", mux)
+	if err != nil {
+		kifu.Fatal("start error: %v", err.Error())
+	}
+}
+
+func _main() {
 	err := godotenv.Load()
 	if err != nil {
 		kifu.Warn(".env: %v", err.Error())
