@@ -1,18 +1,16 @@
 package controllers
 
 import (
-	"net/http"
-
 	"github.com/arikama/koran-backend/managers"
-	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
+	"html/template"
 )
 
-func GetRootController(quranManager managers.QuranManager) func(c *gin.Context) {
+func GetRootController(tmpl *template.Template, quranManager managers.QuranManager) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		surahInfos, _ := quranManager.GetSurahInfos()
-		utils.JsonData(c, http.StatusOK, gin.H{
-			"surah_infos": surahInfos,
+		surah_infos, _ := quranManager.GetSurahInfos()
+		_ = tmpl.ExecuteTemplate(c.Writer, "page_root.html", map[string]interface{}{
+			"surah_infos": surah_infos,
 		})
 	}
 }

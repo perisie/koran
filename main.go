@@ -12,22 +12,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hooligram/kifu"
 	"github.com/joho/godotenv"
-	"net/http"
+	"html/template"
 	"os"
 )
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		_, _ = w.Write([]byte("koran"))
-	})
-	err := http.ListenAndServe(":8001", mux)
-	if err != nil {
-		kifu.Fatal("start error: %v", err.Error())
-	}
-}
-
-func _main() {
 	err := godotenv.Load()
 	if err != nil {
 		kifu.Warn(".env: %v", err.Error())
@@ -37,6 +26,11 @@ func _main() {
 		kifu.Fatal("error getting wd: %v", err.Error())
 	}
 	kifu.Info("wd: %v", wd)
+
+	tmpl, err := template.ParseGlob("template/*.html")
+	if err != nil {
+		kifu.Fatal("error getting template: %v", err.Error())
+	}
 
 	_ = ari_mouse.Mouse_new(wd)
 
@@ -75,12 +69,17 @@ func _main() {
 	}
 
 	s := setupWebServer()
-	routes.Routes(s, quranManager, googleAuthService, userManager, favManager)
+	routes.Routes(s, tmpl, quranManager, googleAuthService, userManager, favManager)
 
 	if isTestEnv() {
-		go s.Run()
+		go func() {
+			_ = s.Run()
+		}()
 	} else {
-		s.Run()
+		err = s.Run()
+		if err != nil {
+			return
+		}
 	}
 }
 

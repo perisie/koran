@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"html/template"
 	"net/http/httptest"
 	"testing"
 
@@ -22,13 +23,14 @@ func SetupTestRoutes(t *testing.T) (
 	w := httptest.NewRecorder()
 	_, r := gin.CreateTestContext(w)
 
+	tmpl, _ := template.ParseGlob("../template/*.html")
 	ctrl := gomock.NewController(t)
 	quranManagerImpl, _ := managers.NewQuranManagerImpl("./qurancsv")
 	userManagerMock := managers.NewUserManagerMock(ctrl)
 	googleAuthServiceMock := services.NewGoogleAuthServiceMock(ctrl)
 	favManagerMock := favorite.NewFavManagerMock(ctrl)
 
-	Routes(r, quranManagerImpl, googleAuthServiceMock, userManagerMock, favManagerMock)
+	Routes(r, tmpl, quranManagerImpl, googleAuthServiceMock, userManagerMock, favManagerMock)
 
 	return r, w, quranManagerImpl, userManagerMock, googleAuthServiceMock, favManagerMock
 }

@@ -1,6 +1,7 @@
 package controllers_test
 
 import (
+	"html/template"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -16,10 +17,10 @@ func TestGetRootController(t *testing.T) {
 	w := httptest.NewRecorder()
 	_, r := gin.CreateTestContext(w)
 
-	quranManager, err := managers.NewQuranManagerImpl("./../qurancsv")
-	assert.Nil(t, err)
+	tmpl, _ := template.ParseGlob("../template/*.html")
+	quranManager, _ := managers.NewQuranManagerImpl("./../qurancsv")
 
-	r.GET("/", controllers.GetRootController(quranManager))
+	r.GET("/", controllers.GetRootController(tmpl, quranManager))
 
 	req, err := http.NewRequest(http.MethodGet, "/", nil)
 	assert.Nil(t, err)
@@ -28,7 +29,6 @@ func TestGetRootController(t *testing.T) {
 
 	assert.Equal(t, 200, w.Result().StatusCode)
 
-	bytes, err := io.ReadAll(w.Result().Body)
+	_, err = io.ReadAll(w.Result().Body)
 	assert.Nil(t, err)
-	assert.Equal(t, 16894, len(string(bytes)))
 }

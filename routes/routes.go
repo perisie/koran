@@ -7,17 +7,19 @@ import (
 	"github.com/arikama/koran-backend/middleware"
 	"github.com/arikama/koran-backend/services"
 	"github.com/gin-gonic/gin"
+	"html/template"
 )
 
 func Routes(
 	r *gin.Engine,
+	tmpl *template.Template,
 	quranManager managers.QuranManager,
 	googleAuthService services.GoogleAuthService,
 	userManager managers.UserManager,
 	favManager favorite.FavManager,
 ) {
 	public := r.Group("/")
-	public.GET("/", controllers.GetRootController(quranManager))
+	public.GET("/", controllers.GetRootController(tmpl, quranManager))
 	{
 		public.GET("/surah/:surah_id", controllers.GetSurahController(quranManager))
 		public.GET("/surah/:surah_id/verse/:verse_id", controllers.GetSurahVerseController(quranManager))
