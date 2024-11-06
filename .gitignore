@@ -8,3 +8,4 @@ sqlboiler.toml
 vendor
 koran-backend
 cover.out
+coverage.txt
