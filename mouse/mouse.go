@@ -12,14 +12,16 @@ import (
 
 var REGEX_KEY = regexp.MustCompile("([a-z|[0-9]|_)+")
 
-type Mouse struct{}
+type Mouse struct {
+	dir_data string
+}
 
 func (m *Mouse) Put(key string, value []byte) error {
 	key_n := m.normalize_key(key)
 	if !m.is_key_ok(key_n) {
 		return errors.New("invalid key")
 	}
-	f, err := os.Create(fmt.Sprintf("./data/%v.data", key_n))
+	f, err := os.Create(fmt.Sprintf("%v/%v.data", m.dir_data, key_n))
 	if err != nil {
 		return err
 	}
@@ -39,7 +41,7 @@ func (m *Mouse) Get(key string) ([]byte, error) {
 	if !m.is_key_ok(key_n) {
 		return nil, errors.New("invalid key")
 	}
-	f, err := os.Open(fmt.Sprintf("./data/%v.data", key_n))
+	f, err := os.Open(fmt.Sprintf("./%v/%v.data", m.dir_data, key_n))
 	if err != nil {
 		return nil, err
 	}
@@ -66,9 +68,11 @@ func (m *Mouse) normalize_key(key string) string {
 	return key_n
 }
 
-func Mouse_new() *Mouse {
-	_ = os.Mkdir("data", 0755)
-	return &Mouse{}
+func Mouse_new(dir_data string) *Mouse {
+	_ = os.Mkdir(dir_data, 0755)
+	return &Mouse{
+		dir_data: dir_data,
+	}
 }
 
 func To_byte(data interface{}) ([]byte, error) {

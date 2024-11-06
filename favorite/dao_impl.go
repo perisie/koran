@@ -16,7 +16,7 @@ type FavDaoImpl struct {
 
 func NewFavDaoImpl() (*FavDaoImpl, error) {
 	return &FavDaoImpl{
-		mouse: mouse.Mouse_new(),
+		mouse: mouse.Mouse_new("./data"),
 	}, nil
 }
 

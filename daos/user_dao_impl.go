@@ -15,7 +15,7 @@ type UserDaoImpl struct {
 
 func NewUserDaoImpl() (*UserDaoImpl, error) {
 	return &UserDaoImpl{
-		mouse: mouse.Mouse_new(),
+		mouse: mouse.Mouse_new("./data"),
 	}, nil
 }
 

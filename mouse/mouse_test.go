@@ -8,7 +8,7 @@ import (
 )
 
 func Test(t *testing.T) {
-	mouse := Mouse_new()
+	mouse := Mouse_new("./data")
 	key := "key"
 	value := "value"
 
@@ -19,7 +19,7 @@ func Test(t *testing.T) {
 }
 
 func Test_1000(t *testing.T) {
-	mouse := Mouse_new()
+	mouse := Mouse_new("./data")
 	for i := 0; i < 1000; i++ {
 		key := fmt.Sprintf("key_%v", i)
 		value := fmt.Sprintf("value_%v", i)
@@ -32,7 +32,7 @@ func Test_1000(t *testing.T) {
 }
 
 func Test_error_key(t *testing.T) {
-	mouse := Mouse_new()
+	mouse := Mouse_new("./data")
 	key := "KEY"
 	value := "value"
 
