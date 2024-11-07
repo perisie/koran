@@ -9,12 +9,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/routes"
-	"github.com/arikama/koran-backend/services"
 	"github.com/golang/mock/gomock"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/beans"
+	"perisie.com/koran/routes"
+	"perisie.com/koran/services"
 )
 
 func TestPostAuthGoogleControllerBadRequest(t *testing.T) {

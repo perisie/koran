@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/routes"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/beans"
+	"perisie.com/koran/routes"
 )
 
 func Test_PostUserPointerCtrl_401(t *testing.T) {

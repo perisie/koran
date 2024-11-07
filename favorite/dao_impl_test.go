@@ -3,9 +3,9 @@ package favorite_test
 import (
 	"testing"
 
-	"github.com/arikama/koran-backend/favorite"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/favorite"
 )
 
 func Test_dao_impl(t *testing.T) {

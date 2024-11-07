@@ -1,11 +1,12 @@
 .idea
 .vscode
 .env
+
 *.data
-
+*.pem
 sqlboiler.toml
-
 vendor
 koran-backend
 cover.out
 coverage.txt
+koran

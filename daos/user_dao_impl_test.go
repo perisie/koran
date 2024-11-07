@@ -3,12 +3,12 @@ package daos_test
 import (
 	"testing"
 
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/constants"
-	"github.com/arikama/koran-backend/daos"
-	"github.com/arikama/koran-backend/utils"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/beans"
+	"perisie.com/koran/constants"
+	"perisie.com/koran/daos"
+	"perisie.com/koran/utils"
 )
 
 func TestCreateQuery(t *testing.T) {

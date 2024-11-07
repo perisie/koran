@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/arikama/koran-backend/services"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/oauth2"
+	"perisie.com/koran/services"
 )
 
 func TestAuthUserCode(t *testing.T) {

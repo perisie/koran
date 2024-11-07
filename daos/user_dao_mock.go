@@ -7,8 +7,8 @@ package daos
 import (
 	reflect "reflect"
 
-	beans "github.com/arikama/koran-backend/beans"
 	gomock "github.com/golang/mock/gomock"
+	beans "perisie.com/koran/beans"
 )
 
 // UserDaoMock is a mock of UserDao interface.

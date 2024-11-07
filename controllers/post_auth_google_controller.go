@@ -5,11 +5,11 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/arikama/koran-backend/managers"
-	"github.com/arikama/koran-backend/requestresponse"
-	"github.com/arikama/koran-backend/services"
-	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
+	"perisie.com/koran/managers"
+	"perisie.com/koran/requestresponse"
+	"perisie.com/koran/services"
+	"perisie.com/koran/utils"
 )
 
 func PostAuthGoogleController(

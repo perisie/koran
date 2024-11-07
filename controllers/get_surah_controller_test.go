@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/arikama/koran-backend/controllers"
-	"github.com/arikama/koran-backend/managers"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/controllers"
+	"perisie.com/koran/managers"
 )
 
 func TestGetSurahController(t *testing.T) {

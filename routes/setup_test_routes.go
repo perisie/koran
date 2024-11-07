@@ -5,11 +5,11 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/arikama/koran-backend/favorite"
-	"github.com/arikama/koran-backend/managers"
-	"github.com/arikama/koran-backend/services"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
+	"perisie.com/koran/favorite"
+	"perisie.com/koran/managers"
+	"perisie.com/koran/services"
 )
 
 func SetupTestRoutes(t *testing.T) (

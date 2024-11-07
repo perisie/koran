@@ -1,7 +1,7 @@
 package daos
 
 import (
-	"github.com/arikama/koran-backend/beans"
+	"perisie.com/koran/beans"
 )
 
 //go:generate mockgen -package=daos -mock_names=UserDao=UserDaoMock -source=./user_dao.go -destination=./user_dao_mock.go

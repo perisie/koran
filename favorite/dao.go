@@ -1,7 +1,7 @@
 package favorite
 
 import (
-	"github.com/arikama/koran-backend/models"
+	"perisie.com/koran/models"
 )
 
 //go:generate mockgen -package=favorite -mock_names=FavDao=FavDaoMock -source=./dao.go -destination=./dao_mock.go

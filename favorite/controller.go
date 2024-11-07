@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/arikama/koran-backend/constants"
-	"github.com/arikama/koran-backend/managers"
-	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
+	"perisie.com/koran/constants"
+	"perisie.com/koran/managers"
+	"perisie.com/koran/utils"
 )
 
 func GetFavCtrl(favManager FavManager, userManager managers.UserManager) gin.HandlerFunc {

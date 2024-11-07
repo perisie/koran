@@ -3,8 +3,8 @@ package daos_test
 import (
 	"testing"
 
-	"github.com/arikama/koran-backend/daos"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/daos"
 )
 
 func TestErr(t *testing.T) {

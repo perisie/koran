@@ -1,6 +1,6 @@
 package managers
 
-import "github.com/arikama/koran-backend/beans"
+import "perisie.com/koran/beans"
 
 type QuranManager interface {
 	GetVerse(surahId, verseId int) (*beans.Verse, error)

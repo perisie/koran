@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
-	"github.com/arikama/koran-backend/models"
-	"github.com/arikama/koran-backend/mouse"
 	"io/fs"
+	"perisie.com/koran/models"
+	"perisie.com/koran/mouse"
 	"sort"
 )
 

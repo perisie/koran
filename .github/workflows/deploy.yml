@@ -1,0 +1,13 @@
+name: deploy
+on:
+  push:
+    branches: ["master"]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PEM_MELCHIOR: ${{ secrets.PEM_MELCHIOR }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: go test -coverprofile=coverage.txt ./...
+      - run: ./deploy.sh

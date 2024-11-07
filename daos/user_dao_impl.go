@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/models"
-	"github.com/arikama/koran-backend/mouse"
+	"perisie.com/koran/beans"
+	"perisie.com/koran/models"
+	"perisie.com/koran/mouse"
 )
 
 type UserDaoImpl struct {

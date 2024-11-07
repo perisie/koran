@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"github.com/arikama/koran-backend/src/quran"
 	"html/template"
 	"net/http"
+	"perisie.com/koran/src/quran"
 )
 
 func Home(tmpl *template.Template, mngr_quran quran.Mngr) func(http.ResponseWriter, *http.Request) {

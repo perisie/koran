@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/favorite"
-	"github.com/arikama/koran-backend/routes"
 	gomock "github.com/golang/mock/gomock"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/beans"
+	"perisie.com/koran/favorite"
+	"perisie.com/koran/routes"
 )
 
 func Test_controller_PostFavRemoveCtrl_success(t *testing.T) {

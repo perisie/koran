@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/arikama/koran-backend/src/handler"
-	"github.com/arikama/koran-backend/src/quran"
 	"html/template"
 	"net/http"
+	"perisie.com/koran/src/handler"
+	"perisie.com/koran/src/quran"
 )
 
 func main() {

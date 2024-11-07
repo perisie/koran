@@ -3,7 +3,7 @@ package utils
 import (
 	"strconv"
 
-	"github.com/arikama/koran-backend/beans"
+	"perisie.com/koran/beans"
 )
 
 func ReadSurahsInfo(filePath string) ([]*beans.SurahInfo, error) {

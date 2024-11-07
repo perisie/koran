@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/arikama/koran-backend/managers"
 	"github.com/gin-gonic/gin"
 	"html/template"
+	"perisie.com/koran/managers"
 )
 
 func GetRootController(tmpl *template.Template, quranManager managers.QuranManager) func(c *gin.Context) {

@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/utils"
+	"perisie.com/koran/beans"
+	"perisie.com/koran/utils"
 )
 
 type QuranManagerImpl struct {

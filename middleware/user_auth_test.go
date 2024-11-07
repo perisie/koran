@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/arikama/koran-backend/routes"
 	"github.com/golang/mock/gomock"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/routes"
 )
 
 func Test_user_auth(t *testing.T) {

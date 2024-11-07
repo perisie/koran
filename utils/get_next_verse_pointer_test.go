@@ -3,8 +3,8 @@ package utils_test
 import (
 	"testing"
 
-	"github.com/arikama/koran-backend/utils"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/utils"
 )
 
 func TestGetNextVersePointer(t *testing.T) {

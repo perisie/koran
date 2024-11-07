@@ -4,12 +4,12 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/arikama/koran-backend/beans"
-	"github.com/arikama/koran-backend/daos"
-	"github.com/arikama/koran-backend/managers"
 	gomock "github.com/golang/mock/gomock"
 	"github.com/jaswdr/faker"
 	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/beans"
+	"perisie.com/koran/daos"
+	"perisie.com/koran/managers"
 )
 
 func TestCreateUser(t *testing.T) {

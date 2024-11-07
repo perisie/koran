@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/arikama/koran-backend/constants"
 	"github.com/hooligram/kifu"
+	"perisie.com/koran/constants"
 )
 
 func GetNextVersePointer(pointer string, direction int) string {

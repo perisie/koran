@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/arikama/koran-backend/managers"
-	"github.com/arikama/koran-backend/utils"
 	"github.com/gin-gonic/gin"
+	"perisie.com/koran/managers"
+	"perisie.com/koran/utils"
 )
 
 func GetSurahController(quranManager managers.QuranManager) func(c *gin.Context) {

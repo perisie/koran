@@ -1,13 +1,13 @@
 package routes
 
 import (
-	"github.com/arikama/koran-backend/controllers"
-	"github.com/arikama/koran-backend/favorite"
-	"github.com/arikama/koran-backend/managers"
-	"github.com/arikama/koran-backend/middleware"
-	"github.com/arikama/koran-backend/services"
 	"github.com/gin-gonic/gin"
 	"html/template"
+	"perisie.com/koran/controllers"
+	"perisie.com/koran/favorite"
+	"perisie.com/koran/managers"
+	"perisie.com/koran/middleware"
+	"perisie.com/koran/services"
 )
 
 func Routes(

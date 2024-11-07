@@ -7,8 +7,8 @@ package favorite
 import (
 	reflect "reflect"
 
-	models "github.com/arikama/koran-backend/models"
 	gomock "github.com/golang/mock/gomock"
+	models "perisie.com/koran/models"
 )
 
 // FavDaoMock is a mock of FavDao interface.

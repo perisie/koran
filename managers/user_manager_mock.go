@@ -7,8 +7,8 @@ package managers
 import (
 	reflect "reflect"
 
-	beans "github.com/arikama/koran-backend/beans"
 	gomock "github.com/golang/mock/gomock"
+	beans "perisie.com/koran/beans"
 )
 
 // UserManagerMock is a mock of UserManager interface.

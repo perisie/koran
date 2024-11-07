@@ -4,9 +4,9 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/arikama/koran-backend/constants"
-	"github.com/arikama/koran-backend/daos"
-	"github.com/arikama/koran-backend/managers"
+	"perisie.com/koran/constants"
+	"perisie.com/koran/daos"
+	"perisie.com/koran/managers"
 )
 
 type FavManagerImpl struct {
