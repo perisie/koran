@@ -36,9 +36,9 @@ func (m *Mngr_impl) Get_surah_infos() ([]*Surah_info, error) {
 
 func Mngr_impl_new(csv_dir string) (*Mngr_impl, error) {
 	names := []string{
-		"quran",
-		"pickthall",
-		"clearquran",
+		NAME_QURAN,
+		NAME_PICKTHALL,
+		NAME_CLEARQURAN,
 	}
 	verse_map := map[string]*Verse{}
 	for _, name := range names {
@@ -64,7 +64,7 @@ func Mngr_impl_new(csv_dir string) (*Mngr_impl, error) {
 				verse_map[key] = &verse
 			}
 			text := strings.Trim(record[2], `"`)
-			if name == "quran" {
+			if name == NAME_QURAN {
 				verse_map[key].Text = text
 			} else {
 				if verse_map[key].Translations == nil {
