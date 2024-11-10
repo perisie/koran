@@ -5,6 +5,16 @@
 <div id="app">
     {{template "comp_topbar.html"}}
     <div>Koran</div>
+    <ol>
+    {{range .surah_infos}}
+        <li>
+            <a href="/surah/{{.Surah_id}}">
+                <div>{{.Arabic}}</div>
+                <div>{{.English}}</div>
+            </a>
+        </li>
+    {{end}}
+    </ol>
     {{template "comp_footer.html"}}
 </div>
 </body>
