@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "comp_head.html"}}
+<body>
+<div id="app">
+    {{template "comp_topbar.html"}}
+    <div>Surah</div>
+    <a href="/">Home</a>
+    <ol>
+    {{range .surah.Verses}}
+        <li>
+            <div>{{.Text}}</div>
+        </li>
+    {{end}}
+    </ol>
+    {{template "comp_footer.html"}}
+</div>
+</body>
+</html>

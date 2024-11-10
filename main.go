@@ -17,6 +17,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handler.Home(tmpl, mngr_quran))
+	mux.HandleFunc("/surah/{surah_id}", handler.Surah(tmpl, mngr_quran))
 	mux.HandleFunc("/static/", handler.Static(fs))
 
 	_ = http.ListenAndServe(":8001", mux)
