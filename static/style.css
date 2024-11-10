@@ -1,8 +1,35 @@
 body {
+    background-image: radial-gradient(circle, #dcdcdc 1px, transparent 1px);
+    background-size: 10px 10px;
+    font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-size: 1.0em;
     margin: 0;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:visited {
+    color: blue;
 }
 
 #app {
     margin: auto;
     max-width: 512px;
 }
+
+.surah {
+    align-items: center;
+    display: flex;
+}
+
+.verse {
+    font-family: Amiri, sans-serif;
+    font-size: 1.9em;
+    text-align: right;
+    line-height: 2.3em;
+}
+
+.translation {}

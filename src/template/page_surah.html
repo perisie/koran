@@ -4,15 +4,13 @@
 <body>
 <div id="app">
     {{template "comp_topbar.html"}}
-    <div>Surah</div>
-    <a href="/">Home</a>
-    <ol>
     {{range .surah.Verses}}
-        <li>
-            <div>{{.Text}}</div>
-        </li>
+        <div>
+            <div>{{.Surah_id}}:{{.Verse_id}}</div>
+            <div class="verse">{{.Text}}</div>
+            <div class="translation">{{index .Translations "clearquran"}}</div>
+        </div>
     {{end}}
-    </ol>
     {{template "comp_footer.html"}}
 </div>
 </body>
