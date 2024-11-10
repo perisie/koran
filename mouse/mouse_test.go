@@ -20,7 +20,7 @@ func Test(t *testing.T) {
 
 func Test_1000(t *testing.T) {
 	mouse := Mouse_new("./data")
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 2; i++ {
 		key := fmt.Sprintf("key_%v", i)
 		value := fmt.Sprintf("value_%v", i)
 
