@@ -10,6 +10,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/hooligram/kifu v1.2.4
 	github.com/jaswdr/faker v1.19.1
+	github.com/perisie/mouse v0.0.0-20241114062926-f127502b0d7b
 	github.com/stretchr/testify v1.9.0
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.16.2
