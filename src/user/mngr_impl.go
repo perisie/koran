@@ -30,7 +30,8 @@ func (m *Mngr_impl) Get(username string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
-	user, err := User_new_de(b)
+	user := User_new_empty()
+	err = user.De(b)
 	if err != nil {
 		return nil, err
 	}

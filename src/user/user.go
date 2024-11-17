@@ -20,6 +20,15 @@ func (u *User) Ser() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+func (u *User) De(b []byte) error {
+	decoder := json.NewDecoder(bytes.NewReader(b))
+	err := decoder.Decode(u)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func User_new(username, password string) *User {
 	return &User{
 		Username: username,
@@ -27,12 +36,6 @@ func User_new(username, password string) *User {
 	}
 }
 
-func User_new_de(b []byte) (*User, error) {
-	user := &User{}
-	decoder := json.NewDecoder(bytes.NewReader(b))
-	err := decoder.Decode(user)
-	if err != nil {
-		return nil, err
-	}
-	return user, nil
+func User_new_empty() *User {
+	return &User{}
 }

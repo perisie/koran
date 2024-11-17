@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "comp_head.html"}}
+<body>
+<div id="app">
+    {{template "comp_topbar.html"}}
+	<h1>Login</h1>
+	<form
+		hx-post="/login"
+		hx-swap="none"
+	>
+		<label for="username">Username</label>
+		<input
+			id="username"
+			name="username"
+			type="text"
+		/>
+		<label for="password">Password</label>
+		<input
+			id="password"
+			name="password"
+			type="password"
+		/>
+		<button
+			onclick="window.location.href='/signup'"
+			type="button">Signup</button>
+		<button
+			onclick="javascript:history.back()"
+			type="button">Cancel</button>
+		<button>Login</button>
+	</form>
+    {{template "comp_footer.html"}}
+</div>
+</body>
+</html>
