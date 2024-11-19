@@ -2,7 +2,7 @@
 .vscode
 .env
 
-*/**/data
+data
 *.data
 *.pem
 sqlboiler.toml

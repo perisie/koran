@@ -15,9 +15,32 @@ a:visited {
     color: blue;
 }
 
+h1 {
+    margin: 0;
+}
+
+p {
+    margin: 8px 0 8px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin: 0 0 4px 0;
+}
+
 #app {
     margin: auto;
     max-width: 512px;
+    padding: 8px;
+}
+
+#topbar {
+    display: flex;
+    justify-content: space-between;
 }
 
 .surah {
@@ -33,3 +56,19 @@ a:visited {
 }
 
 .translation {}
+
+.error {
+    margin: 10vh 0 0 0;
+    text-align: center;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 300px;
+}
+
+.buttons {
+    display: flex;
+}

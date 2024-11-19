@@ -4,31 +4,37 @@
 <body>
 <div id="app">
     {{template "comp_topbar.html"}}
-	<h1>Login</h1>
-	<form
-		hx-post="/login"
-		hx-swap="none"
-	>
-		<label for="username">Username</label>
-		<input
-			id="username"
-			name="username"
-			type="text"
-		/>
-		<label for="password">Password</label>
-		<input
-			id="password"
-			name="password"
-			type="password"
-		/>
-		<button
-			onclick="window.location.href='/signup'"
-			type="button">Signup</button>
-		<button
-			onclick="javascript:history.back()"
-			type="button">Cancel</button>
-		<button>Login</button>
-	</form>
+    <div class="login">
+	    <h1>Login</h1>
+	    <form
+            hx-post="/login"
+            hx-swap="none"
+        >
+            <label for="username">Username</label>
+            <input
+                id="username"
+                name="username"
+                type="text"
+            />
+            <label for="password">Password</label>
+            <input
+                id="password"
+                name="password"
+                type="password"
+            />
+            <div class="buttons">
+                <button
+                    onclick="window.location.href='/signup'"
+                    type="button">Signup</button>
+                &nbsp;
+                <button
+                    onclick="javascript:history.back()"
+                    type="button">Cancel</button>
+                &nbsp;
+                <button style="flex: 1;">Login</button>
+            </div>
+        </form>
+    </div>
     {{template "comp_footer.html"}}
 </div>
 </body>

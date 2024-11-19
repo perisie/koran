@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "comp_head.html"}}
+<body>
+<div id="app">
+    <div class="error">
+        <h1>{{.code}}</h1>
+        <p>{{.msg}}</p>
+        <button
+            onclick="javascript:history.back()"
+            type="button"
+        >cancel</button>
+    </div>
+    {{template "comp_footer.html"}}
+</div>
+</body>
+</html>
