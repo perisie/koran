@@ -2,6 +2,7 @@ package user
 
 import (
 	"bytes"
+	"errors"
 	"github.com/perisie/mouse"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -14,6 +15,9 @@ func (m *Mngr_impl) Create(username string, password string) (*User, error) {
 	b, _ := bcrypt.GenerateFromPassword(bytes.NewBufferString(password).Bytes(), bcrypt.MinCost)
 	password_hash := string(b)
 	user := User_new(username, password_hash)
+	if !user.Ok_username() {
+		return nil, errors.New("username invalid")
+	}
 	user_b, err := user.Ser()
 	if err != nil {
 		return nil, err
@@ -26,14 +30,14 @@ func (m *Mngr_impl) Create(username string, password string) (*User, error) {
 }
 
 func (m *Mngr_impl) Get(username string) (*User, error) {
+	user := User_new_empty()
 	b, err := m.mouse_fs.Get(username)
 	if err != nil {
-		return nil, err
+		return user, err
 	}
-	user := User_new_empty()
 	err = user.De(b)
 	if err != nil {
-		return nil, err
+		return user, err
 	}
 	return user, nil
 }

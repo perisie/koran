@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"errors"
 	"html/template"
 	"net/http"
 	"perisie.com/koran/src/user"
+	"perisie.com/koran/src/util"
 )
 
 func Login(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWriter, *http.Request) {
@@ -14,11 +16,11 @@ func Login(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWrite
 				username := r.FormValue("username")
 				user, err := mngr_user.Get(username)
 				if err != nil {
-					w.Header().Set("HX-Redirect", "/error?code=code&msg=msg")
+					util.Redirect_error_page(w, http.StatusInternalServerError, errors.New("user not found"))
 					return
 				}
 				if user.Username == "" {
-					w.Header().Set("HX-Redirect", "/error?code=code&msg=msg")
+					util.Redirect_error_page(w, http.StatusInternalServerError, errors.New("user not found"))
 					return
 				}
 				w.Header().Set("HX-Redirect", "/")

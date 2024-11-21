@@ -3,7 +3,10 @@ package user
 import (
 	"bytes"
 	"encoding/json"
+	"regexp"
 )
+
+var REGEX_USERNAME = regexp.MustCompile(`^[a-z]([a-z]|[0-9]|_)+$`)
 
 type User struct {
 	Username string
@@ -27,6 +30,10 @@ func (u *User) De(b []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (u *User) Ok_username() bool {
+	return REGEX_USERNAME.MatchString(u.Username)
 }
 
 func User_new(username, password string) *User {
