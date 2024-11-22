@@ -1,0 +1,9 @@
+<div class="loading">Logging out...</div>
+<script>
+    document.cookie = "username=; path=/";
+    document.cookie = "token=; path=/";
+    window.setTimeout(() => {
+        window.location.assign("/");
+    }, 1000)
+</script>
+

@@ -1,0 +1,8 @@
+<div class="loading">Logging in...</div>
+<script>
+    document.cookie = "username=" + {{.user.Username}} + "; path=/";
+    document.cookie = "token=" + {{.user.Password}} + "; path=/";
+    window.setTimeout(() => {
+        window.location.assign("/");
+    }, 1000)
+</script>

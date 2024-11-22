@@ -23,7 +23,9 @@ func Login(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWrite
 					util.Redirect_error_page(w, http.StatusInternalServerError, errors.New("user not found"))
 					return
 				}
-				w.Header().Set("HX-Redirect", "/")
+				tmpl.ExecuteTemplate(w, "comp_login_ok.html", map[string]interface{}{
+					"user": user,
+				})
 			}
 		default:
 			{

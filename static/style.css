@@ -72,3 +72,8 @@ input {
 .buttons {
     display: flex;
 }
+
+.loading {
+    margin: 10vh 0 0 0;
+    text-align: center;
+}
