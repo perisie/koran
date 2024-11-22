@@ -20,7 +20,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handler.Home(tmpl, mngr_user, mngr_quran))
-	mux.HandleFunc("/surah/{surah_id}", handler.Surah(tmpl, mngr_quran))
+	mux.HandleFunc("/surah/{surah_id}", handler.Surah(tmpl, mngr_user, mngr_quran))
 
 	mux.HandleFunc("/login", handler.Login(tmpl, mngr_user))
 	mux.HandleFunc("/signup", handler.Signup(tmpl, mngr_user))

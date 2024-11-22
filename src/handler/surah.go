@@ -4,11 +4,15 @@ import (
 	"html/template"
 	"net/http"
 	"perisie.com/koran/src/quran"
+	"perisie.com/koran/src/user"
+	"perisie.com/koran/src/util"
 	"strconv"
 )
 
-func Surah(tmpl *template.Template, mngr_quran quran.Mngr) func(http.ResponseWriter, *http.Request) {
+func Surah(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mngr) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		username, _ := util.Cookie_username_token(r.Cookies())
+		user, _ := mngr_user.Get(username)
 		surah_id, _ := strconv.Atoi(r.PathValue("surah_id"))
 		switch r.Method {
 		default:
@@ -16,6 +20,7 @@ func Surah(tmpl *template.Template, mngr_quran quran.Mngr) func(http.ResponseWri
 				surah, _ := mngr_quran.Get_surah(surah_id)
 				_ = tmpl.ExecuteTemplate(w, "page_surah.html", map[string]interface{}{
 					"surah": surah,
+					"user":  user,
 				})
 			}
 		}

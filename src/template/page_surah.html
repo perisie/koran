@@ -3,7 +3,7 @@
 {{template "comp_head.html"}}
 <body>
 <div id="app">
-    {{template "comp_topbar.html"}}
+    {{template "comp_topbar.html" .user}}
     {{range .surah.Verses}}
         <div>
             <div>{{.Surah_id}}:{{.Verse_id}}</div>
