@@ -22,7 +22,7 @@ for HOST in melchior; do
     echo "> starting the service..."
     ssh -o StrictHostKeyChecking=no -i $HOST.pem ec2-user@$HOST_IP "cd ~/build/koran; go build; pkill koran"
     ssh -o StrictHostKeyChecking=no -i $HOST.pem ec2-user@$HOST_IP "mkdir -p ~/app; mkdir -p ~/app/koran"
-    ssh -o StrictHostKeyChecking=no -i $HOST.pem ec2-user@$HOST_IP "mv ~/build/koran/koran ~/app/koran"
+    ssh -o StrictHostKeyChecking=no -i $HOST.pem ec2-user@$HOST_IP "mv -f ~/build/koran ~/app/koran"
     ssh -o StrictHostKeyChecking=no -i $HOST.pem ec2-user@$HOST_IP "cd ~/app/koran; ./koran > ./log.txt 2>&1 &"
     echo "> (^ヮ^)/ $HOST up!"
 done
