@@ -32,6 +32,10 @@ func (u *User) De(b []byte) error {
 	return nil
 }
 
+func (u *User) Ok() bool {
+	return u.Username != ""
+}
+
 func (u *User) Ok_username() bool {
 	return REGEX_USERNAME.MatchString(u.Username)
 }

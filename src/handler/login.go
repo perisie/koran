@@ -27,6 +27,10 @@ func Login(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWrite
 					"user": user,
 				})
 			}
+		case http.MethodDelete:
+			{
+				tmpl.ExecuteTemplate(w, "comp_login_out.html", map[string]interface{}{})
+			}
 		default:
 			{
 				_ = tmpl.ExecuteTemplate(w, "page_login.html", map[string]interface{}{})

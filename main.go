@@ -19,7 +19,7 @@ func main() {
 	mngr_user = user.Mngr_impl_new()
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handler.Home(tmpl, mngr_quran))
+	mux.HandleFunc("/", handler.Home(tmpl, mngr_user, mngr_quran))
 	mux.HandleFunc("/surah/{surah_id}", handler.Surah(tmpl, mngr_quran))
 
 	mux.HandleFunc("/login", handler.Login(tmpl, mngr_user))
