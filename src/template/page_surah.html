@@ -5,11 +5,7 @@
 <div id="app">
     {{template "comp_topbar.html" .user}}
     {{range .surah.Verses}}
-        <div>
-            <div>{{.Surah_id}}:{{.Verse_id}}</div>
-            <div class="verse">{{.Text}}</div>
-            <div class="translation">{{index .Translations "clearquran"}}</div>
-        </div>
+        {{template "comp_verse.html" .}}
     {{end}}
     {{template "comp_footer.html"}}
 </div>

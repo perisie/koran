@@ -22,7 +22,8 @@ func (m *Mngr_impl) Create(username string, password string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = m.mouse_fs.Put(username, user_b)
+	key := m.get_key(username)
+	err = m.mouse_fs.Put(key, user_b)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +32,8 @@ func (m *Mngr_impl) Create(username string, password string) (*User, error) {
 
 func (m *Mngr_impl) Get(username string) (*User, error) {
 	user := User_new_empty()
-	b, err := m.mouse_fs.Get(username)
+	key := m.get_key(username)
+	b, err := m.mouse_fs.Get(key)
 	if err != nil {
 		return user, err
 	}
@@ -40,6 +42,26 @@ func (m *Mngr_impl) Get(username string) (*User, error) {
 		return user, err
 	}
 	return user, nil
+}
+
+func (m *Mngr_impl) Update_surah_verse(username string, surah, verse int) error {
+	user, err := m.Get(username)
+	if err != nil {
+		return err
+	}
+	user.Surah = surah
+	user.Verse = verse
+	user_ser, err := user.Ser()
+	if err != nil {
+		return err
+	}
+	key := m.get_key(username)
+	err = m.mouse_fs.Put(key, user_ser)
+	return err
+}
+
+func (m *Mngr_impl) get_key(username string) string {
+	return "v1__user__" + username
 }
 
 func Mngr_impl_new() *Mngr_impl {

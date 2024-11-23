@@ -4,7 +4,17 @@
 <body>
 <div id="app">
     {{template "comp_topbar.html" .user}}
-    <h1>Bookmark</h1>
+    <div id="bookmark">{{template "comp_verse.html" .verse}}</div>
+    <div class="buttons">
+        <button
+            hx-patch="/bookmark?move=prev"
+            hx-target="#bookmark"
+            >Previous</button>
+        <button
+            hx-patch="/bookmark?move=next"
+            hx-target="#bookmark"
+            >Next</button>
+    </div>
     {{template "comp_footer.html"}}
 </div>
 </body>

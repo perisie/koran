@@ -18,10 +18,12 @@ func Test_move_surah_verse(t *testing.T) {
 		surah := test[0]
 		verse := test[1]
 		direction := test[2]
-		surahNextExpected := test[3]
-		verseNextExpected := test[4]
-		surahNext, verseNext, _ := Move_surah_verse(surah, verse, direction)
-		assert.Equal(t, surahNextExpected, surahNext)
-		assert.Equal(t, verseNextExpected, verseNext)
+		expected_surah_next := test[3]
+		expected_verse_next := test[4]
+
+		surah_next, verse_next, _ := Move_surah_verse(surah, verse, direction)
+
+		assert.Equal(t, expected_surah_next, surah_next)
+		assert.Equal(t, expected_verse_next, verse_next)
 	}
 }

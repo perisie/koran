@@ -9,8 +9,10 @@ import (
 var REGEX_USERNAME = regexp.MustCompile(`^[a-z]([a-z]|[0-9]|_)+$`)
 
 type User struct {
-	Username string
-	Password string
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Surah    int    `json:"surah"`
+	Verse    int    `json:"verse`
 }
 
 func (u *User) Ser() ([]byte, error) {
@@ -44,6 +46,8 @@ func User_new(username, password string) *User {
 	return &User{
 		Username: username,
 		Password: password,
+		Surah:    1,
+		Verse:    1,
 	}
 }
 
