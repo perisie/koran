@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "comp_head.html"}}
+<body>
+<div id="app">
+    {{template "comp_topbar.html" .user}}
+    <div><b>User</b></div>
+    <div>{{.user.Username}}</div>
+    &nbsp;
+    <div><b>Bookmark</b></div>
+    <div>Surah: {{.user.Surah}}</div>
+    <div>Verse: {{.user.Verse}}</div>
+    &nbsp;
+    <div class="buttons">
+    {{if .user_login}}
+        <button
+            hx-delete="/login"
+            hx-target="body"
+            style="flex: 1;"
+            >Logout</button>
+    {{end}}
+    </div>
+    {{template "comp_footer.html"}}
+</div>
+</body>
+</html>

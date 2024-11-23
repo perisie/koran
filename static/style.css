@@ -40,6 +40,7 @@ input {
 
 #topbar {
     display: flex;
+    margin: 0 0 4px 0;
     justify-content: space-between;
 }
 
