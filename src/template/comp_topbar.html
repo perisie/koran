@@ -1,8 +1,12 @@
 <div id="topbar">
-    <a href="/">koran</a>
+    <div>
+        <a href="/">Koran</a>
+        &nbsp;
+        <a href="/bookmark">Bookmark</a>
+    </div>
     {{if .Ok}}
         <a href="" hx-delete="/login" hx-target="body">{{.Username}}</a>
     {{else}}
-        <a href="/login">login</a>
+        <a href="/login">Login</a>
     {{end}}
 </div>
