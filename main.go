@@ -29,6 +29,7 @@ func main() {
 	mux.HandleFunc("/surah/{surah_id}", handler.Surah(tmpl, mngr_user, mngr_quran))
 
 	mux.HandleFunc("/bookmark", handler.Bookmark(tmpl, mngr_user, mngr_quran))
+	mux.HandleFunc("/setting", handler.Setting(tmpl, mngr_user))
 
 	mux.HandleFunc("/login", handler.Login(tmpl, mngr_user))
 	mux.HandleFunc("/signup", handler.Signup(tmpl, mngr_user))

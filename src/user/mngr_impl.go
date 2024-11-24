@@ -60,6 +60,27 @@ func (m *Mngr_impl) Update_surah_verse(username string, surah, verse int) error 
 	return err
 }
 
+func (m *Mngr_impl) Update_setting(username string, name string, value string) error {
+	user, err := m.Get(username)
+	if err != nil {
+		return err
+	}
+	if name == "bookmark_verse" {
+		if value == "true" {
+			user.Setting.Bookmark_verse = true
+		} else {
+			user.Setting.Bookmark_verse = false
+		}
+	}
+	user_ser, err := user.Ser()
+	if err != nil {
+		return err
+	}
+	key := m.get_key(username)
+	err = m.mouse_fs.Put(key, user_ser)
+	return err
+}
+
 func (m *Mngr_impl) get_key(username string) string {
 	return "v1__user__" + username
 }

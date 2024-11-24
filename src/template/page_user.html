@@ -11,14 +11,56 @@
     <div>Surah: {{.user.Surah}}</div>
     <div>Verse: {{.user.Verse}}</div>
     &nbsp;
-    <div class="buttons">
-    {{if .user_login}}
-        <button
-            hx-delete="/login"
-            hx-target="body"
-            style="flex: 1;"
-            >Logout</button>
-    {{end}}
+    <div><b>Settings</b></div>
+    <input
+        {{if .user.Setting.Surah_verse}}checked{{end}}
+        hx-patch="/setting?name=surah_verse"
+        id="surah-verse"
+        name="value"
+        type="checkbox"
+        value="{{not .user.Setting.Surah_verse}}"
+        />
+    <label for="surah-verse">Surah verse</label>
+    <br>
+    <input
+        {{if .user.Setting.Surah_translation}}checked{{end}}
+        hx-patch="/setting?name=surah_translation"
+        id="surah-translation"
+        name="value"
+        type="checkbox"
+        value="{{not .user.Setting.Surah_translation}}"
+        />
+    <label for="surah-translation">Surah translation</label>
+    <br>
+    <div class="buttons" style="margin: 8px 0 0 0;"></div>
+    <input
+        {{if .user.Setting.Bookmark_verse}}checked{{end}}
+        hx-patch="/setting?name=bookmark_verse"
+        id="bookmark-verse"
+        name="value"
+        type="checkbox"
+        value="{{not .user.Setting.Bookmark_verse}}"
+        />
+    <label for="bookmark-verse">Bookmark verse</label>
+    <br>
+    <input
+        {{if .user.Setting.Bookmark_translation}}checked{{end}}
+        hx-patch="/setting?name=bookmark_translation"
+        id="bookmark-translation"
+        name="value"
+        type="checkbox"
+        value="{{not .user.Setting.Bookmark_translation}}"
+        />
+    <label for="bookmark-translation">Bookmark translation</label>
+    <br>
+    <div class="buttons" style="margin: 8px 0 0 0;">
+        {{if .user_login}}
+            <button
+                hx-delete="/login"
+                hx-target="body"
+                style="flex: 1;"
+                >Logout</button>
+        {{end}}
     </div>
     {{template "comp_footer.html"}}
 </div>
