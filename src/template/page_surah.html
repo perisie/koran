@@ -4,8 +4,17 @@
 <body>
 <div id="app">
     {{template "comp_topbar.html" .user}}
+    {{$user := .user}}
     {{range .surah.Verses}}
-        {{template "comp_verse.html" .}}
+        <div>
+            <div>{{.Surah_id}}:{{.Verse_id}}</div>
+            {{if $user.Setting.Surah_verse}}
+                <p class="verse">{{.Text}}</p>
+            {{end}}
+            {{if $user.Setting.Surah_translation}}
+                <p class="translation">{{index .Translations "clearquran"}}</p>
+            {{end}}
+        </div>
     {{end}}
     {{template "comp_footer.html"}}
 </div>

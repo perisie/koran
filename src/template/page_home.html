@@ -4,13 +4,18 @@
 <body>
 <div id="app">
     {{template "comp_topbar.html" .user}}
+    {{$user := .user}}
     {{range .surah_infos}}
         <a href="/surah/{{.Surah_id}}">
             <div class="surah">
                 <div>{{.Surah_id}}</div>
                 &nbsp;
-                <div>{{.English}}</div>
-                <div class="verse" style="flex: 1;">{{.Arabic}}</div>
+                {{if $user.Setting.Surah_verse}}
+                    <div>{{.English}}</div>
+                {{end}}
+                {{if $user.Setting.Surah_translation}}
+                    <div class="verse" style="flex: 1;">{{.Arabic}}</div>
+                {{end}}
             </div>
         </a>
     {{end}}

@@ -65,11 +65,32 @@ func (m *Mngr_impl) Update_setting(username string, name string, value string) e
 	if err != nil {
 		return err
 	}
+	if name == "surah_verse" {
+		if value == "true" {
+			user.Setting.Surah_verse = true
+		} else {
+			user.Setting.Surah_verse = false
+		}
+	}
+	if name == "surah_translation" {
+		if value == "true" {
+			user.Setting.Surah_translation = true
+		} else {
+			user.Setting.Surah_translation = false
+		}
+	}
 	if name == "bookmark_verse" {
 		if value == "true" {
 			user.Setting.Bookmark_verse = true
 		} else {
 			user.Setting.Bookmark_verse = false
+		}
+	}
+	if name == "bookmark_translation" {
+		if value == "true" {
+			user.Setting.Bookmark_translation = true
+		} else {
+			user.Setting.Bookmark_translation = false
 		}
 	}
 	user_ser, err := user.Ser()

@@ -4,7 +4,16 @@
 <body>
 <div id="app">
     {{template "comp_topbar.html" .user}}
-    <div id="bookmark">{{template "comp_verse.html" .verse}}</div>
+    {{$user := .user}}
+    <div id="bookmark">
+        <div>{{.verse.Surah_id}}:{{.verse.Verse_id}}</div>
+        {{if $user.Setting.Bookmark_verse}}
+            <p class="verse">{{.verse.Text}}</p>
+        {{end}}
+        {{if $user.Setting.Bookmark_translation}}
+            <p class="translation">{{index .verse.Translations "clearquran"}}</p>
+        {{end}}
+    </div>
     <div class="buttons">
         <button
             hx-patch="/bookmark?move=prev"
