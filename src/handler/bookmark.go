@@ -13,12 +13,18 @@ func Bookmark(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mng
 		username, token := util.Cookie_username_token(r.Cookies())
 		user, _ := mngr_user.Get(username)
 		if !user.Ok() || user.Password != token {
-			w.Header().Set("HX-Redirect", "/login")
+			tmpl.ExecuteTemplate(w, "page_error.html", map[string]interface{}{
+				"code": http.StatusUnauthorized,
+				"msg":  "please login",
+			})
 			return
 		}
 		verse, err := mngr_quran.Get_verse(user.Surah, user.Verse)
 		if err != nil {
-			util.Redirect_error_page(w, http.StatusInternalServerError, err)
+			tmpl.ExecuteTemplate(w, "page_error.html", map[string]interface{}{
+				"code": http.StatusInternalServerError,
+				"msg":  err.Error(),
+			})
 			return
 		}
 		switch r.Method {
