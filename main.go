@@ -27,6 +27,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handler.Home(tmpl, mngr_user, mngr_quran))
 	mux.HandleFunc("/surah/{surah_id}", handler.Surah(tmpl, mngr_user, mngr_quran))
+	mux.HandleFunc("/surah/{surah_id}/verse/{verse_id}", handler.Verse(tmpl, mngr_user, mngr_quran))
 
 	mux.HandleFunc("/bookmark", handler.Bookmark(tmpl, mngr_user, mngr_quran))
 	mux.HandleFunc("/setting", handler.Setting(tmpl, mngr_user))

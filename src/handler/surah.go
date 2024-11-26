@@ -18,9 +18,18 @@ func Surah(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mngr) 
 		default:
 			{
 				surah, _ := mngr_quran.Get_surah(surah_id)
+				verses := []map[string]interface{}{}
+				for _, verse := range surah.Verses {
+					verses = append(verses, map[string]interface{}{
+						"verse":            verse,
+						"show_verse":       user.Setting.Surah_verse,
+						"show_translation": user.Setting.Surah_translation,
+					})
+				}
 				_ = tmpl.ExecuteTemplate(w, "page_surah.html", map[string]interface{}{
-					"surah": surah,
-					"user":  user,
+					"surah":  surah,
+					"user":   user,
+					"verses": verses,
 				})
 			}
 		}
