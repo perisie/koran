@@ -10,10 +10,10 @@
             <div class="surah">
                 <div>{{.Surah_id}}</div>
                 &nbsp;
-                {{if $user.Setting.Surah_verse}}
+                {{if $user.Setting.Surah_translation}}
                     <div>{{.English}}</div>
                 {{end}}
-                {{if $user.Setting.Surah_translation}}
+                {{if $user.Setting.Surah_verse}}
                     <div class="verse" style="flex: 1;">{{.Arabic}}</div>
                 {{end}}
             </div>

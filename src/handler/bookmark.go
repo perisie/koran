@@ -13,7 +13,7 @@ func Bookmark(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mng
 		username, token := util.Cookie_username_token(r.Cookies())
 		user, _ := mngr_user.Get(username)
 		if !user.Ok() || user.Password != token {
-			tmpl.ExecuteTemplate(w, "page_login.html", nil)
+			w.Header().Set("HX-Redirect", "/login")
 			return
 		}
 		verse, err := mngr_quran.Get_verse(user.Surah, user.Verse)
@@ -40,13 +40,20 @@ func Bookmark(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mng
 					util.Redirect_error_page(w, http.StatusInternalServerError, err)
 					return
 				}
-				tmpl.ExecuteTemplate(w, "comp_verse.html", verse)
+				tmpl.ExecuteTemplate(w, "comp_verse.html", map[string]interface{}{
+					"user":             user,
+					"verse":            verse,
+					"show_verse":       user.Setting.Bookmark_verse,
+					"show_translation": user.Setting.Bookmark_translation,
+				})
 			}
 		default:
 			{
 				tmpl.ExecuteTemplate(w, "page_bookmark.html", map[string]interface{}{
-					"user":  user,
-					"verse": verse,
+					"user":             user,
+					"verse":            verse,
+					"show_verse":       user.Setting.Bookmark_verse,
+					"show_translation": user.Setting.Bookmark_translation,
 				})
 			}
 		}

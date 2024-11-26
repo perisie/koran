@@ -1,0 +1,7 @@
+<div>{{.verse.Surah_id}}:{{.verse.Verse_id}}</div>
+{{if .show_verse}}
+    <p class="verse">{{.verse.Text}}</p>
+{{end}}
+{{if .show_translation}}
+    <p class="translation">{{index .verse.Translations "clearquran"}}</p>
+{{end}}

@@ -6,23 +6,25 @@
     {{template "comp_topbar.html" .user}}
     {{$user := .user}}
     <div id="bookmark">
-        <div>{{.verse.Surah_id}}:{{.verse.Verse_id}}</div>
-        {{if $user.Setting.Bookmark_verse}}
-            <p class="verse">{{.verse.Text}}</p>
-        {{end}}
-        {{if $user.Setting.Bookmark_translation}}
-            <p class="translation">{{index .verse.Translations "clearquran"}}</p>
-        {{end}}
+        {{template "comp_verse.html" .}}
     </div>
     <div class="buttons">
-        <button
+    </div>
+    <div style="display: flex;">
+        <div
             hx-patch="/bookmark?move=prev"
             hx-target="#bookmark"
-            >Previous</button>
-        <button
+            style="flex: 1; height: 100vh"
+            >
+            <button>Previous</button>
+        </div>
+        <div
             hx-patch="/bookmark?move=next"
             hx-target="#bookmark"
-            >Next</button>
+            style="flex: 1; height: 100vh; text-align: end;"
+            >
+            <button>Next</button>
+        </div>
     </div>
     {{template "comp_footer.html"}}
 </div>
