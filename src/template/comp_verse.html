@@ -1,4 +1,7 @@
-<a href="/surah/{{.verse.Surah_id}}/verse/{{.verse.Verse_id}}">{{.verse.Surah_id}}:{{.verse.Verse_id}}</a>
+<a
+    href="/surah/{{.verse.Surah_id}}/verse/{{.verse.Verse_id}}"
+    id="{{.verse.Surah_id}}:{{.verse.Verse_id}}"
+    >{{.verse.Surah_id}}:{{.verse.Verse_id}}</a>
 {{if .show_verse}}
     <p class="verse">{{.verse.Text}}</p>
 {{end}}

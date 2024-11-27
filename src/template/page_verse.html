@@ -5,6 +5,12 @@
 <div id="app">
     {{template "comp_topbar.html"}}
     {{template "comp_verse.html" .}}
+    <div class="buttons">
+        <button
+            onclick="window.location.href='/surah/{{.verse.Surah_id}}#{{.verse.Surah_id}}:{{.verse.Verse_id}}'"
+            type="button"
+            >Surah</button>
+    </div>
     {{template "comp_footer.html"}}
 </div>
 </body>
