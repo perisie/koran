@@ -22,10 +22,11 @@ func Verse(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mngr) 
 			{
 				verse, _ := mngr_quran.Get_verse(surah_id, verse_id)
 				og := opengraph.Og{
-					Title: fmt.Sprintf("Quran %v:%v", surah_id, verse_id),
-					Type:  "book",
-					Url:   "https://koran.perisie.com/" + r.RequestURI,
-					Image: "https://koran.perisie.com/static/koran.png",
+					Title:       fmt.Sprintf("Quran %v:%v", surah_id, verse_id),
+					Type:        "book",
+					Url:         "https://koran.perisie.com/" + r.RequestURI,
+					Image:       "https://koran.perisie.com/static/koran.png",
+					Description: verse.Translations["clearquran"],
 				}
 				_ = tmpl.ExecuteTemplate(w, "page_verse.html", map[string]interface{}{
 					"verse":            verse,
