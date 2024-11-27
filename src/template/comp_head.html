@@ -8,9 +8,14 @@
         integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
         src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 	<script src="/static/htmx.min.js"></script>
-    <link rel="stylesheet" href="/static/style.css">
+    <link href="/static/koran.png" rel="icon" type="image/png">
+    <link href="/static/style.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css?family=Amiri&display=swap"
         rel="stylesheet"
     />
+    <meta property="og:title" content={{.Title}} />
+    <meta property="og:type" content={{.Type}} />
+    <meta property="og:url" content={{.Url}} />
+    <meta property="og:image" content={{.Image}} />
 </head>

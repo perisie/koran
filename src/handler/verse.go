@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+	"perisie.com/koran/src/opengraph"
 	"perisie.com/koran/src/quran"
 	"perisie.com/koran/src/user"
 	"perisie.com/koran/src/util"
@@ -19,11 +21,18 @@ func Verse(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mngr) 
 		default:
 			{
 				verse, _ := mngr_quran.Get_verse(surah_id, verse_id)
+				og := opengraph.Og{
+					Title: fmt.Sprintf("Quran %v:%v", surah_id, verse_id),
+					Type:  "book",
+					Url:   "https://koran.perisie.com/" + r.RequestURI,
+					Image: "https://koran.perisie.com/static/koran.png",
+				}
 				_ = tmpl.ExecuteTemplate(w, "page_verse.html", map[string]interface{}{
 					"verse":            verse,
 					"user":             user,
 					"show_verse":       user.Setting.Surah_verse,
 					"show_translation": user.Setting.Surah_translation,
+					"og":               og,
 				})
 			}
 		}
