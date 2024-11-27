@@ -2,3 +2,4 @@ ignore:
   - "wire_gen.go"
   - "models"
   - "**/*_mock.go"
+  - "main.go"
