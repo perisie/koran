@@ -50,13 +50,21 @@ input {
 }
 
 .verse {
+    background: white;
+    border: 1px solid gainsboro;
     font-family: Amiri, sans-serif;
-    font-size: 1.9em;
+    font-size: 2.0em;
     text-align: right;
     line-height: 2.3em;
+    padding: 8px;
 }
 
-.translation {}
+.translation {
+    background: white;
+    border: 1px solid gainsboro;
+    font-size: 1.1em;
+    padding: 8px;
+}
 
 .error {
     margin: 10vh 0 0 0;
