@@ -1,34 +1,23 @@
 package main
 
 import (
-	"html/template"
-	"log"
 	"net/http"
 	"perisie.com/koran/src/guice"
 	"perisie.com/koran/src/handler"
-	"perisie.com/koran/src/quran"
-	"perisie.com/koran/src/user"
 )
 
 func main() {
-	var err error
-	var tmpl *template.Template
-	var mngr_quran quran.Mngr
-	var mngr_user user.Mngr
-
-	tmpl = template.Must(template.ParseGlob("src/template/*.html"))
-	fs := http.FileServer(http.Dir("static"))
-	mngr_quran, err = quran.Mngr_impl_new("qurancsv")
-	if err != nil {
-		log.Fatalf("error initializing quran manager: %v\n", err.Error())
-	}
-	mngr_user = user.Mngr_impl_new()
-
 	dep := guice.Dep_new(
 		"src/template",
 		"qurancsv",
 		"static",
+		"data",
 	)
+
+	tmpl := dep.Tmpl
+	mngr_user := dep.Mngr_user
+	mngr_quran := dep.Mngr_quran
+	fs := dep.Fs
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handler.Home(dep))

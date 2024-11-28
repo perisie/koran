@@ -106,9 +106,9 @@ func (m *Mngr_impl) get_key(username string) string {
 	return "v1__user__" + username
 }
 
-func Mngr_impl_new() *Mngr_impl {
+func Mngr_impl_new(dir_data string) *Mngr_impl {
 	return &Mngr_impl{
-		mouse: pkg_mouse.Mouse_fs_new("data"),
+		mouse: pkg_mouse.Mouse_fs_new(dir_data),
 	}
 }
 

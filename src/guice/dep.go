@@ -14,25 +14,23 @@ type Dep struct {
 	Fs         http.Handler
 }
 
-func Dep_new(dir_tmpl, dir_quran, dir_static string) *Dep {
+func Dep_new(dir_tmpl, dir_quran, dir_static, dir_data string) *Dep {
+	dep := Dep_test(dir_tmpl, dir_quran, dir_static)
+	dep.Mngr_user = user.Mngr_impl_new(dir_data)
+	return dep
+}
+
+func Dep_test(dir_tmpl, dir_quran, dir_static string) *Dep {
 	tmpl := template.Must(template.ParseGlob(dir_tmpl + "/*.html"))
-	mngr_user := user.Mngr_impl_new()
 	mngr_quran, err := quran.Mngr_impl_new(dir_quran)
 	if err != nil {
 		panic(err.Error())
 	}
 	fs := http.FileServer(http.Dir(dir_static))
-
 	return &Dep{
 		Tmpl:       tmpl,
-		Mngr_user:  mngr_user,
+		Mngr_user:  user.Mngr_impl_fake(),
 		Mngr_quran: mngr_quran,
 		Fs:         fs,
 	}
-}
-
-func Dep_test(dir_tmpl, dir_quran, dir_static string) *Dep {
-	dependency := Dep_new(dir_tmpl, dir_quran, dir_static)
-	dependency.Mngr_user = user.Mngr_impl_fake()
-	return dependency
 }

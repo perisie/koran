@@ -6,7 +6,7 @@ import (
 )
 
 func Test(t *testing.T) {
-	mngr := Mngr_impl_new()
+	mngr := Mngr_impl_fake()
 	username := "faithes"
 	password := "password"
 
