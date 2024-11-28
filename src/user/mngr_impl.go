@@ -3,12 +3,12 @@ package user
 import (
 	"bytes"
 	"errors"
-	"github.com/perisie/mouse"
+	pkg_mouse "github.com/perisie/mouse"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Mngr_impl struct {
-	mouse_fs *mouse.Mouse_fs
+	mouse pkg_mouse.Mouse
 }
 
 func (m *Mngr_impl) Create(username string, password string) (*User, error) {
@@ -23,7 +23,7 @@ func (m *Mngr_impl) Create(username string, password string) (*User, error) {
 		return nil, err
 	}
 	key := m.get_key(username)
-	err = m.mouse_fs.Put(key, user_b)
+	err = m.mouse.Put(key, user_b)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func (m *Mngr_impl) Create(username string, password string) (*User, error) {
 func (m *Mngr_impl) Get(username string) (*User, error) {
 	user := User_new_empty()
 	key := m.get_key(username)
-	b, err := m.mouse_fs.Get(key)
+	b, err := m.mouse.Get(key)
 	if err != nil {
 		return user, err
 	}
@@ -56,7 +56,7 @@ func (m *Mngr_impl) Update_surah_verse(username string, surah, verse int) error 
 		return err
 	}
 	key := m.get_key(username)
-	err = m.mouse_fs.Put(key, user_ser)
+	err = m.mouse.Put(key, user_ser)
 	return err
 }
 
@@ -98,7 +98,7 @@ func (m *Mngr_impl) Update_setting(username string, name string, value string) e
 		return err
 	}
 	key := m.get_key(username)
-	err = m.mouse_fs.Put(key, user_ser)
+	err = m.mouse.Put(key, user_ser)
 	return err
 }
 
@@ -108,6 +108,12 @@ func (m *Mngr_impl) get_key(username string) string {
 
 func Mngr_impl_new() *Mngr_impl {
 	return &Mngr_impl{
-		mouse_fs: mouse.Mouse_fs_new("data"),
+		mouse: pkg_mouse.Mouse_fs_new("data"),
+	}
+}
+
+func Mngr_impl_fake() *Mngr_impl {
+	return &Mngr_impl{
+		mouse: pkg_mouse.Mouse_memory_new(),
 	}
 }

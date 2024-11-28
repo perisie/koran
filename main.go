@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-
+	"perisie.com/koran/src/guice"
 	"perisie.com/koran/src/handler"
 	"perisie.com/koran/src/quran"
 	"perisie.com/koran/src/user"
@@ -24,8 +24,14 @@ func main() {
 	}
 	mngr_user = user.Mngr_impl_new()
 
+	dep := guice.Dep_new(
+		"src/template",
+		"qurancsv",
+		"static",
+	)
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handler.Home(tmpl, mngr_user, mngr_quran))
+	mux.HandleFunc("/", handler.Home(dep))
 	mux.HandleFunc("/surah/{surah_id}", handler.Surah(tmpl, mngr_user, mngr_quran))
 	mux.HandleFunc("/surah/{surah_id}/verse/{verse_id}", handler.Verse(tmpl, mngr_user, mngr_quran))
 
