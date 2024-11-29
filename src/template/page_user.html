@@ -54,13 +54,11 @@
     <label for="bookmark-translation">Bookmark translation</label>
     <br>
     <div class="buttons" style="margin: 8px 0 0 0;">
-        {{if .user_login}}
-            <button
-                hx-delete="/login"
-                hx-target="body"
-                style="flex: 1;"
-                >Logout</button>
-        {{end}}
+        <button
+            hx-delete="/login"
+            hx-target="body"
+            style="flex: 1;"
+            >Logout</button>
     </div>
     {{template "comp_footer.html"}}
 </div>

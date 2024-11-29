@@ -22,7 +22,7 @@ func Mux(dep *guice.Dep) *http.ServeMux {
 
 	mux.HandleFunc("/login", Login(tmpl, mngr_user))
 	mux.HandleFunc("/signup", Signup(tmpl, mngr_user))
-	mux.HandleFunc("/user/{username}", User(tmpl, mngr_user))
+	mux.HandleFunc("/user", User(tmpl, mngr_user))
 
 	mux.HandleFunc("/error", Error(tmpl))
 	mux.HandleFunc("/static/", Static(fs))
