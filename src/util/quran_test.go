@@ -40,6 +40,8 @@ func Test_move_surah_verse_error(t *testing.T) {
 	var tests = []*Test{
 		&Test{0, 1, 1, errors.New("invalid surah")},
 		&Test{115, 1, 1, errors.New("invalid surah")},
+		&Test{1, 0, 1, errors.New("invalid verse")},
+		&Test{1, 8, 1, errors.New("invalid verse")},
 	}
 	for _, test := range tests {
 		_, _, err := Move_surah_verse(test.Surah, test.Verse, test.Direction)
