@@ -10,7 +10,7 @@ import (
 
 func Bookmark(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mngr) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		username, token := util.Cookie_username_token(r.Cookies())
+		username, token := util.Cookie_username_token(r)
 		user, _ := mngr_user.Get(username)
 		if !user.Ok() || user.Password != token {
 			tmpl.ExecuteTemplate(w, "page_error.html", map[string]interface{}{

@@ -11,7 +11,7 @@ import (
 
 func Surah(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mngr) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		username, _ := util.Cookie_username_token(r.Cookies())
+		username, _ := util.Cookie_username_token(r)
 		user, _ := mngr_user.Get(username)
 		surah_id, _ := strconv.Atoi(r.PathValue("surah_id"))
 		switch r.Method {

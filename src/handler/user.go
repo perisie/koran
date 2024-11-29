@@ -9,7 +9,7 @@ import (
 
 func User(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		username, _ := util.Cookie_username_token(r.Cookies())
+		username, _ := util.Cookie_username_token(r)
 		user, _ := mngr_user.Get(username)
 		if !user.Ok() {
 			_ = tmpl.ExecuteTemplate(w, "page_error.html", map[string]interface{}{

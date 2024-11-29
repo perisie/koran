@@ -10,7 +10,7 @@ import (
 
 func Setting(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		username, _ := util.Cookie_username_token(r.Cookies())
+		username, _ := util.Cookie_username_token(r)
 		switch r.Method {
 		case http.MethodPatch:
 			{
