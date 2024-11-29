@@ -1,6 +1,7 @@
 package util
 
 import (
+	"errors"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -13,6 +14,7 @@ func Test_move_surah_verse(t *testing.T) {
 		{1, 1, -1, 114, 6},
 		{1, 1, -6, 114, 1},
 		{1, 1, -6 - 1, 113, 5},
+		{114, 6, 1, 1, 1},
 	}
 	for _, test := range tests {
 		surah := test[0]
@@ -25,5 +27,23 @@ func Test_move_surah_verse(t *testing.T) {
 
 		assert.Equal(t, expected_surah_next, surah_next)
 		assert.Equal(t, expected_verse_next, verse_next)
+	}
+}
+
+func Test_move_surah_verse_error(t *testing.T) {
+	type Test struct {
+		Surah     int
+		Verse     int
+		Direction int
+		Error     error
+	}
+	var tests = []*Test{
+		&Test{0, 1, 1, errors.New("invalid surah")},
+		&Test{115, 1, 1, errors.New("invalid surah")},
+	}
+	for _, test := range tests {
+		_, _, err := Move_surah_verse(test.Surah, test.Verse, test.Direction)
+
+		assert.Equal(t, test.Error, err)
 	}
 }
