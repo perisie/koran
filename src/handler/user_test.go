@@ -27,8 +27,7 @@ func Test_user(t *testing.T) {
 	b, _ := io.ReadAll(w.Body)
 	b_str := string(b)
 
-	assert.True(t, strings.Contains(b_str, "401"))
-	assert.True(t, strings.Contains(b_str, "please login"))
+	assert.True(t, strings.Contains(b_str, "Login"))
 
 	user, _ := dep.Mngr_user.Create("cglotr", "")
 

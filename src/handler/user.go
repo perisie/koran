@@ -12,10 +12,7 @@ func User(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWriter
 		username, _ := util.Cookie_username_token(r)
 		user, _ := mngr_user.Get(username)
 		if !user.Ok() {
-			_ = tmpl.ExecuteTemplate(w, "page_error.html", map[string]interface{}{
-				"code": http.StatusUnauthorized,
-				"msg":  "please login",
-			})
+			_ = tmpl.ExecuteTemplate(w, "page_login.html", map[string]interface{}{})
 			return
 		}
 		tmpl.ExecuteTemplate(w, "page_user.html", map[string]interface{}{
