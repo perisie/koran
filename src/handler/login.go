@@ -18,7 +18,7 @@ func Login(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWrite
 				user, _ := mngr_user.Get(username)
 				if !user.Ok() || !util.Hash_password_check(password, user.Password) {
 					util.Redirect_error_page(
-						w, http.StatusUnauthorized, errors.New("Wrong username or password"))
+						w, http.StatusUnauthorized, errors.New("wrong username or password"))
 					return
 				}
 				_ = tmpl.ExecuteTemplate(w, "comp_login_ok.html", map[string]interface{}{

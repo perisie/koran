@@ -47,7 +47,7 @@ func Test_login(t *testing.T) {
 		r,
 	)
 
-	assert.Equal(t, "/error?code=401&msg=Wrong username or password", w.Header().Get("HX-Redirect"))
+	assert.Equal(t, "/error?code=401&msg=wrong username or password", w.Header().Get("HX-Redirect"))
 
 	user, err := dep.Mngr_user.Create(username, password)
 
