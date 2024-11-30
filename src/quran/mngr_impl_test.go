@@ -24,6 +24,16 @@ func Test_get_verse(t *testing.T) {
 	assert.Equal(t, 2, len(s114v6.Translations))
 	assert.Equal(t, "Of the jinn and of mankind.", s114v6.Translations["pickthall"])
 	assert.Equal(t, "From among jinn and among people.”", s114v6.Translations["clearquran"])
+
+	for surah_id := Surah_start(); surah_id <= Surah_ending(); surah_id++ {
+		for verse_id := 1; verse_id <= Surah_verse_endings()[surah_id]; verse_id++ {
+			verse, err := mngr.Get_verse(surah_id, verse_id)
+
+			assert.Nil(t, err)
+			assert.Equal(t, surah_id, verse.Surah_id)
+			assert.Equal(t, verse_id, verse.Verse_id)
+		}
+	}
 }
 
 func Test_get_verse_not_exist(t *testing.T) {
