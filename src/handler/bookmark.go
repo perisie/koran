@@ -34,11 +34,7 @@ func Bookmark(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mng
 				}
 				surah_id, verse_id, _ := util.Move_surah_verse(user.Surah, user.Verse, direction)
 				_ = mngr_user.Update_surah_verse(user.Username, surah_id, verse_id)
-				verse, err := mngr_quran.Get_verse(surah_id, verse_id)
-				if err != nil {
-					util.Redirect_error_page(w, http.StatusInternalServerError, err)
-					return
-				}
+				verse, _ := mngr_quran.Get_verse(surah_id, verse_id)
 				tmpl.ExecuteTemplate(w, "comp_verse.html", map[string]interface{}{
 					"user":             user,
 					"verse":            verse,
