@@ -40,6 +40,7 @@ func Test_login(t *testing.T) {
 	form.Add("username", username)
 	form.Add("password", password)
 	r := httptest.NewRequest(http.MethodPost, "/login", bytes.NewBufferString(form.Encode()))
+	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	mux.ServeHTTP(
 		w,
@@ -48,13 +49,36 @@ func Test_login(t *testing.T) {
 
 	assert.Equal(t, "/error?code=401&msg=Wrong username or password", w.Header().Get("HX-Redirect"))
 
-	_, _ = dep.Mngr_user.Create(username, password)
+	user, err := dep.Mngr_user.Create(username, password)
+
+	assert.Nil(t, err)
+	assert.Equal(t, username, user.Username)
 
 	w = httptest.NewRecorder()
 	r = httptest.NewRequest(http.MethodPost, "/login", bytes.NewBufferString(form.Encode()))
+	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	mux.ServeHTTP(
 		w,
 		r,
 	)
+
+	b, _ = io.ReadAll(w.Body)
+	b_str = string(b)
+
+	assert.True(t, strings.Contains(b_str, "Logging in..."))
+
+	w = httptest.NewRecorder()
+	r = httptest.NewRequest(http.MethodDelete, "/login", nil)
+
+	mux.ServeHTTP(
+		w,
+		r,
+	)
+
+	b, _ = io.ReadAll(w.Body)
+	b_str = string(b)
+
+	assert.True(t, strings.Contains(b_str, "Logging out..."))
+
 }
