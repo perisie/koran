@@ -52,4 +52,15 @@ func Test(t *testing.T) {
 	assert.False(t, user.Setting.Surah_translation)
 	assert.False(t, user.Setting.Bookmark_verse)
 	assert.False(t, user.Setting.Bookmark_translation)
+
+	_ = mngr.Update_setting(user.Username, "surah_verse", "true")
+	_ = mngr.Update_setting(user.Username, "surah_translation", "true")
+	_ = mngr.Update_setting(user.Username, "bookmark_verse", "true")
+	_ = mngr.Update_setting(user.Username, "bookmark_translation", "true")
+	user, _ = mngr.Get(username)
+
+	assert.True(t, user.Setting.Surah_verse)
+	assert.True(t, user.Setting.Surah_translation)
+	assert.True(t, user.Setting.Bookmark_verse)
+	assert.True(t, user.Setting.Bookmark_translation)
 }
