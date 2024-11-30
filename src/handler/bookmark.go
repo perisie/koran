@@ -19,14 +19,7 @@ func Bookmark(tmpl *template.Template, mngr_user user.Mngr, mngr_quran quran.Mng
 			})
 			return
 		}
-		verse, err := mngr_quran.Get_verse(user.Surah, user.Verse)
-		if err != nil {
-			tmpl.ExecuteTemplate(w, "page_error.html", map[string]interface{}{
-				"code": http.StatusInternalServerError,
-				"msg":  err.Error(),
-			})
-			return
-		}
+		verse, _ := mngr_quran.Get_verse(user.Surah, user.Verse)
 		switch r.Method {
 		case http.MethodPatch:
 			{
