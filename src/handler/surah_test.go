@@ -1,21 +1,33 @@
 package handler
 
 import (
-	"html/template"
+	"io"
 	"net/http"
 	"net/http/httptest"
-	"perisie.com/koran/src/quran"
-	"perisie.com/koran/src/user"
+	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"perisie.com/koran/src/guice"
 )
 
 func Test_surah(t *testing.T) {
-	tmpl := template.Must(template.ParseGlob("../template/*.html"))
-	mngr_user := user.Mngr_impl_fake()
-	mngr_quran, _ := quran.Mngr_impl_new("../../qurancsv")
+	dep := guice.Dep_test(
+		"../template",
+		"../../qurancsv",
+		"../../static",
+	)
+	mux := Mux(dep)
+	w := httptest.NewRecorder()
 
-	_ = httptest.NewRecorder()
-	_ = httptest.NewRequest(http.MethodGet, "/", nil)
+	mux.ServeHTTP(
+		w,
+		httptest.NewRequest(http.MethodGet, "/surah/1", nil),
+	)
 
-	Surah(tmpl, mngr_user, mngr_quran)
+	b, _ := io.ReadAll(w.Body)
+	b_str := string(b)
+
+	assert.True(t, strings.Contains(b_str, "1:1"))
+	assert.True(t, strings.Contains(b_str, "1:7"))
 }
