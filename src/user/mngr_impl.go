@@ -1,10 +1,10 @@
 package user
 
 import (
-	"bytes"
 	"errors"
+
 	pkg_mouse "github.com/perisie/mouse"
-	"golang.org/x/crypto/bcrypt"
+	"perisie.com/koran/src/util"
 )
 
 type Mngr_impl struct {
@@ -12,8 +12,7 @@ type Mngr_impl struct {
 }
 
 func (m *Mngr_impl) Create(username string, password string) (*User, error) {
-	b, _ := bcrypt.GenerateFromPassword(bytes.NewBufferString(password).Bytes(), bcrypt.MinCost)
-	password_hash := string(b)
+	password_hash, _ := util.Hash_password(password)
 	user := User_new(username, password_hash)
 	if !user.Ok_username() {
 		return nil, errors.New("username invalid")

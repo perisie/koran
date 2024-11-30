@@ -14,16 +14,14 @@ func Login(tmpl *template.Template, mngr_user user.Mngr) func(http.ResponseWrite
 		case http.MethodPost:
 			{
 				username := r.FormValue("username")
-				user, err := mngr_user.Get(username)
-				if err != nil {
-					util.Redirect_error_page(w, http.StatusInternalServerError, errors.New("user not found"))
+				password := r.FormValue("password")
+				user, _ := mngr_user.Get(username)
+				if !user.Ok() || !util.Hash_password_check(password, user.Password) {
+					util.Redirect_error_page(
+						w, http.StatusUnauthorized, errors.New("Wrong username or password"))
 					return
 				}
-				if user.Username == "" {
-					util.Redirect_error_page(w, http.StatusInternalServerError, errors.New("user not found"))
-					return
-				}
-				tmpl.ExecuteTemplate(w, "comp_login_ok.html", map[string]interface{}{
+				_ = tmpl.ExecuteTemplate(w, "comp_login_ok.html", map[string]interface{}{
 					"user": user,
 				})
 			}

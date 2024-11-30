@@ -2,7 +2,5 @@
 <script>
     document.cookie = "username=" + {{.user.Username}} + "; path=/; max-age=1000000000;";
     document.cookie = "token=" + {{.user.Password}} + "; path=/; max-age=1000000000;";
-    window.setTimeout(() => {
-        window.location.assign("/");
-    }, 0)
+    window.location.assign("/");
 </script>
